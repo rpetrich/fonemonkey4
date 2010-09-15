@@ -180,7 +180,8 @@ UIDeviceOrientation* _currentOreintation;
 	}
 	
 	//This is code to register for orientation events and then handle them.
-	[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(receivedRotate:) name: UIDeviceOrientationDidChangeNotification object: nil];
+	// CODE TO HANDLE DEVICE ROTATE - NEXT VERSION
+	//[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(receivedRotate:) name: UIDeviceOrientationDidChangeNotification object: nil];
 	
 	return self;
 }

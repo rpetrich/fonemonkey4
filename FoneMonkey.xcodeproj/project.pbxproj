@@ -707,7 +707,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"*********** build fat library **************\"\nfor target in FoneMonkey FoneMonkeyOCUnit\ndo\n\tfor version in 3.2 4.0 4.1\n\tdo\n\t\tfor sdk in iphonesimulator iphoneos\n\t\tdo\n\t\t\txcodebuild -sdk $sdk$version -target $target build -configuration Debug\n\t\tdone\n\t\tlipo -output build/Dist/FoneMonkey/lib/lib${target}.${version}.a -create build/Debug-iphoneos/lib${target}.a build/Debug-iphonesimulator/lib${target}.a\n\tdone\ndone";
+			shellScript = "echo \"*********** build fat library **************\"\nfor target in FoneMonkey FoneMonkeyOCUnit\ndo\n\tfor version in 3.2 4.0 4.1\n\tdo\n\t\tfor sdk in iphonesimulator iphoneos\n\t\tdo\n\t\t\txcodebuild -sdk $sdk$version -target $target build -configuration Debug\n\t\tdone\n\t\tlipo -output build/Dist/FoneMonkey/lib/lib${target}.${version}.a -create ${BUILD_ROOT}/Debug-iphoneos/lib${target}.a ${BUILD_ROOT}/Debug-iphonesimulator/lib${target}.a\n\tdone\ndone";
 		};
 		D34D968212231B45001D0B47 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -720,7 +720,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"#define FM_BUILD_STAMP @\\\"BUILD `date +%y%m%d.%H%M`\\\"\" > FMBuildStampDefines.h\necho \"#define FM_VERSION @\\\"$FM_VERSION\\\"\" >> FMBuildStampDefines.h";
+			shellScript = "echo \"#define FM_BUILD_STAMP @\\\"BUILD `date +%y%m%d.%H%M`\\\"\" > FMBuildStampDefines.h\n";
 		};
 		D34D973412232052001D0B47 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
