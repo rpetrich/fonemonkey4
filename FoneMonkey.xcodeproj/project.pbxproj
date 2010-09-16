@@ -39,6 +39,12 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		159D6170124179A3005C695E /* FMOpenScriptDialog_iPad.xib in Copy Resources */ = {isa = PBXBuildFile; fileRef = D37ABCAE123850DA00712E3D /* FMOpenScriptDialog_iPad.xib */; };
+		159D6171124179A3005C695E /* FMCommandEditViewController_iPad.xib in Copy Resources */ = {isa = PBXBuildFile; fileRef = D37ABC9B1238415A00712E3D /* FMCommandEditViewController_iPad.xib */; };
+		159D6172124179A3005C695E /* FMConsoleController_iPad.xib in Copy Resources */ = {isa = PBXBuildFile; fileRef = D37ABC931238402A00712E3D /* FMConsoleController_iPad.xib */; };
+		159D6173124179A3005C695E /* FMGorilla_iPad.xib in Copy Resources */ = {isa = PBXBuildFile; fileRef = D37ABC9F123841CA00712E3D /* FMGorilla_iPad.xib */; };
+		159D6174124179A3005C695E /* FMGorillaView_iPad.xib in Copy Resources */ = {isa = PBXBuildFile; fileRef = D37ABCA41238426B00712E3D /* FMGorillaView_iPad.xib */; };
+		159D6175124179A3005C695E /* FMSaveScriptDialog_iPad.xib in Copy Resources */ = {isa = PBXBuildFile; fileRef = D37ABCA8123842CA00712E3D /* FMSaveScriptDialog_iPad.xib */; };
 		D30FA72212232A2C00796ABE /* gorilla-32.png in Copy Resources */ = {isa = PBXBuildFile; fileRef = D34D95CB12230C88001D0B47 /* gorilla-32.png */; };
 		D30FA72312232A2C00796ABE /* gorillalogic.png in Copy Resources */ = {isa = PBXBuildFile; fileRef = D34D95CC12230C88001D0B47 /* gorillalogic.png */; };
 		D30FA72412232A2C00796ABE /* icon_arrow_down.png in Copy Resources */ = {isa = PBXBuildFile; fileRef = D34D95CD12230C88001D0B47 /* icon_arrow_down.png */; };
@@ -140,10 +146,16 @@
 		D34D9743122320FB001D0B47 /* Copy Resources */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = $PROJECT_DIR/build/Dist/FoneMonkey/resources;
+			dstPath = $PROJECT_DIR/Dist/FoneMonkey/resources;
 			dstSubfolderSpec = 0;
 			files = (
 				D30FA74C12232B1300796ABE /* FMOpenScriptDialog_iPhone.xib in Copy Resources */,
+				159D6170124179A3005C695E /* FMOpenScriptDialog_iPad.xib in Copy Resources */,
+				159D6171124179A3005C695E /* FMCommandEditViewController_iPad.xib in Copy Resources */,
+				159D6172124179A3005C695E /* FMConsoleController_iPad.xib in Copy Resources */,
+				159D6173124179A3005C695E /* FMGorilla_iPad.xib in Copy Resources */,
+				159D6174124179A3005C695E /* FMGorillaView_iPad.xib in Copy Resources */,
+				159D6175124179A3005C695E /* FMSaveScriptDialog_iPad.xib in Copy Resources */,
 				D30FA74D12232B1300796ABE /* FMCommandEditViewController_iPhone.xib in Copy Resources */,
 				D30FA74E12232B1300796ABE /* FMConsoleController_iPhone.xib in Copy Resources */,
 				D30FA74F12232B1300796ABE /* FMGorilla_iPhone.xib in Copy Resources */,
@@ -182,7 +194,7 @@
 		D34D9744122320FB001D0B47 /* Copy Docs */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = $PROJECT_DIR/build/Dist/FoneMonkey/docs;
+			dstPath = $PROJECT_DIR/Dist/FoneMonkey/docs;
 			dstSubfolderSpec = 0;
 			files = (
 				D30FA75912232BAC00796ABE /* index.html in Copy Docs */,
@@ -193,7 +205,7 @@
 		D34D974612232129001D0B47 /* Copy Headers */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = $PROJECT_DIR/build/Dist/FoneMonkey/include;
+			dstPath = $PROJECT_DIR/Dist/FoneMonkey/include;
 			dstSubfolderSpec = 0;
 			files = (
 				D30FA75A12232BF700796ABE /* FoneMonkeyAPI.h in Copy Headers */,
@@ -707,7 +719,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"*********** build fat library **************\"\nfor target in FoneMonkey FoneMonkeyOCUnit\ndo\n\tfor version in 3.2 4.0 4.1\n\tdo\n\t\tfor sdk in iphonesimulator iphoneos\n\t\tdo\n\t\t\txcodebuild -sdk $sdk$version -target $target build -configuration Debug\n\t\tdone\n\t\tlipo -output build/Dist/FoneMonkey/lib/lib${target}.${version}.a -create ${BUILD_ROOT}/Debug-iphoneos/lib${target}.a ${BUILD_ROOT}/Debug-iphonesimulator/lib${target}.a\n\tdone\ndone";
+			shellScript = "echo \"*********** build fat library **************\"\nfor target in FoneMonkey FoneMonkeyOCUnit\ndo\n\tfor version in 3.2 4.0 4.1\n\tdo\n\t\tfor sdk in iphonesimulator iphoneos\n\t\tdo\n\t\t\txcodebuild -sdk $sdk$version -target $target build -configuration Debug\n\t\tdone\n\t\tlipo -output ${PROJECT_DIR}/Dist/FoneMonkey/lib/lib${target}.${version}.a -create ${BUILD_ROOT}/${CONFIGURATION}-iphonesimulator/lib${target}.a ${BUILD_ROOT}/${CONFIGURATION}-iphoneos/lib${target}.a\n\tdone\ndone";
 		};
 		D34D968212231B45001D0B47 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -733,7 +745,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"************ Clean *************\"\nrm -rf build";
+			shellScript = "echo \"************ Clean *************\"\nrm -rf ${CONFIGURATION_TEMP_DIR}";
 		};
 		D34D97381223208E001D0B47 /* Prepare Dist Dir */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -747,7 +759,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"************ Prepare ****************\"\nmkdir -p build/Dist/FoneMonkey/lib\nmkdir -p build/Dist/FoneMonkey/docs\nmkdir -p build/Dist/FoneMonkey/include\nmkdir -p build/Dist/FoneMonkey/resources\n";
+			shellScript = "echo \"************ Prepare ****************\"\nrm -rf ${PROJECT_DIR}/Dist\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/lib\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/docs\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/include\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/resources\n";
 		};
 		D34D974A122321B1001D0B47 /* Run Doxygen */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -775,7 +787,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"************ ZIP ************\"\ncd build/Dist\nrm -f FoneMonkey.zip\nzip -r FoneMonkey FoneMonkey";
+			shellScript = "echo \"************ ZIP ************\"\ncd ${BUILD_DIR}/Dist\nrm -f FoneMonkey.zip\nzip -r FoneMonkey FoneMonkey";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -853,7 +865,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				PREBINDING = NO;
-				SDKROOT = iphonesimulator4.0;
+				SDKROOT = iphonesimulator3.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -890,7 +902,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				PRODUCT_NAME = FoneMonkey;
-				SDKROOT = iphonesimulator4.0;
+				SDKROOT = iphonesimulator3.2;
 			};
 			name = Debug;
 		};

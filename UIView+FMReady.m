@@ -240,4 +240,17 @@ use_default:;
 	[[FoneMonkey sharedMonkey] monkeyIDfor:self];
 }
 
+- (BOOL) swapsWith:(NSString*)className {
+	if ([self isKindOfClass:objc_getClass("UIToolbarTextButton")] && [className isEqualToString:@"UINavigationButton"]) {
+		return YES;
+	}
+	
+	if ([self isKindOfClass:objc_getClass("UINavigationButton")] && [className isEqualToString:@"UIToolbarTextButton"]) {
+		return YES;
+	}	
+	
+	return NO;
+																	  
+}
+
 @end

@@ -37,8 +37,11 @@
 	return  keyWindow != nil ?  keyWindow : [[[UIApplication sharedApplication] windows] objectAtIndex:0];
 }
 
-
-+ (UIView*) viewWithMonkeyID:(NSString*)mid startingFromView:(UIView*)current havingClass:(Class)class{
++ (UIView*) viewWithMonkeyID:(NSString*)mid startingFromView:(UIView*)current havingClass:(Class)class {
+	return [self viewWithMonkeyID:mid startingFromView:current havingClass:class swapsOK:NO];
+}
+	
++ (UIView*) viewWithMonkeyID:(NSString*)mid startingFromView:(UIView*)current havingClass:(Class)class swapsOK:(BOOL)swapsOK{
 
 	// NSLog(@"Checking %@ == %@", current.monkeyID, mid);
 	
@@ -52,13 +55,13 @@
 			return current;
 		}
 		
-		if ((class != nil) && (current != nil)) {
-			NSString *name = NSStringFromClass (class);
+//		if ((class != nil) && (current != nil)) {
+//			NSString *name = NSStringFromClass (class);
 // NSLog(@"Class: %@", class);
 // NSLog(@"Current: %@", [current class]);
-		}
+//		}
 		
-		if ((class != nil) && ([current isKindOfClass:class])) {
+		if ( (class != nil && [current isKindOfClass:class]) || (swapsOK && [current swapsWith:NSStringFromClass (class)]) ) {
 			return current;
 		}
 	}
@@ -69,7 +72,7 @@
 	
 	for (UIView* view in current.subviews) {
 		UIView* result;
-		if (result = [self viewWithMonkeyID:mid startingFromView:view havingClass:class]) {
+		if (result = [self viewWithMonkeyID:mid startingFromView:view havingClass:class swapsOK:swapsOK]) {
 			return result;
 		}
 		

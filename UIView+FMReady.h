@@ -55,4 +55,9 @@ Evaluates touch events and records corresponding command.
  */
 - (BOOL) isFMEnabled;
 
+/**
+ Returns YES if this component might have been substituted for one with the supplied class name. The only known example 
+of component swapping is UIToolbarTextButton which swaps with UINavigationButton on an iPad multiview controller.
+ */
+- (BOOL) swapsWith:(NSString*)className;
 @end

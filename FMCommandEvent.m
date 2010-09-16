@@ -63,7 +63,12 @@
 }
 
 - (UIView*) source {
-	return [FMUtils viewWithMonkeyID:self.monkeyID havingClass:self.className];
+	UIView* v = [FMUtils viewWithMonkeyID:self.monkeyID havingClass:self.className];
+	if (v) {
+		return v;
+	}
+	// Search again considering classes that can be swapped with the supplied class (ie, UIToolbarTextButton and UINavigationButton)
+	return [FMUtils viewWithMonkeyID:self.monkeyID startingFromView:nil havingClass:NSClassFromString([self className]) swapsOK:YES];
 }
 
 - (void) set:(NSString*)key value:(NSObject*)value {
