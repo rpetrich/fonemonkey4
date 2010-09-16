@@ -787,7 +787,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"************ ZIP ************\"\ncd ${BUILD_DIR}/Dist\nrm -f FoneMonkey.zip\nzip -r FoneMonkey FoneMonkey";
+			shellScript = "echo \"************ ZIP ************\"\ncd ${PROJECT_DIR}/Dist\nrm -f FoneMonkey.zip\nzip -r FoneMonkey FoneMonkey";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -902,7 +902,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				PRODUCT_NAME = FoneMonkey;
-				SDKROOT = iphonesimulator3.2;
+				SDKROOT = iphoneos4.2;
 			};
 			name = Debug;
 		};
