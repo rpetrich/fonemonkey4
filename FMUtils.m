@@ -1,17 +1,17 @@
 /* This file is part of FoneMonkey.
-
-    FoneMonkey is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    FoneMonkey is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with FoneMonkey.  If not, see <http://www.gnu.org/licenses/>.  */
+ 
+ FoneMonkey is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ FoneMonkey is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with FoneMonkey.  If not, see <http://www.gnu.org/licenses/>.  */
 //
 //  FMUtils.m
 //  FoneMonkey
@@ -37,12 +37,9 @@
 	return  keyWindow != nil ?  keyWindow : [[[UIApplication sharedApplication] windows] objectAtIndex:0];
 }
 
-+ (UIView*) viewWithMonkeyID:(NSString*)mid startingFromView:(UIView*)current havingClass:(Class)class {
-	return [self viewWithMonkeyID:mid startingFromView:current havingClass:class swapsOK:NO];
-}
-	
-+ (UIView*) viewWithMonkeyID:(NSString*)mid startingFromView:(UIView*)current havingClass:(Class)class swapsOK:(BOOL)swapsOK{
 
++ (UIView*) viewWithMonkeyID:(NSString*)mid startingFromView:(UIView*)current havingClass:(Class)class{
+	
 	// NSLog(@"Checking %@ == %@", current.monkeyID, mid);
 	
 	if (!current) {
@@ -50,18 +47,18 @@
 	}
 	
 	if (mid == nil || [mid length] == 0 || [[current monkeyID] isEqualToString:mid]) {
-//NSLog(@"Found %@", current.monkeyID);
+		//NSLog(@"Found %@", current.monkeyID);
 		if (class == nil) { 
 			return current;
 		}
 		
-//		if ((class != nil) && (current != nil)) {
-//			NSString *name = NSStringFromClass (class);
-// NSLog(@"Class: %@", class);
-// NSLog(@"Current: %@", [current class]);
-//		}
+		if ((class != nil) && (current != nil)) {
+			NSString *name = NSStringFromClass (class);
+			// NSLog(@"Class: %@", class);
+			// NSLog(@"Current: %@", [current class]);
+		}
 		
-		if ( (class != nil && [current isKindOfClass:class]) || (swapsOK && [current swapsWith:NSStringFromClass (class)]) ) {
+		if ((class != nil) && ([current isKindOfClass:class])) {
 			return current;
 		}
 	}
@@ -72,7 +69,7 @@
 	
 	for (UIView* view in current.subviews) {
 		UIView* result;
-		if (result = [self viewWithMonkeyID:mid startingFromView:view havingClass:class swapsOK:swapsOK]) {
+		if (result = [self viewWithMonkeyID:mid startingFromView:view havingClass:class]) {
 			return result;
 		}
 		
@@ -86,6 +83,12 @@
 
 + (UIView*) viewWithMonkeyID:(NSString*)mid havingClass:(NSString*)className{
 	Class class = objc_getClass([className UTF8String]);
+	
+	if (!class) {
+		if ([className length]) {
+			NSLog(@"Warning: %@ is not a valid classname.", className);
+		}
+	}
 	for (UIView* view in [[UIApplication sharedApplication] windows]) {
 		if ([view isKindOfClass:[FMWindow class]]) {
 			continue;
@@ -173,7 +176,7 @@ static NSInteger foundSoFar;
     transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 	transition.type =  kCATransitionPush;
 	transition.subtype  = kCATransitionFromBottom;
-   // transition.delegate = self;
+	// transition.delegate = self;
     [view.layer addAnimation:transition forKey:nil];
 	view.alpha = 1.0;
 	[[FMUtils rootWindow] bringSubviewToFront:view];
@@ -200,8 +203,8 @@ static NSInteger foundSoFar;
 	// transition.delegate = self;
     [view.layer addAnimation:transition forKey:nil];
 	view.alpha = 1.0;
-//	[from.layer addAnimation:transition  forKey:nil];
-//	from.alpha = 0.0;
+	//	[from.layer addAnimation:transition  forKey:nil];
+	//	from.alpha = 0.0;
 	[[FMUtils rootWindow] bringSubviewToFront:view];
 }
 
@@ -215,9 +218,9 @@ static NSInteger foundSoFar;
 	// transition.delegate = self;
     [view.layer addAnimation:transition forKey:nil];
 	view.alpha = 0.0;
-//	[to.layer addAnimation:transition  forKey:nil];
-//	to.alpha = 1.0;	
-//	[[FMUtils rootWindow] bringSubviewToFront:view];
+	//	[to.layer addAnimation:transition  forKey:nil];
+	//	to.alpha = 1.0;	
+	//	[[FMUtils rootWindow] bringSubviewToFront:view];
 }
 
 + (void) dismissKeyboard {	
@@ -228,7 +231,9 @@ static NSInteger foundSoFar;
 
 + (NSString*) scriptsLocation {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    return [paths objectAtIndex:0];
+	NSString* loc = [paths objectAtIndex:0];
+	NSLog(@"Scripts location: %@", loc);
+    return loc;
 }
 
 + (void) shake {
@@ -237,9 +242,9 @@ static NSInteger foundSoFar;
 	
 	m->_subtype = UIEventSubtypeMotionShake;
 	m->_shakeState = 1;
-	[[UIApplication sharedApplication] sendEvent:m]; // Works in simulator but not on device
-	//[[[UIApplication sharedApplication] keyWindow] motionBegan:UIEventSubtypeMotionShake withEvent:m];
-	//[[UIApplication sharedApplication] keyWindow] motionEnded:UIEventSubtypeMotionShake withEvent:m];	
+	//[[UIApplication sharedApplication] sendEvent:m]; // Works in simulator but not on device
+	[[[UIApplication sharedApplication] keyWindow] motionBegan:UIEventSubtypeMotionShake withEvent:m];
+	[[[UIApplication sharedApplication] keyWindow] motionEnded:UIEventSubtypeMotionShake withEvent:m];	
 }
 
 +(BOOL) isKeyboard:(UIView*)view {
