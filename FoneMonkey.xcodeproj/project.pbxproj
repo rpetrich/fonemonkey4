@@ -39,6 +39,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		1558766912885C0A003541C0 /* UITableViewCellContentViewProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 1558766712885C0A003541C0 /* UITableViewCellContentViewProxy.h */; };
+		1558766A12885C0A003541C0 /* UITableViewCellContentViewProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1558766812885C0A003541C0 /* UITableViewCellContentViewProxy.m */; };
+		1558766B12885C0A003541C0 /* UITableViewCellContentViewProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 1558766712885C0A003541C0 /* UITableViewCellContentViewProxy.h */; };
+		1558766C12885C0A003541C0 /* UITableViewCellContentViewProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1558766812885C0A003541C0 /* UITableViewCellContentViewProxy.m */; };
 		159D6170124179A3005C695E /* FMOpenScriptDialog_iPad.xib in Copy Resources */ = {isa = PBXBuildFile; fileRef = D37ABCAE123850DA00712E3D /* FMOpenScriptDialog_iPad.xib */; };
 		159D6171124179A3005C695E /* FMCommandEditViewController_iPad.xib in Copy Resources */ = {isa = PBXBuildFile; fileRef = D37ABC9B1238415A00712E3D /* FMCommandEditViewController_iPad.xib */; };
 		159D6172124179A3005C695E /* FMConsoleController_iPad.xib in Copy Resources */ = {isa = PBXBuildFile; fileRef = D37ABC931238402A00712E3D /* FMConsoleController_iPad.xib */; };
@@ -221,6 +225,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1558766712885C0A003541C0 /* UITableViewCellContentViewProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITableViewCellContentViewProxy.h; sourceTree = "<group>"; };
+		1558766812885C0A003541C0 /* UITableViewCellContentViewProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITableViewCellContentViewProxy.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -583,6 +589,8 @@
 		D34D965A12231277001D0B47 /* Apple Internal */ = {
 			isa = PBXGroup;
 			children = (
+				1558766712885C0A003541C0 /* UITableViewCellContentViewProxy.h */,
+				1558766812885C0A003541C0 /* UITableViewCellContentViewProxy.m */,
 				D3B915131230337D003C5BB0 /* UITabBarButtonLabelProxy.h */,
 				D3B91516123033C4003C5BB0 /* UITabBarButtonLabelProxy.m */,
 				D3B914F612303246003C5BB0 /* UISegmentedControlProxy.h */,
@@ -627,6 +635,7 @@
 				D3B911BB12303000003C5BB0 /* UIPushButtonProxy.h in Headers */,
 				D3B914F712303246003C5BB0 /* UISegmentedControlProxy.h in Headers */,
 				D3B915141230337D003C5BB0 /* UITabBarButtonLabelProxy.h in Headers */,
+				1558766912885C0A003541C0 /* UITableViewCellContentViewProxy.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -634,6 +643,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1558766B12885C0A003541C0 /* UITableViewCellContentViewProxy.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -831,6 +841,7 @@
 				D3B914F412303201003C5BB0 /* UIMotionEventProxy.m in Sources */,
 				D3B914F912303288003C5BB0 /* UISegmentedControlProxy.m in Sources */,
 				D3B91517123033C4003C5BB0 /* UITabBarButtonLabelProxy.m in Sources */,
+				1558766A12885C0A003541C0 /* UITableViewCellContentViewProxy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -839,6 +850,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D34D9758122322AE001D0B47 /* FoneMonkey+OCUnit.m in Sources */,
+				1558766C12885C0A003541C0 /* UITableViewCellContentViewProxy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -902,7 +914,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				PRODUCT_NAME = FoneMonkey;
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphonesimulator4.1;
 			};
 			name = Debug;
 		};
