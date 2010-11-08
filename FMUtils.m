@@ -37,9 +37,12 @@
 	return  keyWindow != nil ?  keyWindow : [[[UIApplication sharedApplication] windows] objectAtIndex:0];
 }
 
-
-+ (UIView*) viewWithMonkeyID:(NSString*)mid startingFromView:(UIView*)current havingClass:(Class)class{
++ (UIView*) viewWithMonkeyID:(NSString*)mid startingFromView:(UIView*)current havingClass:(Class)class {
+	return [self viewWithMonkeyID:mid startingFromView:current havingClass:class swapsOK:NO];
+}
 	
++ (UIView*) viewWithMonkeyID:(NSString*)mid startingFromView:(UIView*)current havingClass:(Class)class swapsOK:(BOOL)swapsOK{
+
 	// NSLog(@"Checking %@ == %@", current.monkeyID, mid);
 	
 	if (!current) {
@@ -47,18 +50,18 @@
 	}
 	
 	if (mid == nil || [mid length] == 0 || [[current monkeyID] isEqualToString:mid]) {
-		//NSLog(@"Found %@", current.monkeyID);
+//NSLog(@"Found %@", current.monkeyID);
 		if (class == nil) { 
 			return current;
 		}
 		
-		if ((class != nil) && (current != nil)) {
-			NSString *name = NSStringFromClass (class);
-			// NSLog(@"Class: %@", class);
-			// NSLog(@"Current: %@", [current class]);
-		}
+//		if ((class != nil) && (current != nil)) {
+//			NSString *name = NSStringFromClass (class);
+// NSLog(@"Class: %@", class);
+// NSLog(@"Current: %@", [current class]);
+//		}
 		
-		if ((class != nil) && ([current isKindOfClass:class])) {
+		if ( (class != nil && [current isKindOfClass:class]) || (swapsOK && [current swapsWith:NSStringFromClass (class)]) ) {
 			return current;
 		}
 	}
@@ -69,7 +72,7 @@
 	
 	for (UIView* view in current.subviews) {
 		UIView* result;
-		if (result = [self viewWithMonkeyID:mid startingFromView:view havingClass:class]) {
+		if (result = [self viewWithMonkeyID:mid startingFromView:view havingClass:class swapsOK:swapsOK]) {
 			return result;
 		}
 		
@@ -176,7 +179,7 @@ static NSInteger foundSoFar;
     transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 	transition.type =  kCATransitionPush;
 	transition.subtype  = kCATransitionFromBottom;
-	// transition.delegate = self;
+   // transition.delegate = self;
     [view.layer addAnimation:transition forKey:nil];
 	view.alpha = 1.0;
 	[[FMUtils rootWindow] bringSubviewToFront:view];
@@ -203,8 +206,8 @@ static NSInteger foundSoFar;
 	// transition.delegate = self;
     [view.layer addAnimation:transition forKey:nil];
 	view.alpha = 1.0;
-	//	[from.layer addAnimation:transition  forKey:nil];
-	//	from.alpha = 0.0;
+//	[from.layer addAnimation:transition  forKey:nil];
+//	from.alpha = 0.0;
 	[[FMUtils rootWindow] bringSubviewToFront:view];
 }
 
@@ -218,9 +221,9 @@ static NSInteger foundSoFar;
 	// transition.delegate = self;
     [view.layer addAnimation:transition forKey:nil];
 	view.alpha = 0.0;
-	//	[to.layer addAnimation:transition  forKey:nil];
-	//	to.alpha = 1.0;	
-	//	[[FMUtils rootWindow] bringSubviewToFront:view];
+//	[to.layer addAnimation:transition  forKey:nil];
+//	to.alpha = 1.0;	
+//	[[FMUtils rootWindow] bringSubviewToFront:view];
 }
 
 + (void) dismissKeyboard {	

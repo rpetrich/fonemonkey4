@@ -37,22 +37,30 @@
 @implementation FMVerifyCommand
 
 + (NSString*) execute:(FMCommandEvent*) ev {
-		ev.lastResult = nil;
-		UIView* source = ev.source;		
-		if (source == nil) {
-			ev.lastResult = [NSString stringWithFormat:@"Unable to find %@ with monkeyID %@", ev.className, ev.monkeyID];
-			return ev.lastResult;
-		}	
-		if ([ev.args count] == 3) {
-			NSString* prop = [ev.args objectAtIndex:1];
-			NSString* expected = [ev.args objectAtIndex:2];
-			NSString* value = [source valueForKeyPath:prop];
-			if ([expected isEqualToString:value]) {
-				return nil;
-			} else {
-				ev.lastResult = [NSString stringWithFormat: @"Expected \"%@\", but found \"%@\"", expected, value];
-			}
-		} 
+	ev.lastResult = nil;
+	UIView* source = ev.source;		
+	if (source == nil) {
+		ev.lastResult = [NSString stringWithFormat:@"Unable to find %@ with monkeyID %@", ev.className, ev.monkeyID];
 		return ev.lastResult;
+	}	
+	if ([ev.args count] == 2) {
+		NSString* prop = [ev.args objectAtIndex:0];
+		NSString* expected = [ev.args objectAtIndex:1];
+		NSString* value;
+		@try {
+			value = [source valueForKeyPath:prop];			
+		} @catch (NSException* e)
+		{
+			ev.lastResult = [NSString stringWithFormat: @"\"%@\" is not a valid keypath for %@\"", prop, ev.className];
+			return ev.lastResult;
+		}
+		
+		if ([expected isEqualToString:value]) {
+			return nil;
+		} else {
+			ev.lastResult = [NSString stringWithFormat: @"Expected \"%@\", but found \"%@\"", expected, value];
+		}
+	} 
+	return ev.lastResult;
 }
 @end

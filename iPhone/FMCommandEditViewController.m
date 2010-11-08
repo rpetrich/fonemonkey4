@@ -1,17 +1,17 @@
 /* This file is part of FoneMonkey.
-
-    FoneMonkey is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    FoneMonkey is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with FoneMonkey.  If not, see <http://www.gnu.org/licenses/>.  */
+ 
+ FoneMonkey is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ FoneMonkey is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with FoneMonkey.  If not, see <http://www.gnu.org/licenses/>.  */
 //
 //  FMCommandEditViewController.m
 //  FoneMonkey
@@ -31,7 +31,7 @@
 #define kTextFieldWidth	260.0
 
 
-	
+
 #define NUMFIELDS 6
 
 @implementation FMCommandEditViewController
@@ -60,7 +60,7 @@ int _commandNumber;
 
 - (void)dealloc
 {
-
+	
 	[layoutTable release];
 	[super dealloc];
 }
@@ -124,7 +124,7 @@ int _commandNumber;
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-
+	
 }
 
 - (void) reset {
@@ -158,9 +158,9 @@ int _commandNumber;
 	if (section == 0) {
 		return nil;
 	}
-
+	
 	return @"Arguments";
-
+	
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -168,8 +168,7 @@ int _commandNumber;
 	return 3;
 }
 
-// to determine specific row height for each cell, override this.
-// In this example, each row is determined by its subviews that are embedded.
+
 //
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -181,42 +180,41 @@ int _commandNumber;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	UITableViewCell *cell = nil;
-
-		static NSString *kSourceCell_ID = @"SourceCell_ID";
-		cell = [tableView dequeueReusableCellWithIdentifier:kSourceCell_ID];
-		if (cell == nil)
-		{
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:kSourceCell_ID] autorelease];
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-          cell.textLabel.textAlignment = UITextAlignmentLeft;
-            cell.textLabel.textColor = [UIColor grayColor];
-//			cell.textLabel.highlightedTextColor = [UIColor blackColor];
-            cell.textLabel.font = [UIFont systemFontOfSize:10];
-
-		}
+	
+	NSString *kSourceCell_ID = [NSString stringWithFormat:@"%d:%d", indexPath.section, indexPath.row];
+	cell = [tableView dequeueReusableCellWithIdentifier:kSourceCell_ID];
+	if (cell == nil)
+	{
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:kSourceCell_ID] autorelease];
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		//cell.textLabel.text = @"Target ID!";
-
+		cell.textLabel.textAlignment = UITextAlignmentLeft;
+		cell.textLabel.textColor = [UIColor grayColor];
+		cell.textLabel.font = [UIFont systemFontOfSize:10];
+		
+	} 
+	
+	//cell.textLabel.text = @"Target ID!";
+	
 	UITextField* field;
 	
 	if (indexPath.section == 0) {
 		switch (indexPath.row) {
-		case COMMAND:
-			field = [_fields objectAtIndex:COMMAND];
-			field.text = _command.command;
-			cell.textLabel.text = @"Command";
-			break;
-		case CLASS_NAME:
-			field = [_fields objectAtIndex:CLASS_NAME];
-			field.text = _command.className;
-			cell.textLabel.text = @"Class Name";
-			break;
-		case MONKEY_ID:
-			field = [_fields objectAtIndex:MONKEY_ID];
-			field.text = _command.monkeyID;
-			cell.textLabel.text = @"Monkey ID";	
-			break;			
+			case COMMAND:
+				field = [_fields objectAtIndex:COMMAND];
+				field.text = _command.command;
+				cell.textLabel.text = @"Command";
+				break;
+			case CLASS_NAME:
+				field = [_fields objectAtIndex:CLASS_NAME];
+				field.text = _command.className;
+				cell.textLabel.text = @"Class Name";
+				break;
+			case MONKEY_ID:
+				field = [_fields objectAtIndex:MONKEY_ID];
+				field.text = _command.monkeyID;
+				cell.textLabel.text = @"Monkey ID";	
+				break;			
 		}
 	} else {
 		int index = ARG1 + indexPath.row;
@@ -225,12 +223,12 @@ int _commandNumber;
 			field.text = [_command.args objectAtIndex:indexPath.row]; 
 		}
 	}
-	//if (field.superview == nil) {
+	if (field.superview == nil) {
 		[cell.contentView addSubview:field];
-	//}
-
+	}
+	
     return cell;
-
+	
 }
 
 
@@ -292,17 +290,17 @@ int _commandNumber;
 	bottom.x = 0;
 	bottom.y = textFieldRect.origin.y + textFieldRect.size.height;
 	
-//	if ((viewFrame.origin.y + viewFrame.size.height) > bottom.y) {
-//		_kbAdjustment = 0;
-//		// Field is visible so no need to scroll
-//		return;
-//	}
+	//	if ((viewFrame.origin.y + viewFrame.size.height) > bottom.y) {
+	//		_kbAdjustment = 0;
+	//		// Field is visible so no need to scroll
+	//		return;
+	//	}
 	NSLog(@"Resizing from %f", [layoutTable frame].size.height);
 	
     table.frame = viewFrame;
 	
     [table scrollRectToVisible:textFieldRect animated:YES];
-
+	
 	
     _keyboardShown = YES;
 }
@@ -321,8 +319,8 @@ int _commandNumber;
     CGRect viewFrame = [table frame];
     viewFrame.size.height += _kbAdjustment;
     table.frame = viewFrame;
-//	[UIView setAnimationDelegate:self];
-//	[UIView setAnimationDidStopSelector:action];
+	//	[UIView setAnimationDelegate:self];
+	//	[UIView setAnimationDidStopSelector:action];
 	[UIView commitAnimations];		
     _keyboardShown = NO;
 }

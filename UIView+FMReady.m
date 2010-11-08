@@ -1,17 +1,17 @@
 /* This file is part of FoneMonkey.
-
-    FoneMonkey is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    FoneMonkey is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with FoneMonkey.  If not, see <http://www.gnu.org/licenses/>.  */
+ 
+ FoneMonkey is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ FoneMonkey is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with FoneMonkey.  If not, see <http://www.gnu.org/licenses/>.  */
 //
 //  UIResponder+FMReady.m
 //  FoneMonkey
@@ -32,19 +32,20 @@
 #import "UIToolbarTextButtonProxy.h"
 #import "UIPushButtonProxy.h"
 #import "UISegmentedControlProxy.h"
-
+#import "UITableViewCellContentViewProxy.h"
+#import "FMVerifyCommand.h"
 
 @implementation UIView (FoneMonkey) 	
 + (void)load {
 	if (self == [UIView class]) {
-
+		
         Method originalMethod = class_getInstanceMethod(self, @selector(initWithFrame:));
         Method replacedMethod = class_getInstanceMethod(self, @selector(fmInitWithFrame:));
         method_exchangeImplementations(originalMethod, replacedMethod);	
 	}
 }
 
-	
+
 - (id)fmInitWithFrame:(CGRect)aRect {
 	// This is actually for UIControl, but UIControl inherits this method
 	// Calls original initWithFrame (that we swapped in load method)
@@ -147,18 +148,7 @@
 	} else {
 		// DEFAULT
 		if ([ev.command isEqualToString:FMCommandVerify]) {
-			if ([ev.args count] == 2) {
-				NSString* prop = [ev.args objectAtIndex:0];
-				NSString* expected = [ev.args objectAtIndex:1];
-				NSString* value = [self valueForKeyPath:prop];
-				if ([expected isEqualToString:value]) {
-					ev.lastResult = nil;
-				} else {
-					ev.lastResult = [NSString stringWithFormat: @"Expected \"%@\", but found \"%@\"", expected, value];
-				}
-			} else if ([ev.args count] != 0) {
-				ev.lastResult = [NSString stringWithFormat:@"Requires 0 or 2 arguments, but has %d", [ev.args count]];
-			}
+			[FMVerifyCommand execute:ev];
 			return;
 		}
 		
@@ -232,8 +222,17 @@
 			[label appendString:title];
 		}
 		return label;
+	}else if ([self isKindOfClass:objc_getClass("UITableViewCellContentView")]) {
+		UITableViewCellContentViewProxy *view = (UITableViewCellContentViewProxy *)self;
+		UITableViewCell* cell = [view _cell];
+		NSString* label = cell.textLabel.text;
+		if (label != nil) {
+			return label;
+		} else {
+			return [cell monkeyID];
+		}
 	}
-
+	
 use_default:;
 	return [self accessibilityLabel] ? [self accessibilityLabel] :
 	self.tag < 0 ? [NSString stringWithFormat:@"%ld",(long)self.tag] :
