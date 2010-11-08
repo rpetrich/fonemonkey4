@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="4"/>
+			<integer value="6"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -71,7 +71,7 @@
 							<object class="IBUIToolbar" id="268924249">
 								<reference key="NSNextResponder" ref="761970052"/>
 								<int key="NSvFlags">295</int>
-								<string key="NSFrame">{{20, 20}, {748, 44}}</string>
+								<string key="NSFrame">{{20, 20}, {768, 44}}</string>
 								<reference key="NSSuperview" ref="761970052"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -767,7 +767,7 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../../FoneMonkey/iPhone/FMConsoleController.h</string>
+						<string key="minorKey">iPhone/FMConsoleController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -775,14 +775,14 @@
 					<string key="superclassName">UIWindow</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../../FoneMonkey/FMWindow.h</string>
+						<string key="minorKey">FMWindow.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSObject</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../../FoneMonkey/NSObject+FMReady.h</string>
+						<string key="minorKey">NSObject+FMReady.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -800,42 +800,42 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../../FoneMonkey/UIControl+FMready.h</string>
+						<string key="minorKey">UIControl+FMready.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">UIScrollView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../../FoneMonkey/UIScrollView+FMReady.h</string>
+						<string key="minorKey">UIScrollView+FMReady.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">UISlider</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../../FoneMonkey/UISlider+FMReady.h</string>
+						<string key="minorKey">UISlider+FMReady.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">UITableView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../../FoneMonkey/UITableView+FMReady.h</string>
+						<string key="minorKey">UITableView+FMReady.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">UIView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../../FoneMonkey/UIView+FMReady.h</string>
+						<string key="minorKey">UIView+FMReady.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">UIView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../../FoneMonkey/UIView+FullDescription.h</string>
+						<string key="minorKey">UIView+FullDescription.h</string>
 					</object>
 				</object>
 			</object>
@@ -1135,7 +1135,7 @@
 			<integer value="3000" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<string key="IBDocument.LastKnownRelativeProjectPath">../TopPaid/TopPaid.universal/TopPaid.xcodeproj</string>
+		<string key="IBDocument.LastKnownRelativeProjectPath">FoneMonkey.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<bool key="EncodedWithXMLCoder">YES</bool>
