@@ -28,7 +28,6 @@
 		return FM_BUILD_STAMP;
 	}
 + (NSString*) version {
-	// EDIT WITH EACH RELEASE
-	return @"4.0.b";
+	return FM_VERSION;
 }
 @end

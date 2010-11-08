@@ -34,7 +34,7 @@
 							((((\\)     (/)))) \n \
 #########################################################################################################################\n \
 #                                                                                                                       #\n \
-# FoneMonkey %@ (%@), Copyright (c) 2010, Gorilla Logic, Inc., All Rights Reserved                    #\n \
+# FoneMonkey %@ (%@), Copyright (c) 2010, Gorilla Logic, Inc., All Rights Reserved                                      #\n \
 #                                                                                                                       #\n \
 # Gorilla Logic is an enterprise application development consulting firm specializing in Java, Adobe Flex, and iPhone.  #\n \
 # To learn more about our development, training, and testing services, visit us at www.gorillalogic.com.                #\n \

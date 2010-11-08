@@ -41,11 +41,8 @@
 /* Begin PBXBuildFile section */
 		1558766912885C0A003541C0 /* UITableViewCellContentViewProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 1558766712885C0A003541C0 /* UITableViewCellContentViewProxy.h */; };
 		1558766A12885C0A003541C0 /* UITableViewCellContentViewProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1558766812885C0A003541C0 /* UITableViewCellContentViewProxy.m */; };
-		1558766B12885C0A003541C0 /* UITableViewCellContentViewProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 1558766712885C0A003541C0 /* UITableViewCellContentViewProxy.h */; };
-		1558766C12885C0A003541C0 /* UITableViewCellContentViewProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1558766812885C0A003541C0 /* UITableViewCellContentViewProxy.m */; };
 		159D6170124179A3005C695E /* FMOpenScriptDialog_iPad.xib in Copy Resources */ = {isa = PBXBuildFile; fileRef = D37ABCAE123850DA00712E3D /* FMOpenScriptDialog_iPad.xib */; };
 		159D6171124179A3005C695E /* FMCommandEditViewController_iPad.xib in Copy Resources */ = {isa = PBXBuildFile; fileRef = D37ABC9B1238415A00712E3D /* FMCommandEditViewController_iPad.xib */; };
-		159D6172124179A3005C695E /* FMConsoleController_iPad.xib in Copy Resources */ = {isa = PBXBuildFile; fileRef = D37ABC931238402A00712E3D /* FMConsoleController_iPad.xib */; };
 		159D6173124179A3005C695E /* FMGorilla_iPad.xib in Copy Resources */ = {isa = PBXBuildFile; fileRef = D37ABC9F123841CA00712E3D /* FMGorilla_iPad.xib */; };
 		159D6174124179A3005C695E /* FMGorillaView_iPad.xib in Copy Resources */ = {isa = PBXBuildFile; fileRef = D37ABCA41238426B00712E3D /* FMGorillaView_iPad.xib */; };
 		159D6175124179A3005C695E /* FMSaveScriptDialog_iPad.xib in Copy Resources */ = {isa = PBXBuildFile; fileRef = D37ABCA8123842CA00712E3D /* FMSaveScriptDialog_iPad.xib */; };
@@ -156,7 +153,6 @@
 				D30FA74C12232B1300796ABE /* FMOpenScriptDialog_iPhone.xib in Copy Resources */,
 				159D6170124179A3005C695E /* FMOpenScriptDialog_iPad.xib in Copy Resources */,
 				159D6171124179A3005C695E /* FMCommandEditViewController_iPad.xib in Copy Resources */,
-				159D6172124179A3005C695E /* FMConsoleController_iPad.xib in Copy Resources */,
 				159D6173124179A3005C695E /* FMGorilla_iPad.xib in Copy Resources */,
 				159D6174124179A3005C695E /* FMGorillaView_iPad.xib in Copy Resources */,
 				159D6175124179A3005C695E /* FMSaveScriptDialog_iPad.xib in Copy Resources */,
@@ -227,6 +223,7 @@
 /* Begin PBXFileReference section */
 		1558766712885C0A003541C0 /* UITableViewCellContentViewProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITableViewCellContentViewProxy.h; sourceTree = "<group>"; };
 		1558766812885C0A003541C0 /* UITableViewCellContentViewProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITableViewCellContentViewProxy.m; sourceTree = "<group>"; };
+		155877EC1288ABD0003541C0 /* FMConsoleController_iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FMConsoleController_iPad.xib; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -338,7 +335,6 @@
 		D34D967912231B1E001D0B47 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D34D970312231CCF001D0B47 /* libFoneMonkey.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFoneMonkey.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D34D975312232255001D0B47 /* libFoneMonkeyOCUnit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFoneMonkeyOCUnit.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		D37ABC931238402A00712E3D /* FMConsoleController_iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FMConsoleController_iPad.xib; sourceTree = "<group>"; };
 		D37ABC9B1238415A00712E3D /* FMCommandEditViewController_iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FMCommandEditViewController_iPad.xib; sourceTree = "<group>"; };
 		D37ABC9F123841CA00712E3D /* FMGorilla_iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FMGorilla_iPad.xib; sourceTree = "<group>"; };
 		D37ABCA41238426B00712E3D /* FMGorillaView_iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FMGorillaView_iPad.xib; sourceTree = "<group>"; };
@@ -614,9 +610,9 @@
 		D3A32A4F122499C500CFB1FD /* iPad */ = {
 			isa = PBXGroup;
 			children = (
+				155877EC1288ABD0003541C0 /* FMConsoleController_iPad.xib */,
 				D37ABCAE123850DA00712E3D /* FMOpenScriptDialog_iPad.xib */,
 				D37ABC9B1238415A00712E3D /* FMCommandEditViewController_iPad.xib */,
-				D37ABC931238402A00712E3D /* FMConsoleController_iPad.xib */,
 				D37ABC9F123841CA00712E3D /* FMGorilla_iPad.xib */,
 				D37ABCA41238426B00712E3D /* FMGorillaView_iPad.xib */,
 				D37ABCA8123842CA00712E3D /* FMSaveScriptDialog_iPad.xib */,
@@ -643,7 +639,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1558766B12885C0A003541C0 /* UITableViewCellContentViewProxy.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -742,7 +737,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"#define FM_BUILD_STAMP @\\\"BUILD `date +%y%m%d.%H%M`\\\"\" > FMBuildStampDefines.h\n";
+			shellScript = "echo \"#define FM_BUILD_STAMP @\\\"BUILD `date +%y%m%d.%H%M`\\\"\" > FMBuildStampDefines.h\necho \"#define FM_VERSION @\\\"${FM_VERSION}\\\"\" >> FMBuildStampDefines.h\n\n";
 		};
 		D34D973412232052001D0B47 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -850,7 +845,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D34D9758122322AE001D0B47 /* FoneMonkey+OCUnit.m in Sources */,
-				1558766C12885C0A003541C0 /* UITableViewCellContentViewProxy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -871,7 +865,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FM_DOXYGEN_LOC = /Applications/Doxygen.app/Contents/Resources;
-				FM_VERSION = 0.8.0;
+				FM_VERSION = 4.0.c;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
