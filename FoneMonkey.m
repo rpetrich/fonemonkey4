@@ -44,7 +44,7 @@ FMCommandEvent* lastCommandPosted;
 BOOL _lastCommandRecorded = YES;
 FMCommandEvent* nextCommandToRun;
 
-@synthesize commands, runTimeout, state;
+@synthesize commands, runTimeout, state, session;
 
 NSMutableDictionary* _monkeyIDs;
 
@@ -56,8 +56,11 @@ UIDeviceOrientation* _currentOreintation;
 	@synchronized([FoneMonkey class])
 	{		
 		if (!_sharedMonkey) {
+			// Weird objective-c singleton code idiom. The alloc/init creates the singleton instance and resets self so that rest of method refers to instance variables (not static) variables.
 			[[self alloc] init];
+			// After executing the above alloc/init, we are no longer in a static method. We are now in the singleton instance! 
 			_monkeyIDs = [[NSMutableDictionary alloc] init];
+			session = [NSMutableDictionary dictionary];
 			
 			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 			{
@@ -190,6 +193,7 @@ UIDeviceOrientation* _currentOreintation;
 
 	[commands release];
 	[_monkeyIDs release];
+	[session release];
 	[super dealloc];
 }
 

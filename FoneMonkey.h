@@ -37,6 +37,7 @@
 #define FMCommandVScroll @"VScroll"
 #define FMCommandPause @"Pause"
 #define FMCommandWaitFor @"WaitFor"
+#define FMCommandSelect @"Select"
 
 #define FMNotificationMonkeySuspended @"FMNotificationMonkeySuspended"
 #define FMNotificationCommandPosted @"FMNotificationCommandPosted"
@@ -65,6 +66,7 @@ typedef enum  {
 	NSTimeInterval runTimeout;
 	FMState state;
 	NSMutableArray* commands;
+	NSMutableDictionary* session;
 
 }	
 
@@ -98,6 +100,7 @@ typedef enum  {
 - (void) receivedRotate: (NSNotification*) notification;
 
 @property (nonatomic, retain) NSMutableArray* commands;
+@property (nonatomic, retain) NSMutableDictionary* session;
 @property NSTimeInterval runTimeout;
 @property (readonly) FMState state;
 

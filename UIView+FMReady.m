@@ -35,9 +35,13 @@
 #import "UITableViewCellContentViewProxy.h"
 #import "FMVerifyCommand.h"
 
-@implementation UIView (FoneMonkey) 	
+@implementation UIView (FoneMonkey) 
+static NSArray* privateClasses;
 + (void)load {
 	if (self == [UIView class]) {
+		// These are private classes that receive UI events, but the corresponding public class is a superclass. We'll record the event on the first superclass that's public.
+		// This might be a config file someday
+		privateClasses = [[NSArray alloc] initWithObjects:@"UIPickerTable", @"UITableViewCellContentView", nil];
 		
         Method originalMethod = class_getInstanceMethod(self, @selector(initWithFrame:));
         Method replacedMethod = class_getInstanceMethod(self, @selector(fmInitWithFrame:));
@@ -190,11 +194,20 @@
 }
 
 - (BOOL) isFMEnabled {
-	// Don't record events for containers
+
+	// Don't record private classes
+	for (NSString* className in privateClasses) {
+		if ([self isKindOfClass:objc_getClass([className UTF8String])]) {
+			return NO;
+		}
+	}
+
+	// Don't record containers		
 	return ![self isMemberOfClass:[UIView class]] && ![FMUtils isKeyboard:self];
 }
 
 - (NSString*) monkeyID {
+
 	if ([self isKindOfClass:objc_getClass("UITabBarButton")]) {
 		UITabBarButtonProxy* but = (UITabBarButtonProxy *)self;
 		NSString* label = [but->_label text];
@@ -222,16 +235,17 @@
 			[label appendString:title];
 		}
 		return label;
-	}else if ([self isKindOfClass:objc_getClass("UITableViewCellContentView")]) {
-		UITableViewCellContentViewProxy *view = (UITableViewCellContentViewProxy *)self;
-		UITableViewCell* cell = [view _cell];
-		NSString* label = cell.textLabel.text;
-		if (label != nil) {
-			return label;
-		} else {
-			return [cell monkeyID];
-		}
 	}
+//	else if ([self isKindOfClass:objc_getClass("UITableViewCellContentView")]) {
+//		UITableViewCellContentViewProxy *view = (UITableViewCellContentViewProxy *)self;
+//		UITableViewCell* cell = [view _cell];
+//		NSString* label = cell.textLabel.text;
+//		if (label != nil) {
+//			return label;
+//		} else {
+//			return [cell monkeyID];
+//		}
+//	}
 	
 use_default:;
 	return [self accessibilityLabel] ? [self accessibilityLabel] :

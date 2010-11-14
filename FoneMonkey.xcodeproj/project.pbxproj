@@ -12,6 +12,7 @@
 			buildConfigurationList = D34D972F1223202C001D0B47 /* Build configuration list for PBXAggregateTarget "Distribution" */;
 			buildPhases = (
 				D34D97381223208E001D0B47 /* Prepare Dist Dir */,
+				15AC429E1289059E00A18460 /* Copy Readme */,
 				D34D9743122320FB001D0B47 /* Copy Resources */,
 				D34D9744122320FB001D0B47 /* Copy Docs */,
 				D34D974612232129001D0B47 /* Copy Headers */,
@@ -39,6 +40,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		15492567128A4FC60050B2EA /* UIPickerView+FMReady.h in Headers */ = {isa = PBXBuildFile; fileRef = 15492565128A4FC60050B2EA /* UIPickerView+FMReady.h */; };
+		15492568128A4FC60050B2EA /* UIPickerView+FMReady.m in Sources */ = {isa = PBXBuildFile; fileRef = 15492566128A4FC60050B2EA /* UIPickerView+FMReady.m */; };
 		1558766912885C0A003541C0 /* UITableViewCellContentViewProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 1558766712885C0A003541C0 /* UITableViewCellContentViewProxy.h */; };
 		1558766A12885C0A003541C0 /* UITableViewCellContentViewProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1558766812885C0A003541C0 /* UITableViewCellContentViewProxy.m */; };
 		159D6170124179A3005C695E /* FMOpenScriptDialog_iPad.xib in Copy Resources */ = {isa = PBXBuildFile; fileRef = D37ABCAE123850DA00712E3D /* FMOpenScriptDialog_iPad.xib */; };
@@ -46,6 +49,7 @@
 		159D6173124179A3005C695E /* FMGorilla_iPad.xib in Copy Resources */ = {isa = PBXBuildFile; fileRef = D37ABC9F123841CA00712E3D /* FMGorilla_iPad.xib */; };
 		159D6174124179A3005C695E /* FMGorillaView_iPad.xib in Copy Resources */ = {isa = PBXBuildFile; fileRef = D37ABCA41238426B00712E3D /* FMGorillaView_iPad.xib */; };
 		159D6175124179A3005C695E /* FMSaveScriptDialog_iPad.xib in Copy Resources */ = {isa = PBXBuildFile; fileRef = D37ABCA8123842CA00712E3D /* FMSaveScriptDialog_iPad.xib */; };
+		15AC429F128905E000A18460 /* COPYRIGHT in Copy Readme */ = {isa = PBXBuildFile; fileRef = D30FA75412232B8A00796ABE /* COPYRIGHT */; };
 		D30FA72212232A2C00796ABE /* gorilla-32.png in Copy Resources */ = {isa = PBXBuildFile; fileRef = D34D95CB12230C88001D0B47 /* gorilla-32.png */; };
 		D30FA72312232A2C00796ABE /* gorillalogic.png in Copy Resources */ = {isa = PBXBuildFile; fileRef = D34D95CC12230C88001D0B47 /* gorillalogic.png */; };
 		D30FA72412232A2C00796ABE /* icon_arrow_down.png in Copy Resources */ = {isa = PBXBuildFile; fileRef = D34D95CD12230C88001D0B47 /* icon_arrow_down.png */; };
@@ -144,6 +148,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		15AC429E1289059E00A18460 /* Copy Readme */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = $PROJECT_DIR/Dist/FoneMonkey;
+			dstSubfolderSpec = 0;
+			files = (
+				15AC429F128905E000A18460 /* COPYRIGHT in Copy Readme */,
+			);
+			name = "Copy Readme";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D34D9743122320FB001D0B47 /* Copy Resources */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -221,9 +236,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		15492565128A4FC60050B2EA /* UIPickerView+FMReady.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIPickerView+FMReady.h"; sourceTree = "<group>"; };
+		15492566128A4FC60050B2EA /* UIPickerView+FMReady.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIPickerView+FMReady.m"; sourceTree = "<group>"; };
 		1558766712885C0A003541C0 /* UITableViewCellContentViewProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITableViewCellContentViewProxy.h; sourceTree = "<group>"; };
 		1558766812885C0A003541C0 /* UITableViewCellContentViewProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITableViewCellContentViewProxy.m; sourceTree = "<group>"; };
 		155877EC1288ABD0003541C0 /* FMConsoleController_iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FMConsoleController_iPad.xib; sourceTree = "<group>"; };
+		15C50584128F89F000FEDFCC /* Select.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Select.png; path = images/Select.png; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -497,6 +515,7 @@
 		D34D95CA12230B31001D0B47 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				15C50584128F89F000FEDFCC /* Select.png */,
 				D34D95CB12230C88001D0B47 /* gorilla-32.png */,
 				D34D95CC12230C88001D0B47 /* gorillalogic.png */,
 				D34D95CD12230C88001D0B47 /* icon_arrow_down.png */,
@@ -578,6 +597,8 @@
 				D34D964A12231187001D0B47 /* UITextField+FMReady.m */,
 				D34D964B12231187001D0B47 /* UITextView+FMReady.h */,
 				D34D964C12231187001D0B47 /* UITextView+FMReady.m */,
+				15492565128A4FC60050B2EA /* UIPickerView+FMReady.h */,
+				15492566128A4FC60050B2EA /* UIPickerView+FMReady.m */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -632,6 +653,7 @@
 				D3B914F712303246003C5BB0 /* UISegmentedControlProxy.h in Headers */,
 				D3B915141230337D003C5BB0 /* UITabBarButtonLabelProxy.h in Headers */,
 				1558766912885C0A003541C0 /* UITableViewCellContentViewProxy.h in Headers */,
+				15492567128A4FC60050B2EA /* UIPickerView+FMReady.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -837,6 +859,7 @@
 				D3B914F912303288003C5BB0 /* UISegmentedControlProxy.m in Sources */,
 				D3B91517123033C4003C5BB0 /* UITabBarButtonLabelProxy.m in Sources */,
 				1558766A12885C0A003541C0 /* UITableViewCellContentViewProxy.m in Sources */,
+				15492568128A4FC60050B2EA /* UIPickerView+FMReady.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
