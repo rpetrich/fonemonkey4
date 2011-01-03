@@ -60,4 +60,14 @@ Evaluates touch events and records corresponding command.
 of component swapping is UIToolbarTextButton which swaps with UINavigationButton on an iPad multiview controller.
  */
 - (BOOL) swapsWith:(NSString*)className;
+
+/**
+ Return the corresponding UIAutomation command executable by Instruments
+ */
++ (NSString*) uiAutomationCommand:(FMCommandEvent*)command;
+
+/**
+ Return the cotrresponding CommandEvent source executable in ObjC 
+ */
++ (NSString*) objcCommandEvent:(FMCommandEvent*)command;
 @end

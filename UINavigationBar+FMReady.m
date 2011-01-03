@@ -70,5 +70,16 @@
 	return;
 }
 
++ (NSString*) uiAutomationCommand:(FMCommandEvent*)command {
+	NSString* string;
+	if ([command.command isEqualToString:FMCommandTouchLeft]) {
+		string = [NSString stringWithFormat:@"FoneMonkey.elementNamed(\"%@\").leftButton()", command.monkeyID];
+	} else if ([command.command isEqualToString:FMCommandTouchRight]) {
+		string = [NSString stringWithFormat:@"FoneMonkey.elementNamed(\"%@\").rightButton()", command.monkeyID];
+	} else {
+		string = [super uiAutomationCommand:command];
+	}
+	return string;
+}
 
 @end

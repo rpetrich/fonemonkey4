@@ -51,4 +51,36 @@
 	}
 }
 
++ (NSString*) objcCommandEvent:(FMCommandEvent*)command {
+	NSMutableString* string = [[NSMutableString alloc] init];
+	//	if (command.source && ![command.source accessibilityLabel]) {
+	//		[string appendFormat:@"// Accessibility label may need to be set to %@ for %@\n", command.monkeyID, command.className]; 
+	//		NSLog(@"Accessibility label may need to be set to %@ for %@\n", command.monkeyID, command.className);
+	//	}
+	if ([command.command isEqualToString:FMCommandVScroll]) {
+		NSString* section = [command.args count] < 2 ? @"0" : [command.args objectAtIndex:1];
+		NSString* row = [command.args count] < 1 ? @"0" : [command.args objectAtIndex:0];
+		string = [NSString stringWithFormat:@"[FMCommandEvent command:@\"VScroll\" className:@\"%@\" monkeyID:@\"%@\" args:[NSArray arrayWithObjects:%@, %@, nil]", command.className, command.monkeyID, row, section];
+	} else {
+		string = [super uiAutomationCommand:command];
+	}
+	return string;
+}
+
++ (NSString*) uiAutomationCommand:(FMCommandEvent*)command {
+	NSMutableString* string = [[NSMutableString alloc] init];
+//	if (command.source && ![command.source accessibilityLabel]) {
+//		[string appendFormat:@"// Accessibility label may need to be set to %@ for %@\n", command.monkeyID, command.className]; 
+//		NSLog(@"Accessibility label may need to be set to %@ for %@\n", command.monkeyID, command.className);
+//	}
+	if ([command.command isEqualToString:FMCommandVScroll]) {
+		NSString* section = [command.args count] < 2 ? @"0" : [command.args objectAtIndex:1];
+		NSString* row = [command.args count] < 1 ? @"0" : [command.args objectAtIndex:0];
+		[string appendFormat:@"FoneMonkey.scrollTo(\"%@\", \"%@\", \"%@\")", command.monkeyID, section, row];
+	} else {
+		[string appendString:[super uiAutomationCommand:command]];
+	}
+	return string;
+}
+
 @end

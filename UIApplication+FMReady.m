@@ -44,10 +44,13 @@
 }
 
 + (void) initTheMonkey:(NSNotification*)notification {
+
 	[[FoneMonkey sharedMonkey] open];
 
 	
 }
+
+
 
 - (void)fmSendEvent:(UIEvent *)event {
 	[[FoneMonkey sharedMonkey] handleEvent:event];

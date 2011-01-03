@@ -182,11 +182,26 @@ UIDeviceOrientation* _currentOreintation;
 		runTimeout = 2.5; // Should remember last user setting
 	}
 	
+	UIDevice* dev = [UIDevice currentDevice];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(recordRotation:)
+												 name:@"UIDeviceOrientationDidChangeNotification" object:nil];
+	
+	[dev beginGeneratingDeviceOrientationNotifications];
+
+	
 	//This is code to register for orientation events and then handle them.
 	// CODE TO HANDLE DEVICE ROTATE - NEXT VERSION
 	//[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(receivedRotate:) name: UIDeviceOrientationDidChangeNotification object: nil];
 	
 	return self;
+}
+
+
+- (void) recordRotation:(NSNotification *)notification
+{	
+	[FoneMonkey recordFrom:nil command:FMCommandRotate args:[NSArray arrayWithObject:[NSString stringWithFormat:@"%d", [[UIDevice currentDevice] orientation]]]];
+	
 }
 
 - (void) dealloc {
@@ -386,7 +401,10 @@ UIDeviceOrientation* _currentOreintation;
 		} else if ([nextCommandToRun.command isEqualToString:FMCommandShake]) {
 			usleep(THINK_TIME);
 			[FMUtils shake];
-		} else {		
+		} else if ([nextCommandToRun.command isEqualToString:FMCommandRotate]) {
+			usleep(THINK_TIME);			
+			[self performSelectorOnMainThread:@selector(rotate:) withObject:nextCommandToRun waitUntilDone:YES];
+		}else {		
 			usleep(THINK_TIME); 
 			UIView* source = nextCommandToRun.source;
 			if (source != nil) {
@@ -411,13 +429,22 @@ UIDeviceOrientation* _currentOreintation;
 	[commands removeAllObjects];	 
 }
 
+- (void)rotate:(FMCommandEvent*)command {
+	UIInterfaceOrientation orientation = 0;
+	if ([command.args count] > 0) {
+		orientation = [((NSString*)[command.args objectAtIndex:0]) intValue];
+	}			
+	[FMUtils rotate:orientation];
+}
+
 - (void) save:(NSString*)file {
 	NSString* error;
 	NSData* pList = [NSPropertyListSerialization dataFromPropertyList:commands format:NSPropertyListXMLFormat_v1_0 errorDescription:&error];
 	NSLog(@"%@", error);
 	[error release];
 	[FMUtils writeApplicationData:pList toFile:file];
-	
+	[self saveUIAutomationScript:file];
+	[self saveOCScript:file];
 }
 
 - (void) open:(NSString*)file {
@@ -549,6 +576,60 @@ UIDeviceOrientation* _currentOreintation;
 
 - (void) openConsole {
 	[_console showConsole];
+}
+
+- (void) saveOCScript:(NSString* ) filename {
+	NSString *path = [[NSBundle mainBundle] pathForResource:
+					  @"objc" ofType:@"template"];
+	NSError* error;
+	NSString* s = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+	if (!s) {
+		NSLog(@"Unable to create objective-c file: Unable to read objc.template: %@", [error description]);
+		return;
+	}
+	int i;
+	NSMutableString* code = [[NSMutableString alloc] init];
+	for (i = 0; i < [commands count]; i++) {
+		FMCommandEvent* command = [self commandAt:i];
+		Class c = NSClassFromString(command.className);
+		NSString* occmd = [c objcCommandEvent:command];
+		if ([occmd hasPrefix:@"//"]) {
+			[code appendFormat:@"\t%@\n", occmd];
+		} else {
+			[code appendFormat:@"\t[array addObject:%@];\n", occmd];
+		}
+	}
+	s = [s stringByReplacingOccurrencesOfString:@"${TESTNAME}" withString:filename];
+	s = [s stringByReplacingOccurrencesOfString:@"${CODE}" withString:code];
+			 
+	[FMUtils writeString:s toFile:[filename stringByAppendingString:@".m"]];
+	[code release];	
+	
+}
+
+- (void) saveUIAutomationScript:(NSString* ) filename {
+	NSString *path = [[NSBundle mainBundle] pathForResource:
+					  @"uiautomation" ofType:@"template"];
+	NSError* error;
+	NSString* s = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+	if (!s) {
+		NSLog(@"Unable to create UIAutomation js file: Unable to read uiautomation.template: %@", [error description]);
+		return;
+	}
+	int i;
+	NSMutableString* code = [[NSMutableString alloc] init];
+	for (i = 0; i < [commands count]; i++) {
+		FMCommandEvent* command = [self commandAt:i];
+		Class c = NSClassFromString(command.className);
+		NSString* jscmd = [c objcCommandEvent:command];
+		[code appendFormat:@"%@\n", jscmd];
+	}
+	s = [s stringByReplacingOccurrencesOfString:@"${TESTNAME}" withString:filename];
+	s = [s stringByReplacingOccurrencesOfString:@"${CODE}" withString:code];
+	
+	[FMUtils writeString:s toFile:[filename stringByAppendingString:@".js"]];
+	[code release];	
+	
 }
 
 @end

@@ -155,15 +155,48 @@ static NSInteger foundSoFar;
 	return [FMUtils findFirstMonkeyView:[current superview]];
 }
 
-+ (BOOL)writeApplicationData:(NSData *)data toFile:(NSString *)fileName {
-    NSString *documentsDirectory = [FMUtils scriptsLocation];
++ scriptPathForFilename:(NSString*) fileName {
+	NSString *documentsDirectory = [FMUtils scriptsLocation];
     if (!documentsDirectory) {
         NSLog(@"Documents directory not found!");
-        return NO;
+        return nil;
     }
 	NSLog(@"Writing %@/%@", documentsDirectory, fileName);	
-    NSString *appFile = [documentsDirectory stringByAppendingPathComponent:fileName];
-    return ([data writeToFile:appFile atomically:YES]);
+    return [documentsDirectory stringByAppendingPathComponent:fileName];
+}
+
++ (BOOL)writeString:(NSString*) string toFile:(NSString*)fileName {
+	NSString *path = [self scriptPathForFilename:fileName];
+	if (!path) {
+		return NO;
+	}
+	NSError* error;
+	BOOL result = [string writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&error];
+	if (!result) {
+		NSLog(@"Error writing to file %@: %@", fileName, [error localizedFailureReason]);
+	}
+	return result; 
+	
+}
+
+
+
++ (BOOL)writeApplicationData:(NSData *)data toFile:(NSString *)fileName {
+	NSString *path = [self scriptPathForFilename:fileName];
+	if (!path) {
+		return NO;
+	}	
+    return ([data writeToFile:path atomically:YES]);
+}
+
+
++ documentsLocation {
+	NSString *documentsDirectory = [FMUtils scriptsLocation];
+    if (!documentsDirectory) {
+        NSLog(@"Documents directory not found!");
+    }
+	return documentsDirectory;
+
 }
 
 + (NSData *)applicationDataFromFile:(NSString *)fileName {
@@ -248,6 +281,10 @@ static NSInteger foundSoFar;
 	//[[UIApplication sharedApplication] sendEvent:m]; // Works in simulator but not on device
 	[[[UIApplication sharedApplication] keyWindow] motionBegan:UIEventSubtypeMotionShake withEvent:m];
 	[[[UIApplication sharedApplication] keyWindow] motionEnded:UIEventSubtypeMotionShake withEvent:m];	
+}
+
++ (void) rotate:(UIInterfaceOrientation)orientation {
+	[[UIDevice currentDevice] setOrientation:orientation];
 }
 
 +(BOOL) isKeyboard:(UIView*)view {

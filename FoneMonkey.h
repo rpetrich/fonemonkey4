@@ -38,6 +38,7 @@
 #define FMCommandPause @"Pause"
 #define FMCommandWaitFor @"WaitFor"
 #define FMCommandSelect @"Select"
+#define FMCommandRotate @"Rotate"
 
 #define FMNotificationMonkeySuspended @"FMNotificationMonkeySuspended"
 #define FMNotificationCommandPosted @"FMNotificationCommandPosted"
