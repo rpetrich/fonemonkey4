@@ -283,15 +283,11 @@ use_default:;
 		[args setString:@"nil"];
 	} else {
 		[args setString:@"[NSArray arrayWithObjects:"];
-		int i;
-		for (i = 0; i < [command.args count]; i++) {
-			NSString* arg = [command.args objectAtIndex:i];
-			[args appendFormat:@"\"%@\"", [FMUtils stringByOcEscapingQuotesAndNewlines:arg]]; 
-			if (i+1 < [command.args count]) {
-				[args appendString:@", "];
-			}
+		NSString* arg;
+		for (arg in command.args) {
+			[args appendFormat:@"\"%@\", ", [FMUtils stringByOcEscapingQuotesAndNewlines:arg]]; 
 		}
-		[args appendString:@"]"]; 
+		[args appendString:@"nil]"]; 
 	}
 			
 	return [NSString stringWithFormat:@"[FMCommandEvent command:@\"%@\" className:@\"%@\" monkeyID:@\"%@\" args:%@]", command.command, command.className, command.monkeyID, args];
