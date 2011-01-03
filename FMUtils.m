@@ -292,4 +292,13 @@ static NSInteger foundSoFar;
 	Class cls = view.window ? [view.window class] : [view class];
 	return [[NSString stringWithUTF8String:class_getName(cls)] isEqualToString:@"UITextEffectsWindow"];
 }
+
++ (NSString*) stringByJsEscapingQuotesAndNewlines:(NSString*)unescapedString {
+	return unescapedString;
+}
++ (NSString*) stringByOcEscapingQuotesAndNewlines:(NSString*)unescapedString {
+	return unescapedString;
+}
+
+
 @end

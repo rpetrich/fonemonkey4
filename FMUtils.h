@@ -42,4 +42,6 @@
 + (void) dismissKeyboard;
 + (void) shake;
 + (BOOL) isKeyboard:(UIView*)view;
++ (NSString*) stringByJsEscapingQuotesAndNewlines:(NSString*) unescapedString;
++ (NSString*) stringByOcEscapingQuotesAndNewlines:(NSString*) unescapedString;
 @end
