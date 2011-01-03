@@ -268,10 +268,6 @@ use_default:;
 
 + (NSString*) uiAutomationCommand:(FMCommandEvent*)command {
 	NSMutableString* string = [[[NSMutableString alloc] init] autorelease];
-//	if (command.source && ![command.source accessibilityLabel]) {
-//		[string appendFormat:@"// Accessibility label may need to be set to %@ for %@\n", command.monkeyID, command.className]; 
-//		NSLog(@"Accessibility label may need to be set to %@ for %@\n", command.monkeyID, command.className);
-//	}
 	if ([command.command isEqualToString:FMCommandTouch]) {
 		[string appendFormat:@"FoneMonkey.elementNamed(\"%@\").tap()", command.monkeyID];
 	} else {
@@ -281,13 +277,25 @@ use_default:;
 }
 
 + (NSString*) objcCommandEvent:(FMCommandEvent*)command {
-	NSString* string;
-	if ([command.command isEqualToString:FMCommandTouch]) {
-		string = [NSString stringWithFormat:@"[FMCommandEvent command:@\"Touch\" className:@\"%@\" monkeyID:@\"%@\" args:nil]", command.className, command.monkeyID];
+
+	NSMutableString* args = [[NSMutableString alloc] init];
+	if (!command.args) {
+		[args setString:@"nil"];
 	} else {
-		string = [NSString stringWithFormat:@"// UIView doesn't know how to write CommandEvent %@ for: %@", command.command, command.className];
+		[args setString:@"[NSArray arrayWithObjects:"];
+		int i;
+		for (i = 0; i < [command.args count]; i++) {
+			NSString* arg = [command.args objectAtIndex:i];
+			[args appendFormat:@"\"%@\"", [FMUtils stringByOcEscapingQuotesAndNewlines:arg]]; 
+			if (i+1 < [command.args count]) {
+				[args appendString:@", "];
+			}
+		}
+		[args appendString:@"]"]; 
 	}
-	return string;
+			
+	return [NSString stringWithFormat:@"[FMCommandEvent command:@\"%@\" className:@\"%@\" monkeyID:@\"%@\" args:%@]", command.command, command.className, command.monkeyID, args];
+
 }
 
 

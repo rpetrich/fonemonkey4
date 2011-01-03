@@ -52,6 +52,9 @@
 		159D6175124179A3005C695E /* FMSaveScriptDialog_iPad.xib in Copy Resources */ = {isa = PBXBuildFile; fileRef = D37ABCA8123842CA00712E3D /* FMSaveScriptDialog_iPad.xib */; };
 		15AC429F128905E000A18460 /* COPYRIGHT in Copy Readme */ = {isa = PBXBuildFile; fileRef = D30FA75412232B8A00796ABE /* COPYRIGHT */; };
 		15C50616128F95B300FEDFCC /* Select.png in Copy Resources */ = {isa = PBXBuildFile; fileRef = 15C50584128F89F000FEDFCC /* Select.png */; };
+		15FD55DE12D267A1008C0A3C /* objc.template in Copy Resources */ = {isa = PBXBuildFile; fileRef = 15FD54AA12D113A9008C0A3C /* objc.template */; };
+		15FD55DF12D267A1008C0A3C /* uiautomation.template in Copy Resources */ = {isa = PBXBuildFile; fileRef = 15FD555C12D141D0008C0A3C /* uiautomation.template */; };
+		15FD55E012D267D0008C0A3C /* FMRotate.png in Copy Resources */ = {isa = PBXBuildFile; fileRef = 1511032612C406AA00246792 /* FMRotate.png */; };
 		D30FA72212232A2C00796ABE /* gorilla-32.png in Copy Resources */ = {isa = PBXBuildFile; fileRef = D34D95CB12230C88001D0B47 /* gorilla-32.png */; };
 		D30FA72312232A2C00796ABE /* gorillalogic.png in Copy Resources */ = {isa = PBXBuildFile; fileRef = D34D95CC12230C88001D0B47 /* gorillalogic.png */; };
 		D30FA72412232A2C00796ABE /* icon_arrow_down.png in Copy Resources */ = {isa = PBXBuildFile; fileRef = D34D95CD12230C88001D0B47 /* icon_arrow_down.png */; };
@@ -167,6 +170,9 @@
 			dstPath = $PROJECT_DIR/Dist/FoneMonkey/resources;
 			dstSubfolderSpec = 0;
 			files = (
+				15FD55E012D267D0008C0A3C /* FMRotate.png in Copy Resources */,
+				15FD55DE12D267A1008C0A3C /* objc.template in Copy Resources */,
+				15FD55DF12D267A1008C0A3C /* uiautomation.template in Copy Resources */,
 				D30FA74C12232B1300796ABE /* FMOpenScriptDialog_iPhone.xib in Copy Resources */,
 				159D6170124179A3005C695E /* FMOpenScriptDialog_iPad.xib in Copy Resources */,
 				159D6171124179A3005C695E /* FMCommandEditViewController_iPad.xib in Copy Resources */,
@@ -773,7 +779,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"*********** build fat library **************\"\nfor target in FoneMonkey FoneMonkeyOCUnit\ndo\n\tfor version in 3.2 4.0 4.1\n\tdo\n\t\tfor sdk in iphonesimulator iphoneos\n\t\tdo\n\t\t\txcodebuild -sdk $sdk$version -target $target build -configuration Debug\n\t\tdone\n\t\tlipo -output ${PROJECT_DIR}/Dist/FoneMonkey/lib/lib${target}.${version}.a -create ${BUILD_ROOT}/${CONFIGURATION}-iphonesimulator/lib${target}.a ${BUILD_ROOT}/${CONFIGURATION}-iphoneos/lib${target}.a\n\tdone\ndone";
+			shellScript = "echo \"*********** build fat library **************\"\nfor target in FoneMonkey FoneMonkeyOCUnit\ndo\n\t# for version in 3.2 4.0 4.1 4.2\n\tfor version in 4.2\n\tdo\n\t\tfor sdk in iphonesimulator iphoneos\n\t\tdo\n\t\t\txcodebuild -sdk $sdk$version -target $target build -configuration Debug\n\t\tdone\n\t\tlipo -output ${PROJECT_DIR}/Dist/FoneMonkey/lib/lib${target}.${version}.a -create ${BUILD_ROOT}/${CONFIGURATION}-iphonesimulator/lib${target}.a ${BUILD_ROOT}/${CONFIGURATION}-iphoneos/lib${target}.a\n\tdone\ndone";
 		};
 		D34D968212231B45001D0B47 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -922,7 +928,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				PREBINDING = NO;
-				SDKROOT = iphonesimulator3.2;
+				SDKROOT = iphoneos4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -959,7 +965,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				PRODUCT_NAME = FoneMonkey;
-				SDKROOT = iphonesimulator4.1;
+				SDKROOT = iphoneos4.2;
 			};
 			name = Debug;
 		};
