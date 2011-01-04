@@ -24,6 +24,7 @@
 
 #import "FoneMonkeyAPI.h"
 #import "FoneMonkey.h"
+#import "FMUtils.h"
 #import <objc/runtime.h>
 
 @implementation UITextField (FMReady)
@@ -70,5 +71,19 @@
 		[super playbackMonkeyEvent:recevent];
 	}
 }
+
++ (NSString*) uiAutomationCommand:(FMCommandEvent*)command {
+	NSMutableString* string = [[NSMutableString alloc] init];
+	if ([command.command isEqualToString:FMCommandInputText]) {
+		NSString* value = [command.args count] < 1 ? @"" : [command.args objectAtIndex:0];
+		[string appendFormat:@"FoneMonkey.elementNamed(\"%@\").setValue(\"%@\"); // TextField", 
+						[FMUtils stringByJsEscapingQuotesAndNewlines:command.monkeyID], 
+						[FMUtils stringByJsEscapingQuotesAndNewlines:value]];
+	} else {
+		[string appendString:[super uiAutomationCommand:command]];
+	}
+	return string;
+}
+
 
 @end

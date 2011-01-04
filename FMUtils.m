@@ -49,8 +49,10 @@
 		current =  [FMUtils rootWindow];
 	}
 	
-	if (mid == nil || [mid length] == 0 || [[current monkeyID] isEqualToString:mid]) {
-//NSLog(@"Found %@", current.monkeyID);
+	//NSLog(@"mid=%@  monkeyID=%@  accessibilityLabel=%@", mid, current.monkeyID, current.accessibilityLabel);
+	if ((mid == nil || [mid length] == 0 || [[current monkeyID] isEqualToString:mid])
+					||	(mid != nil && [mid length] >0 && [[current accessibilityLabel] isEqualToString:mid])) {
+		//NSLog(@"Found %@", current.monkeyID);
 		if (class == nil) { 
 			return current;
 		}

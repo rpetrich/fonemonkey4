@@ -46,7 +46,7 @@ scrollTo: function(tableName, item, group) {
 searchElements: function(elem, value, key) {
 	//this.debug("checking " + elems.length + " kids");		
 	//var result = elems.firstWithValueForKey(value, key);
-	this.debug("checking " + elem.name());
+	this.debug("checking " + Object.prototype.toString.call(elem) + "  elem.name()=\"" + elem.name() + "\"  elem.value()=\"" + elem.value() + "\"  value=\"" + value + "\"  key=\"" + key + "\"");
 	var result = elem.withValueForKey(value, key);
 	if (result.toString() != "[object UIAElementNil]") {
 		this.debug("returning " + result.toString());

@@ -149,12 +149,15 @@ UIDeviceOrientation* _currentOreintation;
 		return;
 	}
 	
+	NSString* accLbl = [[event source] accessibilityLabel];
+	if (accLbl!=nil && [accLbl length]>0) {
+		event.monkeyID = accLbl;
+	}
 	
 	//NSLog(@"\n\n< < < RECORDING > > > - source:%@\n%@\n%@ %@ %@\n\n",event.source, event.source.fullDescription, event.command, [event.source monkeyID], [event.args count] > 0 ? [event.args objectAtIndex:0] : @"");
 	//NSLog(@"\n\n< < < RECORDING > > > - source:%@\n%@ %@ %@\n\n",[event.source class], event.command, [event.source monkeyID], event.args);	
-	NSLog(@"\n\n< < < RECORDING > > > - source:%@\n%@ %@ %@\n\n",[[event source] class], [event command], [[event source] monkeyID], [event args]);	
+	NSLog(@"\n\n< < < RECORDING > > > - source:%@\n%@ %@ %@\n\n",[[event source] class], [event command], event.monkeyID, [event args]);	
 	[commands addObject:[NSMutableDictionary dictionaryWithDictionary:event.dict]];
-	
 	
 }
 
