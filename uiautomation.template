@@ -4,6 +4,6 @@
 // Need help? Gorilla Logic offers complete FoneMonkey consulting services!
 
 // Specify relative path to FoneMonkey.js
-#import "../FoneMonkey.js"
+#import "./FoneMonkey.js"
 
 ${CODE}

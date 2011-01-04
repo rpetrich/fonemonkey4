@@ -611,6 +611,10 @@ UIDeviceOrientation* _currentOreintation;
 }
 
 - (void) saveUIAutomationScript:(NSString* ) filename {
+	if (! [self assureUIAutomationScriptSupport]) {
+		return;
+	}
+	
 	NSString *path = [[NSBundle mainBundle] pathForResource:
 					  @"uiautomation" ofType:@"template"];
 	NSError* error;
@@ -633,6 +637,22 @@ UIDeviceOrientation* _currentOreintation;
 	[FMUtils writeString:s toFile:[filename stringByAppendingString:@".js"]];
 	[code release];	
 	
+}
+
+- (BOOL) assureUIAutomationScriptSupport {
+	NSData* jsLib = [FMUtils applicationDataFromFile:@"./FoneMonkey.js"];
+	if (jsLib==nil || [jsLib length]<1) {
+		NSString *path = [[NSBundle mainBundle] pathForResource:
+						  @"FoneMonkey" ofType:@"js"];
+		NSError* error;
+		NSString* s = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+		if (!s) {
+			NSLog(@"Unable to create objective-c file: Unable to read FoneMonkey.js resource: %@", [error description]);
+			return false;
+		}
+		[FMUtils writeString:s toFile:@"./FoneMonkey.js"];
+	}
+	return true;
 }
 
 @end

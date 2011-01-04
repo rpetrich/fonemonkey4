@@ -21,7 +21,6 @@
 				D34D974C122321CA001D0B47 /* Build Zip File */,
 			);
 			dependencies = (
-				D34D973612232074001D0B47 /* PBXTargetDependency */,
 			);
 			name = Distribution;
 			productName = Distribution;
@@ -55,6 +54,7 @@
 		15FD55DE12D267A1008C0A3C /* objc.template in Copy Resources */ = {isa = PBXBuildFile; fileRef = 15FD54AA12D113A9008C0A3C /* objc.template */; };
 		15FD55DF12D267A1008C0A3C /* uiautomation.template in Copy Resources */ = {isa = PBXBuildFile; fileRef = 15FD555C12D141D0008C0A3C /* uiautomation.template */; };
 		15FD55E012D267D0008C0A3C /* FMRotate.png in Copy Resources */ = {isa = PBXBuildFile; fileRef = 1511032612C406AA00246792 /* FMRotate.png */; };
+		2B6C2A9312D3BFD8000F1F05 /* FoneMonkey.js in Copy Resources */ = {isa = PBXBuildFile; fileRef = 1536BAE612CC3A4C0012874A /* FoneMonkey.js */; };
 		D30FA72212232A2C00796ABE /* gorilla-32.png in Copy Resources */ = {isa = PBXBuildFile; fileRef = D34D95CB12230C88001D0B47 /* gorilla-32.png */; };
 		D30FA72312232A2C00796ABE /* gorillalogic.png in Copy Resources */ = {isa = PBXBuildFile; fileRef = D34D95CC12230C88001D0B47 /* gorillalogic.png */; };
 		D30FA72412232A2C00796ABE /* icon_arrow_down.png in Copy Resources */ = {isa = PBXBuildFile; fileRef = D34D95CD12230C88001D0B47 /* icon_arrow_down.png */; };
@@ -142,16 +142,6 @@
 		D3B91517123033C4003C5BB0 /* UITabBarButtonLabelProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B91516123033C4003C5BB0 /* UITabBarButtonLabelProxy.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		D34D973512232074001D0B47 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D34D973012232031001D0B47;
-			remoteInfo = Clean;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		15AC429E1289059E00A18460 /* Copy Readme */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -170,6 +160,7 @@
 			dstPath = $PROJECT_DIR/Dist/FoneMonkey/resources;
 			dstSubfolderSpec = 0;
 			files = (
+				2B6C2A9312D3BFD8000F1F05 /* FoneMonkey.js in Copy Resources */,
 				15FD55E012D267D0008C0A3C /* FMRotate.png in Copy Resources */,
 				15FD55DE12D267A1008C0A3C /* objc.template in Copy Resources */,
 				15FD55DF12D267A1008C0A3C /* uiautomation.template in Copy Resources */,
@@ -409,17 +400,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1536BAE512CC3A320012874A /* Instruments */ = {
-			isa = PBXGroup;
-			children = (
-				1536BAE612CC3A4C0012874A /* FoneMonkey.js */,
-			);
-			name = Instruments;
-			sourceTree = "<group>";
-		};
 		15FD54A912D11363008C0A3C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1536BAE612CC3A4C0012874A /* FoneMonkey.js */,
 				15FD54AA12D113A9008C0A3C /* objc.template */,
 				15FD555C12D141D0008C0A3C /* uiautomation.template */,
 			);
@@ -470,7 +454,6 @@
 			isa = PBXGroup;
 			children = (
 				15FD54A912D11363008C0A3C /* Resources */,
-				1536BAE512CC3A320012874A /* Instruments */,
 				D34D95781222EE40001D0B47 /* Commands */,
 				D34D95871222EF05001D0B47 /* Utilities */,
 				D34D961A12230E6D001D0B47 /* Framework */,
@@ -906,14 +889,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		D34D973612232074001D0B47 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D34D973012232031001D0B47 /* Clean */;
-			targetProxy = D34D973512232074001D0B47 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		C01FCF4F08A954540054247B /* Debug */ = {
