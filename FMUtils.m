@@ -296,10 +296,12 @@ static NSInteger foundSoFar;
 }
 
 + (NSString*) stringByJsEscapingQuotesAndNewlines:(NSString*)unescapedString {
-	return unescapedString;
+	return [FMUtils stringByOcEscapingQuotesAndNewlines:unescapedString];
 }
 + (NSString*) stringByOcEscapingQuotesAndNewlines:(NSString*)unescapedString {
-	return unescapedString;
+	NSString* escapedString = [unescapedString stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+	escapedString = [escapedString stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
+	return escapedString;
 }
 
 
