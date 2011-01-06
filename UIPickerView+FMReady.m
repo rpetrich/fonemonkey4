@@ -23,6 +23,7 @@
 #import "UIPIckerView+FMReady.h"
 #import "FoneMonkey.h"
 #import "FMCommandEvent.h"
+#import "FMUtils.h"
 #import <objc/runtime.h>
 
 @implementation UIPickerView (FMReady)
@@ -78,6 +79,22 @@
 
 - (BOOL) shouldRecordMonkeyTouch:(UITouch*)touch {
 	return NO;
+}
+
++ (NSString*) uiAutomationCommand:(FMCommandEvent*)command {
+	NSMutableString* string = [[NSMutableString alloc] init];
+	if ([command.command isEqualToString:FMCommandSelect]) {
+		NSString* row = [command.args count] < 1 ? @"0" : [command.args objectAtIndex:0];
+		NSString* component = [command.args count] < 2 ? @"0" : [command.args objectAtIndex:1];
+		[string appendFormat:@"FoneMonkey.selectPickerValue(\"%@\",\"%@\",\"%@\"); // UIAPicker", 
+							[FMUtils stringByJsEscapingQuotesAndNewlines:command.monkeyID], 
+							[FMUtils stringByJsEscapingQuotesAndNewlines:row],
+							[FMUtils stringByJsEscapingQuotesAndNewlines:component]
+						];
+	} else {
+		[string appendString:[super uiAutomationCommand:command]];
+	}
+	return string;
 }
 
 @end

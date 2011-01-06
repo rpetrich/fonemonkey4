@@ -76,7 +76,7 @@
 	NSMutableString* string = [[NSMutableString alloc] init];
 	if ([command.command isEqualToString:FMCommandInputText]) {
 		NSString* value = [command.args count] < 1 ? @"" : [command.args objectAtIndex:0];
-		[string appendFormat:@"FoneMonkey.elementNamed(\"%@\").setValue(\"%@\"); // TextField", 
+		[string appendFormat:@"FoneMonkey.elementNamed(\"%@\").setValue(\"%@\"); // UIATextField", 
 						[FMUtils stringByJsEscapingQuotesAndNewlines:command.monkeyID], 
 						[FMUtils stringByJsEscapingQuotesAndNewlines:value]];
 	} else {
