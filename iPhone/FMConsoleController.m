@@ -93,7 +93,11 @@ EditMode _editMode;
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(playingDone:)
 												 name:FMNotificationPlayingDone object:nil];	
-	[theMonkey suspend];
+	// OCUnit may have already started up some tests
+	if ([FoneMonkey sharedMonkey].state != FMStatePlaying) {
+		// Show the console
+		[theMonkey suspend];
+	}
 }
 
 
@@ -202,7 +206,9 @@ EditMode _editMode;
 }
 
 - (void) monkeySuspended:(NSNotification*) notification {
-	[self showConsole];
+	if ([FoneMonkey sharedMonkey].state != FMStatePlaying) {
+		[self showConsole];
+	}
 }
 
 
@@ -395,10 +401,8 @@ EditMode _editMode;
 }
 
 - (void) hideConsole {
-	[self doMonkeyAction:controlBar];
-	
+	[self doMonkeyAction:controlBar];	
 }
-
 
 - (IBAction) doMonkeyAction:(id)sender {
 	UISegmentedControl* seg = ((UISegmentedControl*)sender);	

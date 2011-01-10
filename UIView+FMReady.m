@@ -285,7 +285,7 @@ use_default:;
 		[args setString:@"[NSArray arrayWithObjects:"];
 		NSString* arg;
 		for (arg in command.args) {
-			[args appendFormat:@"\"%@\", ", [FMUtils stringByOcEscapingQuotesAndNewlines:arg]]; 
+			[args appendFormat:@"@\"%@\", ", [FMUtils stringByOcEscapingQuotesAndNewlines:arg]]; 
 		}
 		[args appendString:@"nil]"]; 
 	}

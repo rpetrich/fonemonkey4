@@ -26,13 +26,12 @@
 
 - (void) runTests:(SenTestSuite*) suite {
 	// We're a thread
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; 		
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; 
 	SenTestRun* run = [suite run];
 	if (getenv("FM_ENABLE_AUTOEXIT")) {
 		int exitStatus = (([run totalFailureCount] == 0U) ? 0 : 1);
 		exit(exitStatus);
 	}
-	
 	[pool release];	
 }	
 

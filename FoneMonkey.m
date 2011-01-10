@@ -271,7 +271,7 @@ UIDeviceOrientation* _currentOreintation;
 }
 
 - (void) play:(BOOL)waitUntilDone {
-	state = FMStatePlaying;	
+	state = FMStatePlaying;
 	NSThread* thread = [[NSThread alloc] initWithTarget:self selector:@selector(runCommands) object:nil];
 	[thread start];
 	if (waitUntilDone) {
@@ -284,6 +284,8 @@ UIDeviceOrientation* _currentOreintation;
 }
 
 - (NSString*) playAndWait {
+	state = FMStatePlaying;	
+	[_console performSelectorOnMainThread:@selector(hideConsoleAndThen:) withObject:nil waitUntilDone:YES];
 	[self play:YES];
 	return [self lastResult];	
 }
@@ -581,6 +583,14 @@ UIDeviceOrientation* _currentOreintation;
 	[_console showConsole];
 }
 
+- (void) hideConsole {
+	[_console hideConsole];
+}
+
+- (void) closeConsole {
+	[_console hideConsoleAndThen:nil];
+}
+
 - (void) saveOCScript:(NSString* ) filename {
 	NSString *path = [[NSBundle mainBundle] pathForResource:
 					  @"objc" ofType:@"template"];
@@ -595,7 +605,12 @@ UIDeviceOrientation* _currentOreintation;
 	for (i = 0; i < [commands count]; i++) {
 		FMCommandEvent* command = [self commandAt:i];
 		Class c = NSClassFromString(command.className);
-		NSString* occmd = [c objcCommandEvent:command];
+		NSString* occmd;
+		if (c) {
+			occmd = [c objcCommandEvent:command];
+		} else {
+			occmd = [UIView objcCommandEvent:command];
+		}
 		if ([occmd hasPrefix:@"//"]) {
 			[code appendFormat:@"\t%@\n", occmd];
 		} else {
