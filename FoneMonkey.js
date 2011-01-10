@@ -57,7 +57,15 @@ selectPickerValue: function(pickerName, row, component) {
 	
 	// errors out, see ed's apple bug #8826533 - ejs Jan 2011
 	wheel.selectValue(itm);
-},	
+},
+	
+toggleSwitch: function(switchName) {
+	swtch = this.elementNamed(switchName);
+	val = swtch.value();
+	swtch.setValue(!val);
+},
+	
+	
 	
 searchElements: function(elem, value, key) {
 	//this.debug("checking " + elems.length + " kids");		

@@ -24,6 +24,7 @@
 #import "FoneMonkey.h"
 #import "FMCommandEvent.h"
 #import "UIView+FMReady.h"
+#import "FMUtils.h"
 
 @implementation UISlider (FMReady)
 
@@ -80,6 +81,18 @@
 
 - (BOOL) shouldRecordMonkeyTouch:(UITouch*)phase {
 	return NO;
+}
+
++ (NSString*) uiAutomationCommand:(FMCommandEvent*)command {
+	if ([command.command isEqualToString:FMCommandSlide]) {
+		NSString* value = [[command args] count] ? [command.args objectAtIndex:0] : @"0";
+		return [NSString stringWithFormat:@"FoneMonkey.elementNamed(\"%@\").dragToValue(%@); // UIASlider", 
+				[FMUtils stringByJsEscapingQuotesAndNewlines:command.monkeyID], 
+				[FMUtils stringByJsEscapingQuotesAndNewlines:value]];
+	}
+	
+	return [super uiAutomationCommand];
+	
 }
 
 
