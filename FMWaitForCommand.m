@@ -32,6 +32,7 @@
 #import "FMWaitForCommand.h"
 #import "FMCommandEvent.h"
 #import "FMVerifyCommand.h"
+#include <unistd.h>
 
 @implementation FMWaitForCommand
 + (NSString*) execute:(FMCommandEvent*) ev {

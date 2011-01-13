@@ -28,8 +28,8 @@
 }
 
 + (UIWindow*) rootWindow;
-+ (UIView*) viewWithMonkeyID:(NSString*)mid havingClass:(NSString*)className;
-+ (UIView*) viewWithMonkeyID:(NSString*)mid havingClass:(NSString*)className swapsOK:(BOOL)swapsOK;
++ (UIView*) viewWithMonkeyID:(NSString*)mid startingFromView:(UIView*)current havingClass:(Class)class;
++ (UIView*) viewWithMonkeyID:(NSString*)mid startingFromView:(UIView*)current havingClass:(Class)class swapsOK:(BOOL)swapsOK;
 + (NSInteger) ordinalForView:(UIView*)view;
 + (UIView*) findFirstMonkeyView:(UIView*)current;
 + (BOOL)writeApplicationData:(NSData *)data toFile:(NSString *)fileName;

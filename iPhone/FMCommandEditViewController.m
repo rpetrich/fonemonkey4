@@ -136,7 +136,7 @@ int _commandNumber;
 	[self reset];
 	_commandNumber = num;
 	[_command release];
-	NSDictionary* dic = [[[FoneMonkey sharedMonkey] commands] objectAtIndex:num];
+	NSMutableDictionary* dic = [[[FoneMonkey sharedMonkey] commands] objectAtIndex:num];
 	_command = [[FMCommandEvent alloc] initWithDict:dic];
 	[layoutTable reloadData];
 }
