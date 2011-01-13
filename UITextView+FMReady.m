@@ -21,6 +21,7 @@
 //
 
 #import "UITextView+FMReady.h"
+#import "FMUtils.h"
 #import <objc/runtime.h>
 #import "FoneMonkey.h"
 #import "FMCommandEvent.h"
@@ -59,6 +60,19 @@
 		self.text = [[event args] objectAtIndex:0];
 	}
 
+}
+
++ (NSString*) uiAutomationCommand:(FMCommandEvent*)command {
+	NSMutableString* string = [[NSMutableString alloc] init];
+	if ([command.command isEqualToString:FMCommandInputText]) {
+		NSString* textValue = [command.args count] < 1 ? @"" : [command.args objectAtIndex:0];
+		[string appendFormat:@"FoneMonkey.elementNamed(\"%@\").setValue(\"%@\"); // UIATextView", 
+		 [FMUtils stringByJsEscapingQuotesAndNewlines:command.monkeyID], 
+		 [FMUtils stringByJsEscapingQuotesAndNewlines:textValue]];
+	} else {
+		[string appendString:[super uiAutomationCommand:command]];
+	}
+	return string;
 }
 
 @end
