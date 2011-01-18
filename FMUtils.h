@@ -44,4 +44,5 @@
 + (BOOL) isKeyboard:(UIView*)view;
 + (NSString*) stringByJsEscapingQuotesAndNewlines:(NSString*) unescapedString;
 + (NSString*) stringByOcEscapingQuotesAndNewlines:(NSString*) unescapedString;
++ (void) setShouldRecordMonkeyTouch:(BOOL)shouldRecord forView:(UIView*)view;
 @end

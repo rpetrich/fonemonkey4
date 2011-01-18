@@ -304,5 +304,19 @@ static NSInteger foundSoFar;
 	return escapedString;
 }
 
+- (BOOL) recordMonkeyTouchesYes:(UITouch*)touch {
+	return YES;
+}
+- (BOOL) recordMonkeyTouchesNo:(UITouch*)touch {
+	return NO;
+}
++ (void) setShouldRecordMonkeyTouch:(BOOL)shouldRecord forView:(UIView*)view {
+	Class viewClass = [view class];
+	Method currentMethod = class_getInstanceMethod(viewClass, @selector(shouldRecordMonkeyTouch:));	
+	Method replaceMethod = class_getInstanceMethod([FMUtils class], 
+												   shouldRecord ? @selector(recordMonkeyTouchesYes:)
+																: @selector(recordMonkeyTouchesNo:));
+	method_setImplementation(currentMethod,method_getImplementation(replaceMethod));
+}
 
 @end
