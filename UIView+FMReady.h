@@ -67,7 +67,8 @@ of component swapping is UIToolbarTextButton which swaps with UINavigationButton
 + (NSString*) uiAutomationCommand:(FMCommandEvent*)command;
 
 /**
- Return the cotrresponding CommandEvent source executable in ObjC 
+ Return the corresponding CommandEvent source executable in ObjC 
  */
 + (NSString*) objcCommandEvent:(FMCommandEvent*)command;
+
 @end
