@@ -147,7 +147,7 @@
 
 - (void) playbackMonkeyEvent:(FMCommandEvent*)event {
 	CGPoint offset = [self contentOffset];
-	if (            NO) { // [event.command isEqual:FMCommandScroll]) {
+	if ([event.command isEqual:FMCommandScroll]) {
 		if ([event.args count] < 2) {
 			event.lastResult = @"Requires 2 arguments, but has %d", [event.args count];
 		}
