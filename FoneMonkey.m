@@ -36,6 +36,8 @@
 
 // Pause 1/2 sec between commands. This needs to be a setting!
 #define THINK_TIME 500000 
+#define UIAUTOMATION_PATH "uiautomation"
+#define OCUNIT_PATH "ocunit"
 
 @implementation FoneMonkey
 static FoneMonkey* _sharedMonkey = nil;
@@ -448,8 +450,10 @@ UIDeviceOrientation* _currentOreintation;
 	NSLog(@"%@", error);
 	[error release];
 	[FMUtils writeApplicationData:pList toFile:file];
-	[self saveUIAutomationScript:file];
-	[self saveOCScript:file];
+	NSString* uiautomationPath = [[NSString stringWithString:@UIAUTOMATION_PATH] stringByAppendingPathComponent:file];
+	[self saveUIAutomationScript:uiautomationPath];
+	NSString* ocunitPath = [[NSString stringWithString:@OCUNIT_PATH] stringByAppendingPathComponent:file];
+	[self saveOCScript:ocunitPath];
 }
 
 - (void) open:(NSString*)file {
@@ -591,7 +595,18 @@ UIDeviceOrientation* _currentOreintation;
 	[_console hideConsoleAndThen:nil];
 }
 
+- (BOOL) assureOCUnitScriptDirectory {
+	NSString *dataPath = [[FMUtils scriptsLocation] stringByAppendingPathComponent:@OCUNIT_PATH];
+	if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath]) {
+		return [[NSFileManager defaultManager] createDirectoryAtPath:dataPath 
+										 withIntermediateDirectories:YES 
+														  attributes:nil error:nil]; //Create folder
+	}
+	return YES;
+}
+
 - (void) saveOCScript:(NSString* ) filename {
+	[self assureOCUnitScriptDirectory];
 	NSString *path = [[NSBundle mainBundle] pathForResource:
 					  @"objc" ofType:@"template"];
 	NSError* error;
@@ -625,6 +640,36 @@ UIDeviceOrientation* _currentOreintation;
 	
 }
 
+- (BOOL) assureUIAutomationScriptDirectory {
+	NSString *dataPath = [[FMUtils scriptsLocation] stringByAppendingPathComponent:@UIAUTOMATION_PATH];
+	if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath]) {
+		return [[NSFileManager defaultManager] createDirectoryAtPath:dataPath 
+										 withIntermediateDirectories:YES 
+														  attributes:nil error:nil]; //Create folder
+	}
+	return YES;
+}
+
+- (BOOL) assureUIAutomationScriptSupport {
+	NSString *dataPath = @UIAUTOMATION_PATH;
+	NSString* supportScriptFile = [dataPath stringByAppendingPathComponent:@"FoneMonkey.js"];
+	NSData* jsLib = [FMUtils applicationDataFromFile:supportScriptFile];
+	if (jsLib==nil || [jsLib length]<1) {
+		[self assureUIAutomationScriptDirectory];
+		NSString *path = [[NSBundle mainBundle] pathForResource:
+						  @"FoneMonkey" ofType:@"js"];
+		NSError* error;
+		NSString* s = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+		if (!s) {
+			NSLog(@"Unable to create objective-c file: Unable to read FoneMonkey.js resource: %@", [error description]);
+			return false;
+		}
+		NSLog(@"writing FoneMonkey.js to file %@", supportScriptFile);		
+		[FMUtils writeString:s toFile:supportScriptFile];
+	}
+	return true;
+}
+
 - (void) saveUIAutomationScript:(NSString* ) filename {
 	if (! [self assureUIAutomationScriptSupport]) {
 		return;
@@ -652,22 +697,6 @@ UIDeviceOrientation* _currentOreintation;
 	[FMUtils writeString:s toFile:[filename stringByAppendingString:@".js"]];
 	[code release];	
 	
-}
-
-- (BOOL) assureUIAutomationScriptSupport {
-	NSData* jsLib = [FMUtils applicationDataFromFile:@"./FoneMonkey.js"];
-	if (jsLib==nil || [jsLib length]<1) {
-		NSString *path = [[NSBundle mainBundle] pathForResource:
-						  @"FoneMonkey" ofType:@"js"];
-		NSError* error;
-		NSString* s = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
-		if (!s) {
-			NSLog(@"Unable to create objective-c file: Unable to read FoneMonkey.js resource: %@", [error description]);
-			return false;
-		}
-		[FMUtils writeString:s toFile:@"./FoneMonkey.js"];
-	}
-	return true;
 }
 
 @end
