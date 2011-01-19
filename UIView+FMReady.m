@@ -267,11 +267,16 @@ use_default:;
 }
 
 + (NSString*) uiAutomationCommand:(FMCommandEvent*)command {
-	NSMutableString* string = [[[NSMutableString alloc] init] autorelease];
+	NSString* string;
 	if ([command.command isEqualToString:FMCommandTouch]) {
-		[string appendFormat:@"FoneMonkey.elementNamed(\"%@\").tap()", command.monkeyID];
+		string = [NSString stringWithFormat:@"FoneMonkey.elementNamed(\"%@\").tap()", command.monkeyID];
+	} else if ([command.command isEqualToString:FMCommandShake]) {
+		string = @"UIALocal.localTarget().shake();";
+	} else if ([command.command isEqualToString:FMCommandRotate]) {
+		NSString* orientation = [command.args count] ? [command.args objectAtIndex:0] : @"0";
+		string = [NSString stringWithFormat:@"UIALocal.localTarget().setDeviceOrientation(%@);", orientation];
 	} else {
-		[string appendFormat:@"// UIView doesn't know how to write UIAutomation command %@ for: %@", command.command, command.className];
+		string = [NSString stringWithFormat:@"// UIView doesn't know how to write UIAutomation command %@ for: %@", command.command, command.className];
 	}
 	return string;
 }

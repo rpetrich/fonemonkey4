@@ -687,8 +687,13 @@ UIDeviceOrientation* _currentOreintation;
 	NSMutableString* code = [[NSMutableString alloc] init];
 	for (i = 0; i < [commands count]; i++) {
 		FMCommandEvent* command = [self commandAt:i];
+		NSString* jscmd;
 		Class c = NSClassFromString(command.className);
-		NSString* jscmd = [c uiAutomationCommand:command];
+		if (c) {
+			jscmd = [c uiAutomationCommand:command];
+		} else {
+			jscmd = [UIView uiAutomationCommand:command];
+		}
 		[code appendFormat:@"%@\n", jscmd];
 	}
 	s = [s stringByReplacingOccurrencesOfString:@"${TESTNAME}" withString:filename];
