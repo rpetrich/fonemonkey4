@@ -51,7 +51,12 @@
 }
 
 + (FMCommandEvent*) command:(NSString*)cmd className:(NSString*)name monkeyID:(NSString*)id args:(NSArray*)array {
-	return [[FMCommandEvent alloc] init:cmd className:name monkeyID:id args:array];
+	return [[[FMCommandEvent alloc] init:cmd className:name monkeyID:id args:array] autorelease];
+}
+
+// protocl NSCopying
+- (id) copyWithZone:(NSZone*)zone {
+	return [FMCommandEvent command:self.command className:self.className monkeyID:self.monkeyID args:self.args];
 }
 
 - (id) initWithDict:(NSMutableDictionary*)dictionary {

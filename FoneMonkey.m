@@ -402,7 +402,7 @@ UIDeviceOrientation* _currentOreintation;
 				NSInteger msecs = [((NSString*)[nextCommandToRun.args objectAtIndex:0]) intValue];
 				usleep(msecs * 1000);
 			}
-		}	if ([nextCommandToRun.command isEqualToString:FMCommandWaitFor]) {
+		} else if ([nextCommandToRun.command isEqualToString:FMCommandWaitFor]) {
 			[FMWaitForCommand execute:nextCommandToRun];
 
 		} else if ([nextCommandToRun.command isEqualToString:FMCommandShake]) {

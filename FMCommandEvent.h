@@ -27,7 +27,7 @@
 /**
  The FoneMonkey command object used for recording and playback.
  */
-@interface FMCommandEvent : NSObject {
+@interface FMCommandEvent : NSObject <NSCopying> {
 
 	UIView* source;
 	NSString* command;

@@ -37,17 +37,24 @@
 @implementation FMWaitForCommand
 + (NSString*) execute:(FMCommandEvent*) ev {
 	NSInteger interval = 500000;
-	if ([ev.args count] > 0) {	
-		NSInteger msecs = [((NSString*)[ev.args objectAtIndex:0]) intValue];
-		interval = msecs*100;
-		
+	FMCommandEvent* verifyEvent = ev;
+	if ([ev.args count] > 0) {
+		NSString* arg0 = [ev.args objectAtIndex:0];
+		if ([arg0 rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].location==0) { // starts with a digit
+			NSInteger msecs = [((NSString*)[ev.args objectAtIndex:0]) intValue];
+			interval = msecs*100;
+			NSMutableArray* newArgs = [NSMutableArray arrayWithArray:ev.args];
+			[newArgs removeObjectAtIndex:0];
+			verifyEvent = [ev copyWithZone:nil];
+			verifyEvent.args = newArgs;
+		}
 	}
 	int i;
 	for (i = 0; i < 10; i++) {
 		if (i) {
 			usleep(interval);
 		}
-		if (![FMVerifyCommand execute:ev]) {
+		if (![FMVerifyCommand execute:verifyEvent]) {
 			return nil;
 		}
 	}
