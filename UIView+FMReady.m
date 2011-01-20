@@ -194,20 +194,20 @@ static NSArray* privateClasses;
 }
 
 - (BOOL) isFMEnabled {
-
+	
 	// Don't record private classes
 	for (NSString* className in privateClasses) {
 		if ([self isKindOfClass:objc_getClass([className UTF8String])]) {
 			return NO;
 		}
 	}
-
+	
 	// Don't record containers		
 	return ![self isMemberOfClass:[UIView class]] && ![FMUtils isKeyboard:self];
 }
 
 - (NSString*) monkeyID {
-
+	
 	if ([self isKindOfClass:objc_getClass("UITabBarButton")]) {
 		UITabBarButtonProxy* but = (UITabBarButtonProxy *)self;
 		NSString* label = [but->_label text];
@@ -236,16 +236,16 @@ static NSArray* privateClasses;
 		}
 		return label;
 	}
-//	else if ([self isKindOfClass:objc_getClass("UITableViewCellContentView")]) {
-//		UITableViewCellContentViewProxy *view = (UITableViewCellContentViewProxy *)self;
-//		UITableViewCell* cell = [view _cell];
-//		NSString* label = cell.textLabel.text;
-//		if (label != nil) {
-//			return label;
-//		} else {
-//			return [cell monkeyID];
-//		}
-//	}
+	//	else if ([self isKindOfClass:objc_getClass("UITableViewCellContentView")]) {
+	//		UITableViewCellContentViewProxy *view = (UITableViewCellContentViewProxy *)self;
+	//		UITableViewCell* cell = [view _cell];
+	//		NSString* label = cell.textLabel.text;
+	//		if (label != nil) {
+	//			return label;
+	//		} else {
+	//			return [cell monkeyID];
+	//		}
+	//	}
 	
 use_default:;
 	return [self accessibilityLabel] ? [self accessibilityLabel] :
@@ -263,13 +263,38 @@ use_default:;
 	}	
 	
 	return NO;
-																	  
+	
 }
 
 + (NSString*) uiAutomationCommand:(FMCommandEvent*)command {
-	NSString* string;
+	NSMutableString* string = [[[NSMutableString alloc] init] autorelease];
 	if ([command.command isEqualToString:FMCommandTouch]) {
-		string = [NSString stringWithFormat:@"FoneMonkey.elementNamed(\"%@\").tap()", command.monkeyID];
+		[string appendFormat:@"FoneMonkey.elementNamed(\"%@\").tap();", command.monkeyID];
+	} else if ([command.command isEqualToString:FMCommandVerify]) {
+		[string appendString:[self uiAutomationVerifyCommand:command withTimeout:0]];
+	} else 	if ([command.command isEqualToString:FMCommandPause]) {
+		if ([command.args count] > 0) {
+			NSString* arg0 = [command.args objectAtIndex:0];
+			int interval = [arg0 intValue]/1000;
+			if (interval==0) {interval=1;}
+			[string appendFormat:@"UIATarget.localTarget.delay(%d);   // FMPauseCommand", interval];
+		}
+	} else 	if ([command.command isEqualToString:FMCommandWaitFor]) {
+		FMCommandEvent* verifyEvent = command;
+		int interval=5; // default timeout is 5 seconds
+		if ([command.args count] > 0) {
+			NSString* arg0 = [command.args objectAtIndex:0];	
+			if ([arg0 rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].location==0) { // is it's numeric
+				NSInteger msecs = [arg0 intValue];
+				interval = msecs/1000;  
+				if (interval==0) {interval=1;}
+				NSMutableArray* newArgs = [NSMutableArray arrayWithArray:command.args];
+				[newArgs removeObjectAtIndex:0];
+				verifyEvent = [command copyWithZone:nil];
+				verifyEvent.args = newArgs;
+			}
+		}
+		[string appendString:[self uiAutomationVerifyCommand:verifyEvent withTimeout:interval]];
 	} else if ([command.command isEqualToString:FMCommandShake]) {
 		string = @"UIALocal.localTarget().shake();";
 	} else if ([command.command isEqualToString:FMCommandRotate]) {
@@ -281,8 +306,37 @@ use_default:;
 	return string;
 }
 
-+ (NSString*) objcCommandEvent:(FMCommandEvent*)command {
++ (NSString*) uiAutomationVerifyCommand:(FMCommandEvent*)command withTimeout:(int)timeout {
+	NSMutableString* string = [[[NSMutableString alloc] init] autorelease];
+	
+	[string appendFormat:@"// Verify command with timeout of %d sec\n", timeout];
+	[string appendFormat:@"var prevTimeout = UIATarget().localTarget().timeout();\n"];
+	[string appendFormat:@"UIATarget().localTarget().setTimeout(%d);\n", timeout];
+	
+	if ([command.args count] > 1) {
+		NSString* prop = @"value()"; // = [command.args objectAtIndex:0];
+		NSString* expected = [command.args objectAtIndex:1];
+		NSString* predicate = [prop stringByAppendingFormat:@" == \"%@\"", expected];
+		[string appendFormat:@"var element:UIAElement = FoneMonkey.elementNamed(\"%@\"); \nif (element && element.withPredicate(\"%@\") != element) {\n    UIALogger.logMessage(\"Verify failed for Component '%@' property '%@': expected '%@', but found \" + element.%@); \n}\n", 
+		 [FMUtils stringByJsEscapingQuotesAndNewlines:command.monkeyID], 
+		 [FMUtils stringByJsEscapingQuotesAndNewlines:predicate],
+		 [FMUtils stringByJsEscapingQuotesAndNewlines:command.monkeyID], 
+		 [FMUtils stringByJsEscapingQuotesAndNewlines:prop],
+		 [FMUtils stringByJsEscapingQuotesAndNewlines:expected],
+		 [FMUtils stringByJsEscapingQuotesAndNewlines:prop]];
+	} else {
+		[string appendFormat:@"var element:UIAElement=FoneMonkey.elementNamed(\"%@\"); \nif (!element) {\n    UIALogger.logMessage(\"Verify failed for Component '%@': component was not found.\"); \n}\n", 
+		 [FMUtils stringByJsEscapingQuotesAndNewlines:command.monkeyID], 
+		 [FMUtils stringByJsEscapingQuotesAndNewlines:command.monkeyID]];
+	}
+	
+	[string appendFormat:@"UIATarget().localTarget().setTimeout(prevTimeout);\n"];
+	
+	return string;
+}
 
++ (NSString*) objcCommandEvent:(FMCommandEvent*)command {
+	
 	NSMutableString* args = [[NSMutableString alloc] init];
 	if (!command.args) {
 		[args setString:@"nil"];
@@ -294,9 +348,9 @@ use_default:;
 		}
 		[args appendString:@"nil]"]; 
 	}
-			
+	
 	return [NSString stringWithFormat:@"[FMCommandEvent command:@\"%@\" className:@\"%@\" monkeyID:@\"%@\" args:%@]", command.command, command.className, command.monkeyID, args];
-
+	
 }
 
 
