@@ -163,7 +163,6 @@ static NSInteger foundSoFar;
         NSLog(@"Documents directory not found!");
         return nil;
     }
-	NSLog(@"Writing %@/%@", documentsDirectory, fileName);	
     return [documentsDirectory stringByAppendingPathComponent:fileName];
 }
 
@@ -270,7 +269,7 @@ static NSInteger foundSoFar;
 + (NSString*) scriptsLocation {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString* loc = [paths objectAtIndex:0];
-	NSLog(@"Scripts location: %@", loc);
+	// NSLog(@"Scripts location: %@", loc);
     return loc;
 }
 

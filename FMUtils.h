@@ -33,6 +33,7 @@
 + (NSInteger) ordinalForView:(UIView*)view;
 + (UIView*) findFirstMonkeyView:(UIView*)current;
 + (BOOL)writeApplicationData:(NSData *)data toFile:(NSString *)fileName;
++ (BOOL)writeString:(NSString *)string toFile:(NSString *)fileName;
 + (NSData *)applicationDataFromFile:(NSString *)fileName;
 + (NSString*) scriptsLocation;
 + (void) navLeft:(UIView*)view to:(UIView*)to;

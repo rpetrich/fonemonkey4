@@ -62,7 +62,7 @@ UIDeviceOrientation* _currentOreintation;
 			[[self alloc] init];
 			// After executing the above alloc/init, we are no longer in a static method. We are now in the singleton instance! 
 			_monkeyIDs = [[NSMutableDictionary alloc] init];
-			session = [NSMutableDictionary dictionary];
+			// session = [NSMutableDictionary dictionary]; this is an instance variable....
 			
 			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 			{
@@ -445,10 +445,13 @@ UIDeviceOrientation* _currentOreintation;
 }
 
 - (void) save:(NSString*)file {
+	NSLog(@"saving script \"%@\" to %@",file,[FMUtils scriptsLocation]);
 	NSString* error;
 	NSData* pList = [NSPropertyListSerialization dataFromPropertyList:commands format:NSPropertyListXMLFormat_v1_0 errorDescription:&error];
-	NSLog(@"%@", error);
-	[error release];
+	if (error) {
+		NSLog(@"%@", error);
+		[error release];
+	}
 	[FMUtils writeApplicationData:pList toFile:file];
 	NSString* uiautomationPath = [[NSString stringWithString:@UIAUTOMATION_PATH] stringByAppendingPathComponent:file];
 	[self saveUIAutomationScript:uiautomationPath];
@@ -500,10 +503,28 @@ UIDeviceOrientation* _currentOreintation;
     NSString *documentsDirectory = [FMUtils scriptsLocation];
 	NSError* errorString = nil;
 	NSArray* paths;
-	paths = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectory error:&errorString];
+	NSFileManager* fileManager = [NSFileManager defaultManager];
+	paths = [fileManager contentsOfDirectoryAtPath:documentsDirectory error:&errorString];
 	if (errorString) {
 		NSLog(@"%@",errorString);
 		[errorString release];	
+	}
+	
+	// filter out directories
+	if (paths) {
+		NSMutableArray* filtered = [[[NSMutableArray alloc] init] autorelease];
+		BOOL isDirectory;
+		NSString* scriptsLocation = [FMUtils scriptsLocation];
+		for (int i=0; i<[paths count]; i++) {
+			NSString* path = [paths objectAtIndex:i];
+			NSString* fullPath = [scriptsLocation stringByAppendingPathComponent:path];
+			if ([fileManager fileExistsAtPath:fullPath isDirectory:&isDirectory]) {
+				if (!isDirectory) {
+					[filtered addObject:path];
+				}
+			}
+		}
+		paths = filtered;
 	}
 	
 	return paths;
@@ -521,7 +542,7 @@ UIDeviceOrientation* _currentOreintation;
 }
 
 - (FMCommandEvent*)commandAt:(NSInteger)index {
-	NSDictionary* dict = [commands objectAtIndex:index];
+	NSMutableDictionary* dict = [commands objectAtIndex:index];
 	return [[[FMCommandEvent alloc] initWithDict:dict] autorelease];
 	
 }
