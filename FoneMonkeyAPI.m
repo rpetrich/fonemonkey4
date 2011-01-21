@@ -44,7 +44,8 @@
 }
 
 + (UIView*) viewWithMonkeyID:(NSString*)monkeyID havingClass:(NSString*)className{
-	return [FMUtils viewWithMonkeyID:monkeyID havingClass:className];
+	Class class = NSClassFromString(className);
+	return [FMUtils viewWithMonkeyID:monkeyID startingFromView:[FMUtils rootWindow] havingClass:class];
 }
 
 + (void) runTestSuite:(SenTestSuite*)suite {
