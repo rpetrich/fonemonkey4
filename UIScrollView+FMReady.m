@@ -172,13 +172,6 @@
 		NSString* y = [command.args count] < 2 ? @"0" : [command.args objectAtIndex:1];
 		NSString* hitTestViewName = [command.args count] < 3 ? @"" : [command.args objectAtIndex:2];
 		// handle this with drag...
-		/*
-		[string appendFormat:@"FoneMonkey.elementNamed(\"%@\").setValue(\"%@\"); // UIAScrollView", 
-					[FMUtils stringByJsEscapingQuotesAndNewlines:command.monkeyID], 
-					[FMUtils stringByJsEscapingQuotesAndNewlines:x],
-					[FMUtils stringByJsEscapingQuotesAndNewlines:y],
-					[FMUtils stringByJsEscapingQuotesAndNewlines:hitTestViewName]];
-		 */
 		[string appendFormat:@" // FoneMonkey.elementNamed(\"%@\").setContentOffset(%d,%d,\"%@\"); // UIAScrollView - sadly this method does not exist", 
 				[FMUtils stringByJsEscapingQuotesAndNewlines:command.monkeyID], 
 				[FMUtils stringByJsEscapingQuotesAndNewlines:x],
@@ -260,13 +253,12 @@
 
 - (void)zapInstanceMethodForClass:(Class)clazz targetSelector:(SEL)targetSelector withReplacement:(Method)replacedMethod 
 				   saveOriginalAs:(SEL)saveAsSelector defaultIfNotFound:(Method)defaultMethod {
-	NSLog(@"-- --- -- - ------ -- - checking for zap on object of class %@", NSStringFromClass(clazz));	
 	Method saveAsMethod = class_getInstanceMethod(clazz, saveAsSelector);
 	if (!saveAsMethod) {
 		IMP replImp = method_getImplementation(replacedMethod);		
 		Method originalMethod = class_getInstanceMethod(clazz,targetSelector);
 		if (originalMethod) {
-			NSLog(@"-- --- -- - ------ -- - zapping method in class %@", NSStringFromClass(clazz));	
+//			NSLog(@"-- --- -- - ------ -- - zapping method in class %@", NSStringFromClass(clazz));	
 			const char* typeEncoding = method_getTypeEncoding(originalMethod);
 			IMP origImp = method_getImplementation(originalMethod);
 			
@@ -276,9 +268,9 @@
 				class_addMethod(clazz, saveAsSelector, origImp, typeEncoding);
 			}
 		} else {
-			NSLog(@"-- --- -- - ------ -- - original method not found in class %@", NSStringFromClass(clazz));	
+//			NSLog(@"-- --- -- - ------ -- - original method not found in class %@", NSStringFromClass(clazz));	
 			if (defaultMethod) {
-				NSLog(@"-- --- -- - ------ -- - using default method");	
+//				NSLog(@"-- --- -- - ------ -- - using default method");	
 				IMP defaultImp = method_getImplementation(defaultMethod);
 				const char* typeEncoding = method_getTypeEncoding(originalMethod);
 				class_addMethod(clazz, targetSelector, replImp, typeEncoding);
@@ -286,7 +278,7 @@
 			}
 		}
 	} else {
-		NSLog(@"-- --- -- - ------ -- - had already zapped class %@", NSStringFromClass(clazz));	
+//		NSLog(@"-- --- -- - ------ -- - had already zapped class %@", NSStringFromClass(clazz));	
 	}
 }
 
