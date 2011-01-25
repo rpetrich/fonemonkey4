@@ -22,6 +22,7 @@
 
 #import "FoneMonkeyAPI.h"
 #import "FoneMonkey.h"
+#import "FoneMonkey+OCUnit.h"
 #import "FMUtils.h"
 
 @implementation FoneMonkeyAPI

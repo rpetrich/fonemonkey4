@@ -53,6 +53,8 @@ NSMutableDictionary* _monkeyIDs;
 FMConsoleController* _console;
 UIDeviceOrientation* _currentOreintation;
 
+NSArray* emptyArray;
+
 +(FoneMonkey*)sharedMonkey
 {
 	@synchronized([FoneMonkey class])
@@ -74,7 +76,8 @@ UIDeviceOrientation* _currentOreintation;
 				// load the content controller object for Pad-based devices
 				_console = [[FMConsoleController alloc] initWithNibName:@"FMConsoleController_iPad" bundle:nil];
 			}
-
+			
+			emptyArray = [[NSArray alloc] init];
 		}
 		
 		return _sharedMonkey;
@@ -452,6 +455,7 @@ UIDeviceOrientation* _currentOreintation;
 		NSLog(@"%@", error);
 		[error release];
 	}
+	[self assureScriptsLocation];
 	[FMUtils writeApplicationData:pList toFile:file];
 	NSString* uiautomationPath = [[NSString stringWithString:@UIAUTOMATION_PATH] stringByAppendingPathComponent:file];
 	[self saveUIAutomationScript:uiautomationPath];
@@ -500,11 +504,14 @@ UIDeviceOrientation* _currentOreintation;
 }
 
 - (NSArray*) scripts {
-    NSString *documentsDirectory = [FMUtils scriptsLocation];
+    NSString *scriptsLocation = [FMUtils scriptsLocation];
 	NSError* errorString = nil;
 	NSArray* paths;
 	NSFileManager* fileManager = [NSFileManager defaultManager];
-	paths = [fileManager contentsOfDirectoryAtPath:documentsDirectory error:&errorString];
+	if (![[NSFileManager defaultManager] fileExistsAtPath:scriptsLocation]) {
+		return emptyArray;
+	}
+	paths = [fileManager contentsOfDirectoryAtPath:scriptsLocation error:&errorString];
 	if (errorString) {
 		NSLog(@"%@",errorString);
 		[errorString release];	
@@ -614,6 +621,16 @@ UIDeviceOrientation* _currentOreintation;
 
 - (void) closeConsole {
 	[_console hideConsoleAndThen:nil];
+}
+
+- (BOOL) assureScriptsLocation {
+	NSString *dataPath = [FMUtils scriptsLocation];
+	if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath]) {
+		return [[NSFileManager defaultManager] createDirectoryAtPath:dataPath 
+										 withIntermediateDirectories:YES 
+														  attributes:nil error:nil]; //Create folder
+	}
+	return YES;
 }
 
 - (BOOL) assureOCUnitScriptDirectory {

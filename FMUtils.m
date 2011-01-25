@@ -269,6 +269,7 @@ static NSInteger foundSoFar;
 + (NSString*) scriptsLocation {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString* loc = [paths objectAtIndex:0];
+	loc = [loc stringByAppendingPathComponent:@"fonemonkey"];
 	// NSLog(@"Scripts location: %@", loc);
     return loc;
 }
