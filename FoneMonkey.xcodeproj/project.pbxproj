@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		151F3C1F12F215E00067A732 /* Clean Dist */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 151F3C2912F216200067A732 /* Build configuration list for PBXAggregateTarget "Clean Dist" */;
+			buildPhases = (
+				151F3C1E12F215E00067A732 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "Clean Dist";
+			productName = "Clean Dist";
+		};
 		D34D972C1223200C001D0B47 /* Distribution */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = D34D972F1223202C001D0B47 /* Build configuration list for PBXAggregateTarget "Distribution" */;
@@ -21,6 +32,8 @@
 				D34D974C122321CA001D0B47 /* Build Zip File */,
 			);
 			dependencies = (
+				151F3C2612F216020067A732 /* PBXTargetDependency */,
+				151F3C2412F215FD0067A732 /* PBXTargetDependency */,
 			);
 			name = Distribution;
 			productName = Distribution;
@@ -39,7 +52,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		1536BAE712CC3A4C0012874A /* FoneMonkey.js in Sources */ = {isa = PBXBuildFile; fileRef = 1536BAE612CC3A4C0012874A /* FoneMonkey.js */; };
+		151F3EB812F623770067A732 /* FMEventViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 151F3EB612F623770067A732 /* FMEventViewCell.h */; };
+		151F3EB912F623770067A732 /* FMEventViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 151F3EB712F623770067A732 /* FMEventViewCell.m */; };
 		1546322E12DACE9800BAE9B2 /* UISwitch+FMReady.h in Headers */ = {isa = PBXBuildFile; fileRef = 1546322C12DACE9800BAE9B2 /* UISwitch+FMReady.h */; };
 		1546322F12DACE9800BAE9B2 /* UISwitch+FMReady.m in Sources */ = {isa = PBXBuildFile; fileRef = 1546322D12DACE9800BAE9B2 /* UISwitch+FMReady.m */; };
 		15492567128A4FC60050B2EA /* UIPickerView+FMReady.h in Headers */ = {isa = PBXBuildFile; fileRef = 15492565128A4FC60050B2EA /* UIPickerView+FMReady.h */; };
@@ -144,6 +158,23 @@
 		D3B91517123033C4003C5BB0 /* UITabBarButtonLabelProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B91516123033C4003C5BB0 /* UITabBarButtonLabelProxy.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		151F3C2312F215FD0067A732 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 151F3C1F12F215E00067A732 /* Clean Dist */;
+			remoteInfo = "Clean Dist";
+		};
+		151F3C2512F216020067A732 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D34D973012232031001D0B47 /* Clean */;
+			remoteInfo = Clean;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		15AC429E1289059E00A18460 /* Copy Readme */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -239,6 +270,8 @@
 
 /* Begin PBXFileReference section */
 		1511032612C406AA00246792 /* FMRotate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FMRotate.png; path = images/FMRotate.png; sourceTree = "<group>"; };
+		151F3EB612F623770067A732 /* FMEventViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMEventViewCell.h; sourceTree = "<group>"; };
+		151F3EB712F623770067A732 /* FMEventViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMEventViewCell.m; sourceTree = "<group>"; };
 		1536BAE612CC3A4C0012874A /* FoneMonkey.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = FoneMonkey.js; sourceTree = "<group>"; };
 		1546322C12DACE9800BAE9B2 /* UISwitch+FMReady.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UISwitch+FMReady.h"; sourceTree = "<group>"; };
 		1546322D12DACE9800BAE9B2 /* UISwitch+FMReady.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISwitch+FMReady.m"; sourceTree = "<group>"; };
@@ -450,6 +483,8 @@
 				D34D960B12230DFD001D0B47 /* FMSaveScriptDialog.h */,
 				D34D960C12230DFD001D0B47 /* FMSaveScriptDialog.m */,
 				8D1107310486CEB800E47090 /* FoneMonkey-Info.plist */,
+				151F3EB612F623770067A732 /* FMEventViewCell.h */,
+				151F3EB712F623770067A732 /* FMEventViewCell.m */,
 			);
 			name = Shared;
 			sourceTree = "<group>";
@@ -677,6 +712,7 @@
 				1558766912885C0A003541C0 /* UITableViewCellContentViewProxy.h in Headers */,
 				15492567128A4FC60050B2EA /* UIPickerView+FMReady.h in Headers */,
 				1546322E12DACE9800BAE9B2 /* UISwitch+FMReady.h in Headers */,
+				151F3EB812F623770067A732 /* FMEventViewCell.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -752,11 +788,25 @@
 				D34D975212232255001D0B47 /* FoneMonkeyOCUnit */,
 				D34D972C1223200C001D0B47 /* Distribution */,
 				D34D973012232031001D0B47 /* Clean */,
+				151F3C1F12F215E00067A732 /* Clean Dist */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		151F3C1E12F215E00067A732 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"************ Prepare ****************\"\nrm -rf ${PROJECT_DIR}/Dist\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/lib\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/docs\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/include\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/resources\n";
+		};
 		D30FA7811223303D00796ABE /* Build Library */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -795,7 +845,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"************ Clean *************\"\nrm -rf ${CONFIGURATION_TEMP_DIR}";
+			shellScript = "echo \"************ Clean *************\"\nrm -rf ${CONFIGURATION_TEMP_DIR}\n";
 		};
 		D34D97381223208E001D0B47 /* Prepare Dist Dir */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -883,8 +933,8 @@
 				D3B91517123033C4003C5BB0 /* UITabBarButtonLabelProxy.m in Sources */,
 				1558766A12885C0A003541C0 /* UITableViewCellContentViewProxy.m in Sources */,
 				15492568128A4FC60050B2EA /* UIPickerView+FMReady.m in Sources */,
-				1536BAE712CC3A4C0012874A /* FoneMonkey.js in Sources */,
 				1546322F12DACE9800BAE9B2 /* UISwitch+FMReady.m in Sources */,
+				151F3EB912F623770067A732 /* FMEventViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -898,7 +948,41 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		151F3C2412F215FD0067A732 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 151F3C1F12F215E00067A732 /* Clean Dist */;
+			targetProxy = 151F3C2312F215FD0067A732 /* PBXContainerItemProxy */;
+		};
+		151F3C2612F216020067A732 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D34D973012232031001D0B47 /* Clean */;
+			targetProxy = 151F3C2512F216020067A732 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		151F3C2112F215E00067A732 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Clean Dist";
+			};
+			name = Debug;
+		};
+		151F3C2212F215E00067A732 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = "Clean Dist";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1046,6 +1130,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		151F3C2912F216200067A732 /* Build configuration list for PBXAggregateTarget "Clean Dist" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				151F3C2112F215E00067A732 /* Debug */,
+				151F3C2212F215E00067A732 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "FoneMonkey" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

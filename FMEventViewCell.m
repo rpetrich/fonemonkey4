@@ -13,33 +13,26 @@
  You should have received a copy of the GNU General Public License
  along with FoneMonkey.  If not, see <http://www.gnu.org/licenses/>.  */
 
+
 //
-//  UISwitch+FMReady.m
+//  FMEventViewCell.m
 //  FoneMonkey
 //
-//  Created by Stuart Stern on 1/9/11.
+//  Created by Stuart Stern on 1/30/11.
 //  Copyright 2011 Gorilla Logic, Inc. All rights reserved.
 //
-
-#import "UISwitch+FMReady.h"
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "FoneMonkey.h"
-#import "FMUtils.h"
-#import "FMCommandEvent.h"
+#import "FMEventViewCell.h"
 
-@implementation UISwitch (FMReady) 
-- (void) playbackMonkeyEvent:(id)event {
-	// toggles
-	[self setOn:!self.on animated:YES];
-}
 
-+ (NSString*) uiAutomationCommand:(FMCommandEvent*)command {
-	
-	if ([command.command isEqualToString:FMCommandSwitch]) {
-		return [NSString stringWithFormat:@"FoneMonkey.toggleSwitch(\"%@\"); // UIASwitch", 
-				[FMUtils stringByJsEscapingQuotesAndNewlines:command.monkeyID]];
+@implementation FMEventViewCell
+@synthesize commandNumber;
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	if ([(UITouch*)[touches anyObject] tapCount] > 1 ){
+		[[FoneMonkey sharedMonkey] playFrom:commandNumber numberOfCommands:1];
 	}
-	
-	return [super uiAutomationCommand:command];
-	
+	[super touchesEnded:touches withEvent:event];
 }
 @end

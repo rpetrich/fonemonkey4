@@ -283,6 +283,7 @@ static NSInteger foundSoFar;
 	//[[UIApplication sharedApplication] sendEvent:m]; // Works in simulator but not on device
 	[[[UIApplication sharedApplication] keyWindow] motionBegan:UIEventSubtypeMotionShake withEvent:m];
 	[[[UIApplication sharedApplication] keyWindow] motionEnded:UIEventSubtypeMotionShake withEvent:m];	
+	[m release];
 }
 
 + (void) rotate:(UIInterfaceOrientation)orientation {

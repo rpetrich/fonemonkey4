@@ -288,6 +288,20 @@ NSArray* emptyArray;
 	return;
 }
 
+- (void) playFrom:(NSUInteger)index {
+	state = FMStatePlaying;
+	NSThread* thread = [[NSThread alloc] initWithTarget:self selector:@selector(runCommandsStartingFrom:) object:[NSNumber numberWithInteger:index]];
+	[thread start];
+	
+}
+
+- (void) playFrom:(NSUInteger)index numberOfCommands:(NSUInteger)count{
+	state = FMStatePlaying;
+	NSThread* thread = [[NSThread alloc] initWithTarget:self selector:@selector(runCommandRange:) object:[NSArray arrayWithObjects:[NSNumber numberWithInteger:index],[NSNumber numberWithInteger:count],nil]];
+	[thread start];
+	
+}
+
 - (NSString*) playAndWait {
 	state = FMStatePlaying;	
 	[_console performSelectorOnMainThread:@selector(hideConsoleAndThen:) withObject:nil waitUntilDone:YES];
@@ -382,14 +396,25 @@ NSArray* emptyArray;
 	}
 }
 	
-
 - (void) runCommands {
+	[self runCommandsStartingFrom:0 numberOfCommands:[commands count]];
+}
+
+- (void) runCommandsStartingFrom:(NSNumber*)start {
+	[self runCommandsStartingFrom:[start intValue] numberOfCommands:([commands count] - [start intValue])];
+}
+
+- (void) runCommandRange:(NSArray*)array {
+	[self runCommandsStartingFrom:[[array objectAtIndex:0] intValue] numberOfCommands:[[array objectAtIndex:1] intValue]];
+}
+
+- (void) runCommandsStartingFrom:(NSInteger)start numberOfCommands:(NSInteger)count{
 	// We're a thread
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; 
 
 	BOOL failure = NO;
 	int i;	
-	for (i = 0; i < [commands count]; i++) {
+	for (i = start; i < start + count; i++) {
 		FMCommandEvent* nextCommandToRun = [self commandAt:i];
 		nextCommandToRun.lastResult = nil;
 		if (failure) {
@@ -524,6 +549,9 @@ NSArray* emptyArray;
 		NSString* scriptsLocation = [FMUtils scriptsLocation];
 		for (int i=0; i<[paths count]; i++) {
 			NSString* path = [paths objectAtIndex:i];
+			if ([path hasPrefix:@"."]) {
+				continue;
+			}
 			NSString* fullPath = [scriptsLocation stringByAppendingPathComponent:path];
 			if ([fileManager fileExistsAtPath:fullPath isDirectory:&isDirectory]) {
 				if (!isDirectory) {
@@ -699,7 +727,7 @@ NSArray* emptyArray;
 		NSError* error;
 		NSString* s = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
 		if (!s) {
-			NSLog(@"Unable to create objective-c file: Unable to read FoneMonkey.js resource: %@", [error description]);
+			NSLog(@"Unable to create uiautomation file: Unable to read FoneMonkey.js resource: %@", [error description]);
 			return false;
 		}
 		NSLog(@"writing FoneMonkey.js to file %@", supportScriptFile);		

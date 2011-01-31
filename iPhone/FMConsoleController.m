@@ -28,6 +28,7 @@
 #import "FMOpenScriptDialog.h"
 #import "FMCommandEditViewController.h"
 #import "FMGorillaView.h"
+#import "FMEventViewCell.h"
 #import <QuartzCore/QuartzCore.h>
 
 @implementation FMConsoleController
@@ -262,11 +263,11 @@ EditMode _editMode;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	static NSString *CellIdentifier = @"FMCell";
 	
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    FMEventViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	
     if (cell == nil) {
 		
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+        cell = [[[FMEventViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
 				 
 									   reuseIdentifier:CellIdentifier] autorelease];
 		
@@ -306,6 +307,7 @@ EditMode _editMode;
 		cell.textLabel.textColor = [UIColor blackColor];
 		cell.detailTextLabel.textColor = [UIColor blackColor];		
 	}
+	cell.commandNumber = indexPath.row;
     return cell;
 }
 
@@ -397,7 +399,12 @@ EditMode _editMode;
 }
 
 - (void) play {
-	[theMonkey play];
+	NSIndexPath* path = [eventView indexPathForSelectedRow];
+	if (path) {
+		[theMonkey playFrom:[path row]];
+	} else {
+		[theMonkey play];
+	}
 }
 
 - (void) hideConsole {
