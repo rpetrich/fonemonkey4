@@ -74,6 +74,7 @@
 			return;
 		}
 		self.value = [[[event args] objectAtIndex:0] floatValue];
+		[self sendActionsForControlEvents:UIControlEventValueChanged];
 	} else {
 		[super playbackMonkeyEvent:event];
 	}

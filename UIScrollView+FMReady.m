@@ -136,8 +136,7 @@
 		[[FoneMonkey sharedMonkey] postCommandFrom:self 
 										   command:FMCommandScroll 
 											  args:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%1.0f", offset.x], 
-																			[NSString stringWithFormat:@"%1.0f", offset.y], 
-																			elementMonkeyID,
+																			[NSString stringWithFormat:@"%1.0f", offset.y],
 																			nil]];
 	
 //	}
@@ -170,13 +169,14 @@
 	if ([command.command isEqualToString:FMCommandScroll]) {
 		NSString* x = [command.args count] < 1 ? @"0" : [command.args objectAtIndex:0];
 		NSString* y = [command.args count] < 2 ? @"0" : [command.args objectAtIndex:1];
-		NSString* hitTestViewName = [command.args count] < 3 ? @"" : [command.args objectAtIndex:2];
+		//NSString* hitTestViewName = [command.args count] < 3 ? @"" : [command.args objectAtIndex:2];
 		// handle this with drag...
-		[string appendFormat:@" // FoneMonkey.elementNamed(\"%@\").setContentOffset(%d,%d,\"%@\"); // UIAScrollView - sadly this method does not exist", 
+		[string appendFormat:@" // Scroll \"%@\" to (%d,%d) - FoneMonkey cannot yet generate the corresponding UIAutomation command. You must manually create the necessary scrolling command.", 
 				[FMUtils stringByJsEscapingQuotesAndNewlines:command.monkeyID], 
 				[FMUtils stringByJsEscapingQuotesAndNewlines:x],
-				[FMUtils stringByJsEscapingQuotesAndNewlines:y],
-				[FMUtils stringByJsEscapingQuotesAndNewlines:hitTestViewName]];
+				[FMUtils stringByJsEscapingQuotesAndNewlines:y]
+		 //,[FMUtils stringByJsEscapingQuotesAndNewlines:hitTestViewName]
+		 ];
 		
 	} else {
 		[string appendString:[super uiAutomationCommand:command]];

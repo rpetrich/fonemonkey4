@@ -171,6 +171,7 @@ static NSInteger foundSoFar;
 	if (!path) {
 		return NO;
 	}
+	NSLog(@"Writing %@", path);
 	NSError* error;
 	BOOL result = [string writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&error];
 	if (!result) {

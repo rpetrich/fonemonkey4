@@ -29,6 +29,7 @@
 				D34D974612232129001D0B47 /* Copy Headers */,
 				D30FA7811223303D00796ABE /* Build Library */,
 				D34D974A122321B1001D0B47 /* Run Doxygen */,
+				15D4F16812FE6CFA00F38113 /* Run JSDoc */,
 				D34D974C122321CA001D0B47 /* Build Zip File */,
 			);
 			dependencies = (
@@ -163,14 +164,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 151F3C1F12F215E00067A732 /* Clean Dist */;
+			remoteGlobalIDString = 151F3C1F12F215E00067A732;
 			remoteInfo = "Clean Dist";
 		};
 		151F3C2512F216020067A732 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = D34D973012232031001D0B47 /* Clean */;
+			remoteGlobalIDString = D34D973012232031001D0B47;
 			remoteInfo = Clean;
 		};
 /* End PBXContainerItemProxy section */
@@ -807,6 +808,20 @@
 			shellPath = /bin/sh;
 			shellScript = "echo \"************ Prepare ****************\"\nrm -rf ${PROJECT_DIR}/Dist\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/lib\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/docs\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/include\nmkdir -p ${PROJECT_DIR}/Dist/FoneMonkey/resources\n";
 		};
+		15D4F16812FE6CFA00F38113 /* Run JSDoc */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run JSDoc";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export JSDOCDIR=$FM_JSDOC_LOC\nexport JSDOCTEMPLATEDIR=$JSDOCDIR/templates/jsdoc\n$JSDOCDIR/jsrun.sh  FoneMonkey.js -d=${PROJECT_DIR}/Dist/JSDoc";
+		};
 		D30FA7811223303D00796ABE /* Build Library */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -818,7 +833,7 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
+			shellPath = "/bin/sh -x";
 			shellScript = "echo \"*********** build fat library **************\"\nfor target in FoneMonkey FoneMonkeyOCUnit\ndo\n\t# for version in 3.2 4.0 4.1 4.2\n\tfor version in 4.2\n\tdo\n\t\tfor sdk in iphonesimulator iphoneos\n\t\tdo\n\t\t\txcodebuild -sdk $sdk$version -target $target build -configuration Debug\n\t\tdone\n\t\tlipo -output ${PROJECT_DIR}/Dist/FoneMonkey/lib/lib${target}.${version}.a -create ${BUILD_ROOT}/${CONFIGURATION}-iphonesimulator/lib${target}.a ${BUILD_ROOT}/${CONFIGURATION}-iphoneos/lib${target}.a\n\tdone\ndone";
 		};
 		D34D968212231B45001D0B47 /* ShellScript */ = {
@@ -989,7 +1004,8 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FM_DOXYGEN_LOC = /Applications/Doxygen.app/Contents/Resources;
-				FM_VERSION = 4.0.d;
+				FM_JSDOC_LOC = "/Applications//jsdoc_toolkit-2.4.0/jsdoc-toolkit";
+				FM_VERSION = 4.2;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;

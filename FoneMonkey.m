@@ -720,7 +720,7 @@ NSArray* emptyArray;
 	NSString *dataPath = @UIAUTOMATION_PATH;
 	NSString* supportScriptFile = [dataPath stringByAppendingPathComponent:@"FoneMonkey.js"];
 	NSData* jsLib = [FMUtils applicationDataFromFile:supportScriptFile];
-	if (jsLib==nil || [jsLib length]<1) {
+	//if (jsLib==nil || [jsLib length]<1) {
 		[self assureUIAutomationScriptDirectory];
 		NSString *path = [[NSBundle mainBundle] pathForResource:
 						  @"FoneMonkey" ofType:@"js"];
@@ -729,10 +729,9 @@ NSArray* emptyArray;
 		if (!s) {
 			NSLog(@"Unable to create uiautomation file: Unable to read FoneMonkey.js resource: %@", [error description]);
 			return false;
-		}
-		NSLog(@"writing FoneMonkey.js to file %@", supportScriptFile);		
+		}	
 		[FMUtils writeString:s toFile:supportScriptFile];
-	}
+	//}
 	return true;
 }
 
@@ -764,7 +763,7 @@ NSArray* emptyArray;
 	}
 	s = [s stringByReplacingOccurrencesOfString:@"${TESTNAME}" withString:filename];
 	s = [s stringByReplacingOccurrencesOfString:@"${CODE}" withString:code];
-	
+
 	[FMUtils writeString:s toFile:[filename stringByAppendingString:@".js"]];
 	[code release];	
 	

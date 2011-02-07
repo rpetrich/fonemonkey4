@@ -1,2 +1,2 @@
-#define FM_BUILD_STAMP @"BUILD 110130.1954"
-#define FM_VERSION @"4.0.d"
+#define FM_BUILD_STAMP @"BUILD 110206.2057"
+#define FM_VERSION @"4.2"

@@ -29,7 +29,8 @@
 @implementation UISwitch (FMReady) 
 - (void) playbackMonkeyEvent:(id)event {
 	// toggles
-	[self setOn:!self.on animated:YES];
+	[self setOn:!self.on animated:NO];
+	[self sendActionsForControlEvents:UIControlEventValueChanged];
 }
 
 + (NSString*) uiAutomationCommand:(FMCommandEvent*)command {

@@ -72,7 +72,8 @@
 			component = [[event.args objectAtIndex:1] intValue];
 		}
 		
-		[self selectRow:row inComponent:component animated:YES];
+		[self selectRow:row inComponent:component animated:NO];
+		[self.delegate origPickerView:self didSelectRow:row inComponent:component];		
 	}
 }
 

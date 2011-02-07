@@ -296,10 +296,10 @@ use_default:;
 		}
 		[string appendString:[self uiAutomationVerifyCommand:verifyEvent withTimeout:interval]];
 	} else if ([command.command isEqualToString:FMCommandShake]) {
-		string = @"UIALocal.localTarget().shake();";
+		string = @"UIATarget.localTarget().shake();";
 	} else if ([command.command isEqualToString:FMCommandRotate]) {
 		NSString* orientation = [command.args count] ? [command.args objectAtIndex:0] : @"0";
-		string = [NSString stringWithFormat:@"UIALocal.localTarget().setDeviceOrientation(%@);", orientation];
+		string = [NSString stringWithFormat:@"UIATarget.localTarget().setDeviceOrientation(%@);", orientation];
 	} else {
 		string = [NSString stringWithFormat:@"// UIView doesn't know how to write UIAutomation command %@ for: %@", command.command, command.className];
 	}
@@ -309,28 +309,23 @@ use_default:;
 + (NSString*) uiAutomationVerifyCommand:(FMCommandEvent*)command withTimeout:(int)timeout {
 	NSMutableString* string = [[[NSMutableString alloc] init] autorelease];
 	
-	[string appendFormat:@"// Verify command with timeout of %d sec\n", timeout];
-	[string appendFormat:@"var prevTimeout = UIATarget().localTarget().timeout();\n"];
-	[string appendFormat:@"UIATarget().localTarget().setTimeout(%d);\n", timeout];
+	// [string appendFormat:@"// Verify command with timeout of %d sec\n", timeout];
+	// [string appendFormat:@"UIATarget.localTarget().pushTimeout(%d);\n", timeout];
 	
 	if ([command.args count] > 1) {
-		NSString* prop = @"value()"; // = [command.args objectAtIndex:0];
+		// NSString* prop = @"value"; // = [command.args objectAtIndex:0];
 		NSString* expected = [command.args objectAtIndex:1];
-		NSString* predicate = [prop stringByAppendingFormat:@" == \"%@\"", expected];
-		[string appendFormat:@"var element:UIAElement = FoneMonkey.elementNamed(\"%@\"); \nif (element && element.withPredicate(\"%@\") != element) {\n    UIALogger.logMessage(\"Verify failed for Component '%@' property '%@': expected '%@', but found \" + element.%@); \n}\n", 
+		[string appendFormat:@"FoneMonkey.assertElementValue(\"%@\", \"%@\", %d);\n",
 		 [FMUtils stringByJsEscapingQuotesAndNewlines:command.monkeyID], 
-		 [FMUtils stringByJsEscapingQuotesAndNewlines:predicate],
-		 [FMUtils stringByJsEscapingQuotesAndNewlines:command.monkeyID], 
-		 [FMUtils stringByJsEscapingQuotesAndNewlines:prop],
-		 [FMUtils stringByJsEscapingQuotesAndNewlines:expected],
-		 [FMUtils stringByJsEscapingQuotesAndNewlines:prop]];
+		 [FMUtils stringByJsEscapingQuotesAndNewlines:[FMUtils stringByOcEscapingQuotesAndNewlines:expected]],
+		 timeout];
 	} else {
-		[string appendFormat:@"var element:UIAElement=FoneMonkey.elementNamed(\"%@\"); \nif (!element) {\n    UIALogger.logMessage(\"Verify failed for Component '%@': component was not found.\"); \n}\n", 
-		 [FMUtils stringByJsEscapingQuotesAndNewlines:command.monkeyID], 
-		 [FMUtils stringByJsEscapingQuotesAndNewlines:command.monkeyID]];
+		[string appendFormat:@"FoneMonkey.assertElement(\"%@\", %d);\n",
+		 [FMUtils stringByJsEscapingQuotesAndNewlines:command.monkeyID],
+		 timeout];
 	}
 	
-	[string appendFormat:@"UIATarget().localTarget().setTimeout(prevTimeout);\n"];
+	[string appendFormat:@"UIATarget.localTarget().popTimeout();\n"];
 	
 	return string;
 }

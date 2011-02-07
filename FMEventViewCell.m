@@ -29,10 +29,20 @@
 
 @implementation FMEventViewCell
 @synthesize commandNumber;
+
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	if ([(UITouch*)[touches anyObject] tapCount] > 1 ){
 		[[FoneMonkey sharedMonkey] playFrom:commandNumber numberOfCommands:1];
-	}
+	} 
+//	else if (!selected) {
+//		selected = YES;
+//		self.backgroundColor = [UIColor blueColor];
+//		self.textLabel.textColor = [UIColor whiteColor];
+//	} else {
+//		selected = NO;
+//		self.backgroundColor = [UIColor whiteColor];
+//		self.textLabel.textColor = [UIColor blackColor];		
+//	}
 	[super touchesEnded:touches withEvent:event];
 }
 @end

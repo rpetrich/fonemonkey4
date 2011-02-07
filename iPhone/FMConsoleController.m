@@ -99,6 +99,7 @@ EditMode _editMode;
 		// Show the console
 		[theMonkey suspend];
 	}
+	//eventView.allowsSelection = NO;
 }
 
 
