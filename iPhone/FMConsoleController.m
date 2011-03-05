@@ -119,6 +119,28 @@ EditMode _editMode;
 }
 
 
+-(void)showMore
+{
+	_more = YES;
+    CATransition *transition = [CATransition animation];
+    transition.duration = 0.5;
+    // using the ease in/out timing function
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+	transition.type =  kCATransitionMoveIn;
+	transition.subtype  = kCATransitionFromTop;
+	
+    
+    // Tto avoid overlapping transitions we assign ourselves as the delegate for the animation and wait for the
+    // -animationDidStop:finished: message. When it comes in, we will flag that we are no longer transitioning.
+	// transitioning = YES;
+    transition.delegate = self;
+    
+    // Next add it to the containerView's layer. This will perform the transition based on how we change its contents.
+	[moreView.layer addAnimation:transition forKey:nil];
+    
+	moreView.alpha = 1.0;
+	//[[FMUtils rootWindow] bringSubviewToFront:[self view]];
+}
 - (void) showConsole:(BOOL)more {
 	((UIWindow*)(self.view)).windowLevel = UIWindowLevelAlert;
 	_appWindow = [FMUtils rootWindow];
@@ -162,28 +184,6 @@ EditMode _editMode;
 	[self showConsole:NO]; 
 }
 
--(void)showMore
-{
-	_more = YES;
-    CATransition *transition = [CATransition animation];
-    transition.duration = 0.5;
-    // using the ease in/out timing function
-    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-	transition.type =  kCATransitionMoveIn;
-	transition.subtype  = kCATransitionFromTop;
-	
-    
-    // Tto avoid overlapping transitions we assign ourselves as the delegate for the animation and wait for the
-    // -animationDidStop:finished: message. When it comes in, we will flag that we are no longer transitioning.
-	// transitioning = YES;
-    transition.delegate = self;
-    
-    // Next add it to the containerView's layer. This will perform the transition based on how we change its contents.
-   [moreView.layer addAnimation:transition forKey:nil];
-    
-	moreView.alpha = 1.0;
-	//[[FMUtils rootWindow] bringSubviewToFront:[self view]];
-}
 
 -(void)showLess
 {
@@ -249,6 +249,10 @@ EditMode _editMode;
 		// Try it without the leading "FM"
 		path = [[NSBundle mainBundle] pathForResource:cmd ofType:@"png"];
 	}
+	if (!path) {
+		path = [[NSBundle mainBundle] pathForResource:@"FMCommand" ofType:@"png"];
+	}
+	
 	return path ? [UIImage imageWithContentsOfFile:path] : nil;
 }
 
@@ -264,7 +268,7 @@ EditMode _editMode;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	static NSString *CellIdentifier = @"FMCell";
 	
-    FMEventViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    FMEventViewCell *cell = (FMEventViewCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	
     if (cell == nil) {
 		

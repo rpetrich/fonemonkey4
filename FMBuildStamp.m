@@ -24,10 +24,16 @@
 #import "FMBuildStampDefines.h"
 
 @implementation FMBuildStamp
-	+ (NSString*) buildStamp {
-		return FM_BUILD_STAMP;
-	}
+
++ (NSString*) buildStamp {
+	return FM_BUILD_STAMP;
+}
+
 + (NSString*) version {
 	return FM_VERSION;
+}
+
++ (NSString*) minorVersion {
+	return FM_MINOR_VERSION;
 }
 @end

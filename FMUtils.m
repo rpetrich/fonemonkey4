@@ -204,6 +204,7 @@ static NSInteger foundSoFar;
 + (NSData *)applicationDataFromFile:(NSString *)fileName {
     NSString *documentsDirectory = [FMUtils scriptsLocation];
     NSString *appFile = [documentsDirectory stringByAppendingPathComponent:fileName];
+	NSLog(@"Reading %@", appFile);
     NSData *myData = [[[NSData alloc] initWithContentsOfFile:appFile] autorelease];
     return myData;
 }
@@ -270,7 +271,7 @@ static NSInteger foundSoFar;
 + (NSString*) scriptsLocation {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString* loc = [paths objectAtIndex:0];
-	loc = [loc stringByAppendingPathComponent:@"fonemonkey"];
+	//loc = [loc stringByAppendingPathComponent:@"fonemonkey"];
 	// NSLog(@"Scripts location: %@", loc);
     return loc;
 }
@@ -320,5 +321,11 @@ static NSInteger foundSoFar;
 																: @selector(recordMonkeyTouchesNo:));
 	method_setImplementation(currentMethod,method_getImplementation(replaceMethod));
 }
+
++ (NSString*) className:(NSObject*)ob {
+	return [NSString stringWithUTF8String:class_getName([ob class])];
+}
+
+
 
 @end

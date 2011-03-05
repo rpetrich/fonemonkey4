@@ -39,6 +39,11 @@
 #define FMCommandWaitFor @"WaitFor"
 #define FMCommandSelect @"Select"
 #define FMCommandRotate @"Rotate"
+#define FMCommandDelete @"Delete"
+#define FMCommandEdit @"Edit"
+#define FMCommandReturn @"Return"
+#define FMCommandEnd @"End"
+#define FMCommandClear @"Clear"
 
 #define FMNotificationMonkeySuspended @"FMNotificationMonkeySuspended"
 #define FMNotificationCommandPosted @"FMNotificationCommandPosted"
@@ -88,6 +93,7 @@ typedef enum  {
 - (NSUInteger) commandCount;
 - (void) deleteCommand:(NSInteger) index;
 - (void) insertCommand:(NSInteger) index;
+- (FMCommandEvent*) lastCommand;
 - (void) save:(NSString*)file;
 - (void) delete:(NSString*)file;
 - (void) open:(NSString*)file;
@@ -95,15 +101,20 @@ typedef enum  {
 - (NSInteger) firstErrorIndex;
 - (void) moveCommand:(NSInteger)from to:(NSInteger)to;
 - (FMCommandEvent*) lastCommandPosted;
+- (FMCommandEvent*) popCommand;
 - (NSString*) monkeyIDfor:(UIView*)view;
 - (void) openConsole;
 - (void) loadCommands:(NSArray*) cmds;
 - (void) receivedRotate: (NSNotification*) notification;
-
++ (void) recordEvent:(FMCommandEvent*)event;
++ (BOOL) isRecording;
+- (void) recordFrom:(UIView*)source command:(NSString*)command args:(NSArray*)args post:(BOOL)post;
 @property (nonatomic, retain) NSMutableArray* commands;
 @property (nonatomic, retain) NSMutableDictionary* session;
 @property NSTimeInterval runTimeout;
 @property (readonly) FMState state;
-
+- (void) saveOCScript:(NSString* ) filename;
+- (void) saveUIAutomationScript:(NSString* ) filename;
+- (void) playFrom:(NSUInteger)index;
 @end
 

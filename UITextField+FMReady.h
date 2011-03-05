@@ -23,21 +23,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UITextField.h>
 
-@class FMCommandEvent;
-
 @interface UITextField (FMReady)
-/**
- The events to be recorded for the class of control. Defaults to none.
- */
-- (UIControlEvents)monkeyEventsToHandle;
-/**
- A string value identifying this component instance
- */
-- (NSString*) monkeyID;
-/**
- Prepare an event for recording.
- */
-- (void) handleMonkeyEventFromSender:(id)sender forEvent:(UIEvent*)event;
-- (void) playbackMonkeyEvent:(FMCommandEvent*)event;
 
 @end

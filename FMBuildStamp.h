@@ -34,16 +34,17 @@
 							((((\\)     (/)))) \n \
 #########################################################################################################################\n \
 #                                                                                                                       #\n \
-# FoneMonkey %@ (%@), Copyright (c) 2010, Gorilla Logic, Inc., All Rights Reserved                    #\n \
+# FoneMonkey %@%@ (%@), Copyright (c) 2011, Gorilla Logic, Inc., All Rights Reserved                     #\n \
 #                                                                                                                       #\n \
 # Gorilla Logic can help you create complex applications for iOS, Android, Adobe Flex and Java platforms.               #\n \
 # To learn more about our development, training, and testing services, visit us at www.gorillalogic.com.                #\n \
 #                                                                                                                       #\n \
 #########################################################################################################################\n\n" \
-, [FMBuildStamp version], [FMBuildStamp buildStamp]
+, [FMBuildStamp version], [FMBuildStamp minorVersion], [FMBuildStamp buildStamp]
 
 @interface FMBuildStamp : NSObject
 
 + (NSString*) buildStamp;
 + (NSString*) version;
++ (NSString*) minorVersion;
 @end

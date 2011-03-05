@@ -41,7 +41,8 @@ static NSArray* privateClasses;
 	if (self == [UIView class]) {
 		// These are private classes that receive UI events, but the corresponding public class is a superclass. We'll record the event on the first superclass that's public.
 		// This might be a config file someday
-		privateClasses = [[NSArray alloc] initWithObjects:@"UIPickerTable", @"UITableViewCellContentView", nil];
+		privateClasses = [[NSArray alloc] initWithObjects:@"UIPickerTable", @"UITableViewCellContentView", 
+						  @"UITableViewCellDeleteConfirmationControl", @"UITableViewCellEditControl", @"UIAutocorrectInlinePrompt", nil];
 		
         Method originalMethod = class_getInstanceMethod(self, @selector(initWithFrame:));
         Method replacedMethod = class_getInstanceMethod(self, @selector(fmInitWithFrame:));

@@ -52,17 +52,21 @@
 
 + (void)load {
     if (self == [UIScrollView class]) {
-		
+		//[self interceptMethod:@selector(setDelegate:) withClass:self types:"v@:@"];
         Method originalMethod = class_getInstanceMethod(self, @selector(setContentOffset:));
         Method replacedMethod = class_getInstanceMethod(self, @selector(fmSetContentOffset:));
         method_exchangeImplementations(originalMethod, replacedMethod);		
 		
-		originalMethod = class_getInstanceMethod(self, @selector(setDelegate:));
-        replacedMethod = class_getInstanceMethod(self, @selector(fmSetDelegate:));
-        method_exchangeImplementations(originalMethod, replacedMethod);		
+//		originalMethod = class_getInstanceMethod(self, @selector(setDelegate:));
+//        replacedMethod = class_getInstanceMethod(self, @selector(fmSetDelegate:));
+//        method_exchangeImplementations(originalMethod, replacedMethod);		
 		
     }
 }
+
+//- (void) fm_setDelegate:(id <UIScrollViewDelegate>) del {
+//	[self orig_setDelegate:del];
+//}
 
 -(void) assureDelegate {
 	if (self.delegate==nil) { 
@@ -72,7 +76,7 @@
 }
 
 - (void)fmSetContentOffset:(CGPoint)offset {
-	[self assureDelegate];
+	//[self assureDelegate];
 	
 	if (!self.dragging || (offset.x == self.contentOffset.x && offset.y == self.contentOffset.y)) {
 		[self fmSetContentOffset:offset];

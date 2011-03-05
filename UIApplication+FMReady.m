@@ -24,6 +24,7 @@
 #import <objc/runtime.h>
 #import "UIView+FMReady.h"
 #import "FoneMonkey.h"
+#import "FMUtils.h"
 
 
 
@@ -46,7 +47,7 @@
 + (void) initTheMonkey:(NSNotification*)notification {
 
 	[[FoneMonkey sharedMonkey] open];
-
+	
 	
 }
 

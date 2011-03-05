@@ -29,10 +29,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FMCommandEvent.h"
 
-
-@interface FMWaitForCommand : NSObject {
+@interface FMWaitForCommand : FMCommandEvent {
 
 }
-
++ (NSString*) execute:(FMCommandEvent*) ev;
 @end

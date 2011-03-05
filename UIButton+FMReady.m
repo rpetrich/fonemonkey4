@@ -35,5 +35,13 @@
 		[super monkeyID];
 }
 
+- (BOOL) shouldRecordMonkeyTouch:(UITouch *)touch {
+	if ([self.superview isKindOfClass:[UITextField class]]) {
+		// It's a clear button?
+		return NO;
+	}
+	return [super shouldRecordMonkeyTouch:touch];
+}
+
 
 @end

@@ -24,6 +24,7 @@
 #import "NSObject+FMReady.h"
 
 #import "UIControl+FMready.h"
+#import "NSObject+FMReady.h"
 
 
 @implementation NSObject (FMReady)
@@ -35,14 +36,75 @@
     }
 }
 
+/**
+ Exchanges implementation of selector with a selector prefixed with "fm"
+ */
++ (void) fmSwapImplementation:(SEL)sel {
+	NSString* selName = [NSString stringWithFormat:@"fm_%s", sel_getName(sel)];
+	SEL newSelector = NSSelectorFromString(selName);
+	Method originalMethod = class_getInstanceMethod(self, sel);
+	Method replacedMethod = class_getInstanceMethod(self, newSelector);	
+	method_exchangeImplementations(originalMethod, replacedMethod);		
+}
+	
+	
+
 - (id)fmInit {
 	// Calls original (that we swapped in load method)
 	if (self = [self fmInit]) {	
-		if ([self isKindOfClass:[UIControl class]]) {
-			[(UIControl*)self subscribeToMonkeyEvents];
-		}
+		[self fmInitAutomation];
 	}
-	
 	return self;
 }
+
+- (void) fmInitAutomation {
+
+}
+
+- (void) interceptMethod:(SEL)orig withClass:(Class)class types:(char*) types {
+	Method originalMethod = class_getInstanceMethod([self class], orig);
+	IMP origImp = nil;
+	if (originalMethod) {
+		origImp = method_getImplementation(originalMethod);
+	}
+	const char* origName = sel_getName(orig);
+	Method replaceMethod = class_getInstanceMethod(class, NSSelectorFromString([NSString stringWithFormat:@"fm_%s", origName]));
+	IMP replImp = method_getImplementation(replaceMethod);
+	
+	if (origImp != replImp) {
+		if (originalMethod) {
+			NSString* newName = [NSString stringWithFormat:@"orig_%s", origName];
+			method_setImplementation(originalMethod, replImp);
+			class_addMethod([self class], NSSelectorFromString(newName), origImp,types);		
+		} else {
+			class_addMethod([self class], orig, replImp,types);
+		}
+		
+	}
+}
+
+- (void) interceptMethod:(SEL)orig withMethod:(SEL)repl ofClass:(Class)class renameOrig:(SEL)newName types:(char*) types {
+	Method originalMethod = class_getInstanceMethod([self class], orig);
+	IMP origImp = nil;
+	if (originalMethod) {
+		origImp = method_getImplementation(originalMethod);
+	}
+	Method replacedMethod = class_getInstanceMethod(class, repl);
+	IMP replImp = method_getImplementation(replacedMethod);
+		
+	if (origImp != replImp) {
+		if (originalMethod) {
+			method_setImplementation(originalMethod, replImp);
+			class_addMethod([self class], newName, origImp,types);		
+		} else {
+			class_addMethod([self class], orig, replImp,types);
+		}
+
+	}
+}
+
+- (BOOL) fmHasMethod:(SEL) selector {
+	return class_getInstanceMethod([self class], selector) != nil;
+}
+
 @end

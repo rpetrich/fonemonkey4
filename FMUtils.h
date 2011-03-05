@@ -46,4 +46,6 @@
 + (NSString*) stringByJsEscapingQuotesAndNewlines:(NSString*) unescapedString;
 + (NSString*) stringByOcEscapingQuotesAndNewlines:(NSString*) unescapedString;
 + (void) setShouldRecordMonkeyTouch:(BOOL)shouldRecord forView:(UIView*)view;
++ (NSString*) className:(NSObject*)ob;
++ (void) rotate:(UIInterfaceOrientation)orientation;
 @end

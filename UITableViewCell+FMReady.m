@@ -24,6 +24,9 @@
 #import <objc/runtime.h>
 #import "TouchSynthesis.h"
 #import "UIView+FMReady.h"
+#import "FMUtils.h"
+#import "Fonemonkey.h"
+#import "FMCommandEvent.h"
 @implementation UITableViewCell (FMReady)
 
 
@@ -35,7 +38,27 @@
 //- (void) playbackMonkeyEvent:(id)event {
 //	[UIEvent performTouchInView:self];
 //}
-
+- (void) handleMonkeyTouchEvent:(NSSet*)touches withEvent:(UIEvent*)event {
+	
+	UITouch* touch = [touches anyObject];
+	if (touch) {
+		NSString* cname = [FMUtils className:touch.view];
+		if (cname) {
+			if ([cname isEqualToString:@"UITableViewCellDeleteConfirmationControl"]) {
+				// [FoneMonkey recordFrom:self command:FMCommandDelete]; //No-op for now
+				return;
+			}
+			
+			if ([cname isEqualToString:@"UITableViewCellEditControl"]) {
+				//[FoneMonkey recordFrom:self command:FMCommandEdit]; No-op for now
+				return;
+			}
+		}
+	}
+	[super handleMonkeyTouchEvent:touches withEvent:event];
+					  
+					  
+}
 
 - (NSString*) monkeyID {
 	NSString* label =  [[self textLabel] text];
@@ -63,5 +86,13 @@
 	
 	return [super monkeyID];
 }
-
+//
+//- (void) playbackMonkeyEvent:(id)event {
+//	FMCommandEvent* command = event;
+//	
+//	if ([command.command  isEqualToString:FMCommandDelete]) {
+//		UITableView* table = [self superview];
+// 		[table deleteRowsAtIndexPaths:[NSArray arrayWithObject:[table indexPathForCell:self]] withRowAnimation:YES];
+//	}
+//}
 @end

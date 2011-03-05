@@ -23,7 +23,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface FMSaveScriptDialog : UIViewController {
+@interface FMSaveScriptDialog  : UIViewController <UITextFieldDelegate> {
 	UITableView* table;
 }
 - (IBAction) save:(id)sender;

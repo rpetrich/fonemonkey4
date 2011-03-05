@@ -38,4 +38,9 @@
  */
 - (void) handleMonkeyEventFromSender:(id)sender forEvent:(UIEvent*)event;
 
+/**
+ Register for events to be recorded
+ */
+- (void) subscribeToMonkeyEvents;
+
 @end

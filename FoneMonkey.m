@@ -20,6 +20,7 @@
 //  Copyright (c) 2009 Gorilla Logic, Inc. All rights reserved.
 //
 
+#import <unistd.h>
 #import <Foundation/Foundation.h>
 #import "FoneMonkey.h"
 #import "FMCommandEvent.h"
@@ -64,7 +65,7 @@ NSArray* emptyArray;
 			[[self alloc] init];
 			// After executing the above alloc/init, we are no longer in a static method. We are now in the singleton instance! 
 			_monkeyIDs = [[NSMutableDictionary alloc] init];
-			// session = [NSMutableDictionary dictionary]; this is an instance variable....
+
 			
 			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 			{
@@ -79,7 +80,6 @@ NSArray* emptyArray;
 			
 			emptyArray = [[NSArray alloc] init];
 		}
-		
 		return _sharedMonkey;
 	}
 	
@@ -94,6 +94,7 @@ NSArray* emptyArray;
 		NSAssert(_sharedMonkey == nil, @"Attempted to allocate a second instance of FoneMonkey.");
 		NSLog(STARTUP_MESSAGE);
 		_sharedMonkey = [super alloc];
+		_sharedMonkey.session = [NSMutableDictionary dictionary]; 		
 		return _sharedMonkey;
 	}
 	
@@ -181,7 +182,8 @@ NSArray* emptyArray;
 
 - (id)init {
 	if (self = [super init]) {
-		self.commands = [NSMutableArray arrayWithCapacity:12];		
+		self.commands = [NSMutableArray arrayWithCapacity:12];
+		self.session = [NSMutableDictionary dictionary]; 
 		lastCommandPosted = [[FMCommandEvent alloc] init];
 		nextCommandToRun = [[FMCommandEvent alloc] init];		
 		[[NSNotificationCenter defaultCenter] addObserver:self
@@ -237,24 +239,40 @@ NSArray* emptyArray;
 }
 
 
-
-- (void) recordFrom:(UIView*)source command:(NSString*)command args:(NSArray*)args {
+- (void) recordFrom:(UIView*)source command:(NSString*)command args:(NSArray*)args post:(BOOL)post {
 	if (state != FMStateRecording) {
 		return;
 	}
-	[self postCommandFrom:source command:command args:args];
+	if (post) {
+		[self postCommandFrom:source command:command args:args];
+	} else {
+		[ FoneMonkey recordEvent:[[FMCommandEvent alloc]
+								  init:command className:[NSString stringWithUTF8String:class_getName([source class])]
+								  monkeyID:[source monkeyID]
+								  args:args]];	
+	}
+}
++ (void) recordFrom:(UIView*)source command:(NSString*)command args:(NSArray*)args {
+	[[FoneMonkey sharedMonkey] recordFrom:source command:command args:args post:YES];
+}
+- (void) recordFrom:(UIView*)source command:(NSString*)command  {
+	[self postCommandFrom:source command:command args:nil];
 }
 
-+ (void) recordFrom:(UIView*)source command:(NSString*)command args:(NSArray*)args {
-	[[FoneMonkey sharedMonkey] recordFrom:source command:command args:args];
-}
+
 
 //- (BOOL)sendAction:(SEL)action to:(id)target from:(id)sender forEvent:(UIEvent *)event {
 //	NSLog(@"Got an action from %@ for %@ ", [sender description], [event description]);
 //	return [super sendAction:action to:target from:sender forEvent:event];
 //}
 
+- (BOOL) isRecording {
+	return (state == FMStateRecording);
+}
 
++ (BOOL) isRecording {
+	return [[self sharedMonkey] isRecording];
+}
 
 - (void) continueMonitoring {
 	if (state == FMStateSuspended) {
@@ -396,22 +414,11 @@ NSArray* emptyArray;
 	}
 }
 	
-- (void) runCommands {
-	[self runCommandsStartingFrom:0 numberOfCommands:[commands count]];
-}
-
-- (void) runCommandsStartingFrom:(NSNumber*)start {
-	[self runCommandsStartingFrom:[start intValue] numberOfCommands:([commands count] - [start intValue])];
-}
-
-- (void) runCommandRange:(NSArray*)array {
-	[self runCommandsStartingFrom:[[array objectAtIndex:0] intValue] numberOfCommands:[[array objectAtIndex:1] intValue]];
-}
 
 - (void) runCommandsStartingFrom:(NSInteger)start numberOfCommands:(NSInteger)count{
 	// We're a thread
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; 
-
+	
 	BOOL failure = NO;
 	int i;	
 	for (i = start; i < start + count; i++) {
@@ -432,7 +439,7 @@ NSArray* emptyArray;
 			}
 		} else if ([nextCommandToRun.command isEqualToString:FMCommandWaitFor]) {
 			[FMWaitForCommand execute:nextCommandToRun];
-
+			
 		} else if ([nextCommandToRun.command isEqualToString:FMCommandShake]) {
 			usleep(THINK_TIME);
 			[FMUtils shake];
@@ -460,6 +467,21 @@ NSArray* emptyArray;
 	
 }
 
+
+- (void) runCommandRange:(NSArray*)array {
+	[self runCommandsStartingFrom:[[array objectAtIndex:0] intValue] numberOfCommands:[[array objectAtIndex:1] intValue]];
+}
+
+- (void) runCommands {
+	[self runCommandsStartingFrom:0 numberOfCommands:[commands count]];
+}
+
+- (void) runCommandsStartingFrom:(NSNumber*)start {
+	[self runCommandsStartingFrom:[start intValue] numberOfCommands:([commands count] - [start intValue])];
+}
+
+
+
 - (IBAction) clear:(id)sender {
 	[commands removeAllObjects];	 
 }
@@ -480,11 +502,13 @@ NSArray* emptyArray;
 		NSLog(@"%@", error);
 		[error release];
 	}
-	[self assureScriptsLocation];
+	//[self assureScriptsLocation];
 	[FMUtils writeApplicationData:pList toFile:file];
-	NSString* uiautomationPath = [[NSString stringWithString:@UIAUTOMATION_PATH] stringByAppendingPathComponent:file];
+	NSString* uiautomationPath = file;
+	//NSString* uiautomationPath = [[NSString stringWithString:@UIAUTOMATION_PATH] stringByAppendingPathComponent:file];
 	[self saveUIAutomationScript:uiautomationPath];
-	NSString* ocunitPath = [[NSString stringWithString:@OCUNIT_PATH] stringByAppendingPathComponent:file];
+	NSString* ocunitPath = file;
+	//NSString* ocunitPath = [[NSString stringWithString:@OCUNIT_PATH] stringByAppendingPathComponent:file];
 	[self saveOCScript:ocunitPath];
 }
 
@@ -554,7 +578,7 @@ NSArray* emptyArray;
 			}
 			NSString* fullPath = [scriptsLocation stringByAppendingPathComponent:path];
 			if ([fileManager fileExistsAtPath:fullPath isDirectory:&isDirectory]) {
-				if (!isDirectory) {
+				if (!isDirectory && [fullPath hasSuffix:@".fm"]) {
 					[filtered addObject:path];
 				}
 			}
@@ -597,8 +621,36 @@ NSArray* emptyArray;
 	[command release];
 }
 
+- (FMCommandEvent*) lastCommand {
+	NSInteger index = [commands count] - 1;
+	
+	NSMutableDictionary* dict = nil;
+	if (index > -1) {
+		dict = [commands objectAtIndex:index];
+		return [[[FMCommandEvent alloc] initWithDict:dict] autorelease];		
+	}
+	
+	return nil;
+}
+
+- (FMCommandEvent*) popCommand {
+	NSInteger index = [commands count] - 1;
+	
+	NSMutableDictionary* dict = nil;
+	if (index > -1) {
+		dict = [commands objectAtIndex:index];
+		[self deleteCommand:index];
+		return [[[FMCommandEvent alloc] initWithDict:dict] autorelease];			
+	}
+	
+	return nil;
+}
+
 - (void) moveCommand:(NSInteger)from to:(NSInteger)to {
 	NSDictionary* mover = [[commands objectAtIndex:from] retain];
+	if (to > from) {
+		to--;
+	}
 	[commands removeObjectAtIndex:from];
 	[commands insertObject:mover atIndex:to];
 	[mover release];
@@ -719,11 +771,11 @@ NSArray* emptyArray;
 - (BOOL) assureUIAutomationScriptSupport {
 	NSString *dataPath = @UIAUTOMATION_PATH;
 	NSString* supportScriptFile = [dataPath stringByAppendingPathComponent:@"FoneMonkey.js"];
-	NSData* jsLib = [FMUtils applicationDataFromFile:supportScriptFile];
+	//NSData* jsLib = [FMUtils applicationDataFromFile:supportScriptFile];
 	//if (jsLib==nil || [jsLib length]<1) {
 		[self assureUIAutomationScriptDirectory];
 		NSString *path = [[NSBundle mainBundle] pathForResource:
-						  @"FoneMonkey" ofType:@"js"];
+						  @"FoneMonkey" ofType:@"jslib"];
 		NSError* error;
 		NSString* s = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
 		if (!s) {

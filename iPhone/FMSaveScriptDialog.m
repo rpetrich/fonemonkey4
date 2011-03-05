@@ -158,7 +158,12 @@ UITextField* filenameField = nil;
 
 
 - (IBAction) save:(id) sender {
-	[[FoneMonkey sharedMonkey] save:[[self fileNameField] text]];
+	NSString* text = [self fileNameField].text;
+	if (![text hasSuffix:@".fm"]) {
+		text = [text stringByAppendingString:@".fm"];
+	}
+
+	[[FoneMonkey sharedMonkey] save:text];
 	[self hide];
 }
 
