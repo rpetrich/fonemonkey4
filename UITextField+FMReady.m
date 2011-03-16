@@ -63,9 +63,11 @@ typedef enum {
     }
 }
 		 
-- (void) fmInitAutomation {
-	[super fmInitAutomation];
-	self.delegate = [[FMDefaultTextFieldDelegate alloc] init];
+- (void) fmAssureAutomationInit {
+	[super fmAssureAutomationInit];
+	if (!self.delegate) {
+		self.delegate = [[FMDefaultTextFieldDelegate alloc] init];
+	}
 }
 
 //- (UIControlEvents)monkeyEventsToHandle {
@@ -203,6 +205,7 @@ typedef enum {
 }
 
 - (void) playbackMonkeyEvent:(FMCommandEvent*)recevent {
+	[self fmAssureAutomationInit];
 	if ([recevent.command isEqualToString:FMCommandReturn] || [recevent.command isEqualToString:FMCommandInputText] ) {
 		NSString* newText = [recevent.args count] < 1 ? @"" : [recevent.args objectAtIndex:0];
 		NSRange range;

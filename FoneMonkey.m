@@ -372,6 +372,7 @@ NSArray* emptyArray;
 		view = [FMUtils findFirstMonkeyView:view];
 
 		if (view != nil) {
+			[view fmAssureAutomationInit];
 			if ([view shouldRecordMonkeyTouch:touch]) {
 				[view handleMonkeyTouchEvent:touches withEvent:event];
 				NSLog(@"FoneMonkey(state: %d) got an event\n%@", state, event);
@@ -503,7 +504,13 @@ NSArray* emptyArray;
 		[error release];
 	}
 	//[self assureScriptsLocation];
+	if (![file hasSuffix:@".fm"]) {
+		file = [file stringByAppendingString:@".fm"];
+	}	
 	[FMUtils writeApplicationData:pList toFile:file];
+	if ([file hasSuffix:@".fm"]) {
+		file = [file stringByDeletingPathExtension];	
+	}
 	NSString* uiautomationPath = file;
 	//NSString* uiautomationPath = [[NSString stringWithString:@UIAUTOMATION_PATH] stringByAppendingPathComponent:file];
 	[self saveUIAutomationScript:uiautomationPath];

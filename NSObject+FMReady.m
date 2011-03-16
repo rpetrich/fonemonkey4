@@ -52,13 +52,9 @@
 - (id)fmInit {
 	// Calls original (that we swapped in load method)
 	if (self = [self fmInit]) {	
-		[self fmInitAutomation];
+
 	}
 	return self;
-}
-
-- (void) fmInitAutomation {
-
 }
 
 - (void) interceptMethod:(SEL)orig withClass:(Class)class types:(char*) types {

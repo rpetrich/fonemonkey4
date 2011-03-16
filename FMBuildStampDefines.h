@@ -1,3 +1,3 @@
-#define FM_BUILD_STAMP @"BUILD 110303.2030"
+#define FM_BUILD_STAMP @"BUILD 110315.2154"
 #define FM_VERSION @"4.2"
-#define FM_MINOR_VERSION @"c"
+#define FM_MINOR_VERSION @"e"

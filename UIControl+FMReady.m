@@ -44,16 +44,11 @@
 	}
 }
 
-- (void) fmInitAutomation {
-	//[self subscribeToMonkeyEvents];
-}
-
 - (id)fmInitWithCoder:(NSCoder *)decoder {
 	// Calls original initWithCoder (that we swapped in load method)
 	if (self = [self fmInitWithCoder:decoder]) {	
 		[self subscribeToMonkeyEvents];
 	}
-
 	return self;	
 
 }

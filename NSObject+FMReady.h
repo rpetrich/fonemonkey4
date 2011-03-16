@@ -27,6 +27,6 @@
 - (void) interceptMethod:(SEL)orig withMethod:(SEL)repl ofClass:(Class)class renameOrig:(SEL)newName types:(char*) types;
 - (BOOL) fmHasMethod:(SEL) selector;
 + (void) fmSwapImplementation:(SEL)sel;
-- (void) fmInitAutomation;
 - (void) interceptMethod:(SEL)orig withClass:(Class)class types:(char*) types;
++ (void) load;
 @end

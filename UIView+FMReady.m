@@ -50,8 +50,14 @@ static NSArray* privateClasses;
 	}
 }
 
+- (void) fmAssureAutomationInit {
+	
+}
 
 - (id)fmInitWithFrame:(CGRect)aRect {
+	
+	// Should be able to move this whole thing into fmAssureAutomationInit
+	
 	// This is actually for UIControl, but UIControl inherits this method
 	// Calls original initWithFrame (that we swapped in load method)
 	if ((self = [self fmInitWithFrame:aRect])) {	
@@ -59,6 +65,11 @@ static NSArray* privateClasses;
 			[(UIControl*)self performSelector:@selector(subscribeToMonkeyEvents)];
 		}
 	}
+	
+	// Calls original (that we swapped in load method)
+//	if (self = [self fmInit]) {	
+//
+//	}
 	
 	return self;	
 	
@@ -122,6 +133,9 @@ static NSArray* privateClasses;
 }
 
 - (void) playbackMonkeyEvent:(id)event {
+	// We should actually call this on all components from up in the run loop
+	[self fmAssureAutomationInit];
+	
 	// By default we generate a touch in the center of the view
 	FMCommandEvent* ev = event;
 	if (([self isKindOfClass:objc_getClass("UISegmentedControl")]) && ([[ev command] isEqualToString:FMCommandTouch])) {

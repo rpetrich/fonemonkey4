@@ -49,10 +49,14 @@
 		[UIScrollView interceptMethod:@selector(setDelegate:) withClass:[UITextView class] types:"v@:@"];
    // }
 }
-- (void) fmInitAutomation {
-	[super fmInitAutomation];
-	self.delegate = [[FMDefaultTextViewDelegate alloc] init];
+
+- (void) fmAssureAutomationInit {
+	[super fmAssureAutomationInit];
+	if (!self.delegate) {
+		self.delegate = [[[FMDefaultTextViewDelegate alloc] init] autorelease];
+	}
 }
+
 - (void) fm_setDelegate:(NSObject <UITextViewDelegate>*) del {	
 	if ([self class] == [UITextView class]) {
 		//	[del interceptMethod:@selector(textViewDidChangeSelection:) withClass:[self class] types:"v@:@"];

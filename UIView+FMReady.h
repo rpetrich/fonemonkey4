@@ -71,4 +71,10 @@ of component swapping is UIToolbarTextButton which swaps with UINavigationButton
  */
 + (NSString*) objcCommandEvent:(FMCommandEvent*)command;
 
+/**
+ Called to give an component's automation extension an opportunity to init itself. 
+ May (will) be called multiple (countless) times.
+ */
+- (void) fmAssureAutomationInit;
+
 @end
