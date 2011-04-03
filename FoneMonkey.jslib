@@ -58,7 +58,9 @@ elementNamed: function(name, timeout) {
 		}
 		//UIATarget.localTarget().delay(.1);
 	}
-	UIALogger.logFail("Unable to find element named " + name);   
+	UIALogger.logFail("Unable to find element named " + name);
+
+    UIATarget.localTarget().delay(.1); // A little throttling
 	return result;
 },
 	

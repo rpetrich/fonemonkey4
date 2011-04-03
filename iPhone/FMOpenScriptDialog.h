@@ -31,5 +31,5 @@
 - (IBAction) edit:(id)sender;
 - (IBAction) clear:(id)sender;
 
-//@property (nonatomic, retain) IBOutlet UITableView* table;
+@property (nonatomic, retain) IBOutlet UITableView* table;
 @end

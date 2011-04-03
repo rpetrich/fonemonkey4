@@ -856,7 +856,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/bin/sh -x";
-			shellScript = "echo \"*********** build fat library **************\"\nfor target in FoneMonkey FoneMonkeyOCUnit\ndo\n\t# for version in 3.2 4.0 4.1 4.2\n\tfor version in 4.2\n\tdo\n\t\tfor sdk in iphonesimulator iphoneos\n\t\tdo\n\t\t\txcodebuild -sdk $sdk$version -target $target build -configuration Debug\n\t\tdone\n\t\tlipo -output ${PROJECT_DIR}/Dist/FoneMonkey/lib/lib${target}.${version}${FM_MINOR_VERSION}.a -create ${BUILD_ROOT}/${CONFIGURATION}-iphonesimulator/lib${target}.a ${BUILD_ROOT}/${CONFIGURATION}-iphoneos/lib${target}.a\n\tdone\ndone";
+			shellScript = "echo \"*********** build fat library **************\"\nfor target in FoneMonkey FoneMonkeyOCUnit\ndo\n\t# for version in 3.2 4.0 4.1 4.2\n\tfor version in 4.3\n\tdo\n\t\tfor sdk in iphonesimulator iphoneos\n\t\tdo\n\t\t\txcodebuild -sdk $sdk$version -target $target build -configuration Debug\n\t\tdone\n\t\tlipo -output ${PROJECT_DIR}/Dist/FoneMonkey/lib/lib${target}.${version}${FM_MINOR_VERSION}.a -create ${PROJECT_DIR}/build/${CONFIGURATION}-iphonesimulator/lib${target}.a ${PROJECT_DIR}/build/${CONFIGURATION}-iphoneos/lib${target}.a\n\tdone\ndone";
 		};
 		D34D968212231B45001D0B47 /* Create Buildstamp */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1035,7 +1035,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				PREBINDING = NO;
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1053,7 +1053,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1072,6 +1072,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				PRODUCT_NAME = FoneMonkey;
+				SYMROOT = build;
 			};
 			name = Debug;
 		};
@@ -1090,6 +1091,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PREBINDING = NO;
 				PRODUCT_NAME = FoneMonkey;
+				SYMROOT = build;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1101,6 +1103,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = Distribution;
+				SDKROOT = iphoneos4.3;
 			};
 			name = Debug;
 		};
@@ -1113,6 +1116,7 @@
 				FM_VERSION = 4.2;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = Distribution;
+				SDKROOT = iphoneos4.3;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1151,6 +1155,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				PREBINDING = NO;
 				PRODUCT_NAME = FoneMonkeyOCUnit;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -1167,6 +1172,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PREBINDING = NO;
 				PRODUCT_NAME = FoneMonkeyOCUnit;
+				SDKROOT = iphoneos;
 				ZERO_LINK = NO;
 			};
 			name = Release;

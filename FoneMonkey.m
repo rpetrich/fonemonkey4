@@ -37,8 +37,10 @@
 
 // Pause 1/2 sec between commands. This needs to be a setting!
 #define THINK_TIME 500000 
-#define UIAUTOMATION_PATH "uiautomation"
-#define OCUNIT_PATH "ocunit"
+//#define UIAUTOMATION_PATH @"uiautomation"
+#define UIAUTOMATION_PATH @""
+//#define OCUNIT_PATH @"ocunit"
+#define OCUNIT_PATH @""
 
 @implementation FoneMonkey
 static FoneMonkey* _sharedMonkey = nil;
@@ -512,10 +514,10 @@ NSArray* emptyArray;
 		file = [file stringByDeletingPathExtension];	
 	}
 	NSString* uiautomationPath = file;
-	//NSString* uiautomationPath = [[NSString stringWithString:@UIAUTOMATION_PATH] stringByAppendingPathComponent:file];
+	//NSString* uiautomationPath = [[NSString stringWithString:UIAUTOMATION_PATH] stringByAppendingPathComponent:file];
 	[self saveUIAutomationScript:uiautomationPath];
 	NSString* ocunitPath = file;
-	//NSString* ocunitPath = [[NSString stringWithString:@OCUNIT_PATH] stringByAppendingPathComponent:file];
+	//NSString* ocunitPath = [[NSString stringWithString:OCUNIT_PATH] stringByAppendingPathComponent:file];
 	[self saveOCScript:ocunitPath];
 }
 
@@ -721,7 +723,7 @@ NSArray* emptyArray;
 }
 
 - (BOOL) assureOCUnitScriptDirectory {
-	NSString *dataPath = [[FMUtils scriptsLocation] stringByAppendingPathComponent:@OCUNIT_PATH];
+	NSString *dataPath = [[FMUtils scriptsLocation] stringByAppendingPathComponent:OCUNIT_PATH];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath]) {
 		return [[NSFileManager defaultManager] createDirectoryAtPath:dataPath 
 										 withIntermediateDirectories:YES 
@@ -766,7 +768,7 @@ NSArray* emptyArray;
 }
 
 - (BOOL) assureUIAutomationScriptDirectory {
-	NSString *dataPath = [[FMUtils scriptsLocation] stringByAppendingPathComponent:@UIAUTOMATION_PATH];
+	NSString *dataPath = [[FMUtils scriptsLocation] stringByAppendingPathComponent:UIAUTOMATION_PATH];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath]) {
 		return [[NSFileManager defaultManager] createDirectoryAtPath:dataPath 
 										 withIntermediateDirectories:YES 
@@ -776,7 +778,7 @@ NSArray* emptyArray;
 }
 
 - (BOOL) assureUIAutomationScriptSupport {
-	NSString *dataPath = @UIAUTOMATION_PATH;
+	NSString *dataPath = UIAUTOMATION_PATH;
 	NSString* supportScriptFile = [dataPath stringByAppendingPathComponent:@"FoneMonkey.js"];
 	//NSData* jsLib = [FMUtils applicationDataFromFile:supportScriptFile];
 	//if (jsLib==nil || [jsLib length]<1) {

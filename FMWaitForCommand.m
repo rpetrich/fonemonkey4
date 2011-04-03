@@ -54,9 +54,7 @@
 		if (i) {
 			usleep(interval);
 		}
-		if (![FMVerifyCommand execute:verifyEvent]) {
-			return nil;
-		}
+		ev.lastResult = [FMVerifyCommand execute:verifyEvent];		
 	}
 	return ev.lastResult;
 
