@@ -856,7 +856,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/bin/sh -x";
-			shellScript = "echo \"*********** build fat library **************\"\nfor target in FoneMonkey FoneMonkeyOCUnit\ndo\n\t# for version in 3.2 4.0 4.1 4.2\n\tfor version in 4.3\n\tdo\n\t\tfor sdk in iphonesimulator iphoneos\n\t\tdo\n\t\t\txcodebuild -sdk $sdk$version -target $target build -configuration Debug\n\t\tdone\n\t\tlipo -output ${PROJECT_DIR}/Dist/FoneMonkey/lib/lib${target}.${version}${FM_MINOR_VERSION}.a -create ${PROJECT_DIR}/build/${CONFIGURATION}-iphonesimulator/lib${target}.a ${PROJECT_DIR}/build/${CONFIGURATION}-iphoneos/lib${target}.a\n\tdone\ndone";
+			shellScript = "echo \"*********** build fat library **************\"\nfor target in FoneMonkey FoneMonkeyOCUnit\ndo\n\t# for version in 3.2 4.0 4.1 4.2\n\tfor version in 4.3\n\tdo\n\t\tfor sdk in iphonesimulator iphoneos\n\t\tdo\n\t\t\txcodebuild -sdk $sdk$version -target $target build -configuration Debug\n\t\tdone\n\t\tlipo -output ${PROJECT_DIR}/Dist/FoneMonkey/lib/lib${target}.${FM_VERSION}${FM_MINOR_VERSION}.a -create ${PROJECT_DIR}/build/${CONFIGURATION}-iphonesimulator/lib${target}.a ${PROJECT_DIR}/build/${CONFIGURATION}-iphoneos/lib${target}.a\n\tdone\ndone";
 		};
 		D34D968212231B45001D0B47 /* Create Buildstamp */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -883,7 +883,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"************ Clean *************\"\nrm -rf ${CONFIGURATION_TEMP_DIR}\n";
+			shellScript = "echo \"************ Clean *************\"\n# rm -rf ${CONFIGURATION_TEMP_DIR}\nrm -rf ${PROJECT_DIR}/build";
 		};
 		D34D97381223208E001D0B47 /* Prepare Dist Dir */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1028,14 +1028,15 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FM_DOXYGEN_LOC = /Applications/Doxygen.app/Contents/Resources;
 				FM_JSDOC_LOC = "/Applications//jsdoc_toolkit-2.4.0/jsdoc-toolkit";
-				FM_MINOR_VERSION = e;
-				FM_VERSION = 4.2;
+				FM_MINOR_VERSION = a;
+				FM_VERSION = 5.0;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				PREBINDING = NO;
 				SDKROOT = iphoneos;
+				SYMROOT = build;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1046,7 +1047,9 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FM_DOXYGEN_LOC = /Applications/Doxygen.app/Contents/Resources;
-				FM_VERSION = 0.8.0;
+				FM_JSDOC_LOC = "/Applications//jsdoc_toolkit-2.4.0/jsdoc-toolkit";
+				FM_MINOR_VERSION = a;
+				FM_VERSION = 5.0;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -1054,6 +1057,7 @@
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
 				SDKROOT = iphoneos;
+				SYMROOT = build;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1063,6 +1067,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
+				FM_MINOR_VERSION = a;
+				FM_VERSION = 5.0;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
@@ -1072,7 +1078,6 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				PRODUCT_NAME = FoneMonkey;
-				SYMROOT = build;
 			};
 			name = Debug;
 		};
@@ -1082,8 +1087,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FM_MINOR_VERSION = d;
-				FM_VERSION = 4.2;
+				FM_MINOR_VERSION = a;
+				FM_VERSION = 5.0;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
@@ -1091,7 +1096,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PREBINDING = NO;
 				PRODUCT_NAME = FoneMonkey;
-				SYMROOT = build;
+				SYMROOT = "";
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1100,6 +1105,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				FM_MINOR_VERSION = a;
+				FM_VERSION = 5.0;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = Distribution;
@@ -1112,8 +1119,8 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FM_MINOR_VERSION = d;
-				FM_VERSION = 4.2;
+				FM_MINOR_VERSION = "";
+				FM_VERSION = "";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = Distribution;
 				SDKROOT = iphoneos4.3;

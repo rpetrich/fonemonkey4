@@ -50,17 +50,17 @@ elementNamed: function(name, timeout) {
 	while (((new Date()).getTime() - start) < (timeout * 1000) || timeout == 0) {
 		result = this.searchElements(UIATarget.localTarget().frontMostApp().mainWindow(), name, "name");
 		if (!this.isNil(result)) {
-		   this.debug("searchElements returned " + result.toString());			
+		   this.debug("searchElements returned " + result.toString());		
+           UIATarget.localTarget().delay(.5); // A little throttling to allow UI to catch up
 		   return result;		   
 		}
 		if (timeout == 0) {
 			break;
 		}
-		//UIATarget.localTarget().delay(.1);
 	}
 	UIALogger.logFail("Unable to find element named " + name);
 
-    UIATarget.localTarget().delay(.1); // A little throttling
+
 	return result;
 },
 	

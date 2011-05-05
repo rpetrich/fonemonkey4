@@ -31,7 +31,7 @@
 #import <objc/runtime.h>
 #import "FMCommandEvent.h"
 #import "FMConsoleController.h"
-#import "FMWaitForCommand.h"
+#import"FMWaitForCommand.h"
 
 #import "FMBuildStamp.h"
 
@@ -54,7 +54,7 @@ FMCommandEvent* nextCommandToRun;
 NSMutableDictionary* _monkeyIDs;
 
 FMConsoleController* _console;
-UIDeviceOrientation* _currentOreintation;
+UIDeviceOrientation _currentOrientation;
 
 NSArray* emptyArray;
 
@@ -183,7 +183,7 @@ NSArray* emptyArray;
 }
 
 - (id)init {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		self.commands = [NSMutableArray arrayWithCapacity:12];
 		self.session = [NSMutableDictionary dictionary]; 
 		lastCommandPosted = [[FMCommandEvent alloc] init];
@@ -198,6 +198,8 @@ NSArray* emptyArray;
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(recordRotation:)
 												 name:@"UIDeviceOrientationDidChangeNotification" object:nil];
+    _currentOrientation = [dev orientation];
+    
 	
 	[dev beginGeneratingDeviceOrientationNotifications];
 
@@ -212,7 +214,16 @@ NSArray* emptyArray;
 
 - (void) recordRotation:(NSNotification *)notification
 {	
-	[FoneMonkey recordFrom:nil command:FMCommandRotate args:[NSArray arrayWithObject:[NSString stringWithFormat:@"%d", [[UIDevice currentDevice] orientation]]]];
+    UIDeviceOrientation orientation =  [[UIDevice currentDevice] orientation];
+    if (orientation == 0) {
+        return;
+    }
+    
+    if (orientation == _currentOrientation) {
+        return;
+    }
+    _currentOrientation = orientation;
+	[FoneMonkey recordFrom:nil command:FMCommandRotate args:[NSArray arrayWithObject:[NSString stringWithFormat:@"%d", orientation]]];
 	
 }
 
@@ -451,12 +462,12 @@ NSArray* emptyArray;
 			[self performSelectorOnMainThread:@selector(rotate:) withObject:nextCommandToRun waitUntilDone:YES];
 		}else {		
 			usleep(THINK_TIME); 
-			UIView* source = nextCommandToRun.source;
-			if (source != nil) {
-				[source performSelectorOnMainThread:@selector(playbackMonkeyEvent:) withObject:nextCommandToRun waitUntilDone:YES];
-			} else {
-				nextCommandToRun.lastResult = [NSString stringWithFormat:@"No %@ found with monkeyID \"%@\"", nextCommandToRun.className, nextCommandToRun.monkeyID];
-			}
+			//UIView* source = nextCommandToRun.source;
+			//if (source != nil) {
+				[self performSelectorOnMainThread:@selector(playbackMonkeyEvent:) withObject:nextCommandToRun waitUntilDone:YES];
+			//} else {
+			//	nextCommandToRun.lastResult = [NSString stringWithFormat:@"No %@ found with monkeyID \"%@\"", nextCommandToRun.className, nextCommandToRun.monkeyID];
+			//}
 		}
 		if ([nextCommandToRun lastResult]) {
 			NSLog(@"FoneMonkey Script Failure: %@", nextCommandToRun.lastResult);
@@ -470,12 +481,22 @@ NSArray* emptyArray;
 	
 }
 
+- (void) playbackMonkeyEvent:(FMCommandEvent*)command {
+    UIView* source = command.source;
+    if (source != nil) {
+        [source playbackMonkeyEvent:command];
+    } else {
+        nextCommandToRun.lastResult = [NSString stringWithFormat:@"No %@ found with monkeyID \"%@\"", nextCommandToRun.className, nextCommandToRun.monkeyID];
+    }  
+}
+
 
 - (void) runCommandRange:(NSArray*)array {
 	[self runCommandsStartingFrom:[[array objectAtIndex:0] intValue] numberOfCommands:[[array objectAtIndex:1] intValue]];
 }
 
-- (void) runCommands {
+
+- (void) runCommands {      
 	[self runCommandsStartingFrom:0 numberOfCommands:[commands count]];
 }
 
@@ -683,7 +704,7 @@ NSArray* emptyArray;
 	NSString* value;;
 	NSValue* key;
 	key = [NSValue valueWithPointer:view];
-	if (value = [_monkeyIDs objectForKey:key]) {
+	if ((value = [_monkeyIDs objectForKey:key])) {
 		return value;
 	}
 	value = [NSString stringWithFormat:@"#%d", [FMUtils ordinalForView:view]];
