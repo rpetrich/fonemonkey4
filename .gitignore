@@ -2,3 +2,4 @@
 *.pbxuser
 build
 Dist
+FMBuildStampDefines.h
