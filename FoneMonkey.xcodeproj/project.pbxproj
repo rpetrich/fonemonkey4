@@ -33,7 +33,6 @@
 				D34D974C122321CA001D0B47 /* Build Zip File */,
 			);
 			dependencies = (
-				151F3C2612F216020067A732 /* PBXTargetDependency */,
 				151F3C2412F215FD0067A732 /* PBXTargetDependency */,
 			);
 			name = Distribution;
@@ -172,13 +171,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 151F3C1F12F215E00067A732;
 			remoteInfo = "Clean Dist";
-		};
-		151F3C2512F216020067A732 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D34D973012232031001D0B47;
-			remoteInfo = Clean;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -842,7 +834,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export JSDOCDIR=$FM_JSDOC_LOC\nexport JSDOCTEMPLATEDIR=$JSDOCDIR/templates/jsdoc\n$JSDOCDIR/jsrun.sh  FoneMonkey.js -d=${PROJECT_DIR}/Dist/JSDoc";
+			shellScript = "export JSDOCDIR=$FM_JSDOC_LOC\nexport JSDOCTEMPLATEDIR=$JSDOCDIR/templates/jsdoc\nif [ -e $JSDOCDIR/jsrun.sh ]\nthen $JSDOCDIR/jsrun.sh  FoneMonkey.js -d=${PROJECT_DIR}/Dist/JSDoc\nelse echo \"JSDoc not installed, ignoring\"\nfi";
 		};
 		D30FA7811223303D00796ABE /* Build Library */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -911,7 +903,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"**************** Doxygen *******************\"\n$FM_DOXYGEN_LOC/doxygen misc/doxygen/doxyfile";
+			shellScript = "echo \"**************** Doxygen *******************\"\nif [ -e $FM_DOXYGEN_LOC/doxygen ]\nthen $FM_DOXYGEN_LOC/doxygen misc/doxygen/doxyfile\nelse echo \"Doxygen not installed, ignoring\"\nfi";
 		};
 		D34D974C122321CA001D0B47 /* Build Zip File */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -991,11 +983,6 @@
 			isa = PBXTargetDependency;
 			target = 151F3C1F12F215E00067A732 /* Clean Dist */;
 			targetProxy = 151F3C2312F215FD0067A732 /* PBXContainerItemProxy */;
-		};
-		151F3C2612F216020067A732 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D34D973012232031001D0B47 /* Clean */;
-			targetProxy = 151F3C2512F216020067A732 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
